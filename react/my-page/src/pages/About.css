@@ -1,0 +1,29 @@
+h1 {
+    margin-bottom: 20px;  /* h1 태그와 테이블 사이의 거리를 조정 */
+}
+
+
+.table-container {
+    border: 2px solid black;  /* 테이블 전체에 테두리를 추가 */
+    padding: 10px;  /* 테두리와 테이블 사이의 여백 */
+    height: 700px;  /* 고정된 높이를 더 크게 설정 */
+    width: 90%;  /* 고정된 너비를 더 크게 설정 */
+    overflow-y: auto;  /* 세로 스크롤 바 추가 */
+    margin: 0 auto;  /* 중앙 정렬 */
+}
+
+.table {
+    width: 100%;  /* 테이블 너비를 100%로 설정 */
+    border-collapse: collapse;  /* 테이블 셀 간의 간격 제거 */
+}
+
+.table th, .table td {
+    padding: 8px;  /* 셀 내부 여백 설정 */
+    text-align: center;  /* 텍스트 정렬 */
+    border: 1px solid #ddd;  /* 셀 테두리 추가 */
+}
+
+.table thead th {
+    top: 0;  /* 테이블 상단에 고정 */
+    background-color: #f2f2f2;  /* 배경색 지정 */
+}

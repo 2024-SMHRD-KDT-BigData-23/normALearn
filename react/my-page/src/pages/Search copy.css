@@ -1,0 +1,33 @@
+html {
+  background-color: #f9fafb;
+  padding: 0;
+  margin: 0;
+}
+
+body{
+  padding: 0;
+  margin: 0
+}
+
+  
+  .checkbox-table {
+    margin: auto;
+    border-collapse: collapse;
+    width: 80%;
+    border-spacing: 10px 0; /* Adjusts spacing between rows without affecting columns */
+  }
+  
+  .checkbox-table th,
+  .checkbox-table td {
+    padding: 8px;
+    text-align: left;
+    border: none; 
+  }
+  
+  .checkbox-table th {
+    background-color: #f2f2f2;
+  }
+  
+  .checkbox-table td input[type="checkbox"] {
+    margin-right: 5px;
+  }
