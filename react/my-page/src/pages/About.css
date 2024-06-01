@@ -2,17 +2,18 @@ h1 {
     margin-bottom: 20px;  /* h1 태그와 테이블 사이의 거리를 조정 */
 }
 
-
 .table-container {
     border: 2px solid black;  /* 테이블 전체에 테두리를 추가 */
     padding: 10px;  /* 테두리와 테이블 사이의 여백 */
     height: 700px;  /* 고정된 높이를 더 크게 설정 */
-    width: 90%;  /* 고정된 너비를 더 크게 설정 */
+    width: 65%;  /* 고정된 너비를 더 크게 설정 */
     overflow-y: auto;  /* 세로 스크롤 바 추가 */
     margin: 0 auto;  /* 중앙 정렬 */
+    display: block;
 }
 
 .table {
+    height: 50%;
     width: 100%;  /* 테이블 너비를 100%로 설정 */
     border-collapse: collapse;  /* 테이블 셀 간의 간격 제거 */
 }
@@ -24,6 +25,24 @@ h1 {
 }
 
 .table thead th {
+    position: sticky;  /* 헤더 고정 */
     top: 0;  /* 테이블 상단에 고정 */
     background-color: #f2f2f2;  /* 배경색 지정 */
+    z-index: 1;  /* 다른 요소보다 위에 표시 */
+}
+
+.dongdong { 
+    display: flex;
+}
+
+.dongdongone {
+    width : 60%;
+    height: 45vh;
+    background-color: lightpink;
+}
+
+.dongdongtwo {
+    width : 40%;
+    height: 45vh;
+    background-color: lightyellow;
 }
