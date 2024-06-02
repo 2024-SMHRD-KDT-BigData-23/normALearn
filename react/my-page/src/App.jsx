@@ -1,36 +1,32 @@
 import React from "react";
 import { Routes, Route, Link } from "react-router-dom";
-// css.관련 
+// css 관련
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'; // Import the CSS
 import './index.css'; // This is where your global styles might be
 import './fonts.css'; // Import the new CSS file with the font-face rule
 
 // 변수 관련
-import Sidedown from "./pages/Sidedown";
+import Sidedown, { RenderList } from "./pages/Sidedown";
 
-// 페이지관련
+// 페이지 관련
 import Search from "./pages/Search";
 import About from "./pages/About";
 import Input2 from "./pages/Input2";
 import Counter from "./pages/Counter";
 
 function App() {
-
     // Sidedown.jsx에서 불러오는 기능들
     const {
-        data,
+        orderedData,
         fixedList,
-        checkedData,
-        uncheckedData,
         handleCheckboxChange
-    } = Sidedown();// 커스텀 훅
+    } = Sidedown(); // 커스텀 훅
 
     return (
         <div className="App">
             <nav className="main-menu">
-
-                {/* 사이트 탑관련 기능 정의 */}
+                {/* 사이트 탑 관련 기능 정의 */}
                 <div className="side-top">
                     <ul className="user-info">
                         <li>
@@ -70,54 +66,16 @@ function App() {
                         </li>
                     </ul>
                 </div>
-                
-                {/* side-down관련 기능정의 */}
+
+                {/* side-down 관련 기능 정의 */}
                 <div className="side-down">
                     <div className="scrollbar" id="style-1">
-                        <ul id="checked-sortable">
-                            {checkedData.slice(0, 23).map((item, index) => (
-                                <li key={index} className="darkerli">
-                                    <a href="#">
-                                        <i className="fa fa-rocket fa-lg"></i>
-                                        <span className="nav-text">
-                                            <input
-                                                type="checkbox"
-                                                name="item"
-                                                value={item}
-                                                checked={fixedList.includes(item)}
-                                                onChange={() => handleCheckboxChange(item)}
-                                            />
-                                            {`${item}`}
-                                        </span>
-                                    </a>
-                                </li>
-                            ))}
-                        </ul>
-                        <ul>
-                            {uncheckedData.slice(0, 23).map((item, index) => (
-                                <li key={index} className="darkerli">
-                                    <a href="#">
-                                        <i className="fa fa-rocket fa-lg"></i>
-                                        <span className="nav-text">
-                                            <input
-                                                type="checkbox"
-                                                name="item"
-                                                value={item}
-                                                checked={fixedList.includes(item)}
-                                                onChange={() => handleCheckboxChange(item)}
-                                            />
-                                            {`${item}`}
-                                        </span>
-                                    </a>
-                                </li>
-                            ))}
-                        </ul>
+                        <RenderList data={orderedData} fixedList={fixedList} handleCheckboxChange={handleCheckboxChange} />
                     </div>
                 </div>
-                <pre>{JSON.stringify(data, null, 2)}</pre>
             </nav>
-            
-            {/*메인 페이지 변경부분 링크 기능 */}
+
+            {/* 메인 페이지 변경 부분 링크 기능 */}
             <div>
                 <Routes>
                     <Route path="/" element={<Search />} />
