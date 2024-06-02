@@ -31,18 +31,24 @@ h1 {
     z-index: 1;  /* 다른 요소보다 위에 표시 */
 }
 
-.dongdong { 
+.dongdong {
     display: flex;
+    width: 100%;
+    height: 45vh;  /* 높이를 vh 단위로 설정하여 비율 유지 */
 }
 
 .dongdongone {
-    width : 60%;
-    height: 45vh;
+    width: 60%;
     background-color: lightpink;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .dongdongtwo {
-    width : 40%;
-    height: 45vh;
+    width: 40%;
     background-color: lightyellow;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

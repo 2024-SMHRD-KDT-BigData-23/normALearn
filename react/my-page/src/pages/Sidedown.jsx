@@ -9,9 +9,11 @@ const Sidedown = () => {
     // 데이터 가져오기 함수
     const fetchData = async () => {
         try {
-            const response = await fetch('http://localhost:8080/NomAlearn/getResult'); // 백엔드 API 주소
+            const response = await fetch('http://localhost:8080/NomAlearn/getListResult'); // 백엔드 API 주소
             const result = await response.json();
-            setData(result); // 데이터를 상태 변수에 저장
+            // 여기서 인덱스를 풀어주는 작업을 합니다
+            const parsedData = result.map(item => item.nickname); // 필요에 따라 데이터를 변환
+            setData(parsedData); // 데이터를 상태 변수에 저장
         } catch (error) {
             console.error('Error fetching data:', error);
         }

@@ -15,7 +15,6 @@ import About from "./pages/About";
 import Input2 from "./pages/Input2";
 import Counter from "./pages/Counter";
 
-
 function App() {
 
     // Sidedown.jsx에서 불러오는 기능들
@@ -117,6 +116,7 @@ function App() {
                 </div>
                 <pre>{JSON.stringify(data, null, 2)}</pre>
             </nav>
+            
             {/*메인 페이지 변경부분 링크 기능 */}
             <div>
                 <Routes>

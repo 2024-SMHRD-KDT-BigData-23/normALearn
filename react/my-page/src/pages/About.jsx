@@ -8,21 +8,14 @@ const About = () => {
             <div className="row">
                 <h1>시각화 페이지</h1>
                 <div className="table-container">
-
-                    
                     <div className='dongdong'>
-                    <div className='dongdongone'>
-                    위 1번째
+                        <div className='dongdongone'>
+                            위 1번째
+                        </div>
+                        <div className='dongdongtwo'>
+                            위 2번째      
+                        </div>
                     </div>
-                        
-                    <div className='dongdongtwo'>
-                    위 2번째      
-                    </div>
-
-                    </div>
-
-
-
                     <div className="scrollable-table-container">
                         <table className="table">
                             <thead>
