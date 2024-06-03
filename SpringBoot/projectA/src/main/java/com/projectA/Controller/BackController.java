@@ -29,7 +29,8 @@ public class BackController {
 	private result_mapper result;
 	@Autowired
 	private user_mapper user;
-
+	
+	
 	@GetMapping("/getListResult")
 	public ResponseEntity<List<Al_resultVO>> getListResult() {
 		// DB의 al_result 에서 가져온 값들을 리스트 data 에 담아서 리엑트로 보낸다.
@@ -39,6 +40,20 @@ public class BackController {
 		}
 		return ResponseEntity.ok(data);
 	}
+	
+	@GetMapping("/sendListResult") // 리스트 드래그시 작동하는 메소드 모음
+	public String sendListResult(@RequestBody Al_resultVO ListInfo, String work) {
+		// if 문 사용 무슨 작업하는지 캐치
+		if(work.equals("ChangeNumber")) {
+			// 만약 react에서 ChangeNumber라는 메소드를 보냈을때 실행되는 매퍼 자동으로 ListInfo에서 number
+			result.changeResultNumber(ListInfo);
+			return "순서 변경";
+		}else {
+			return "오류";
+		}
+	}
+	
+	
 
 	@PostMapping("/submit")
 	public String submitData(@RequestBody Al_userVO profile) {

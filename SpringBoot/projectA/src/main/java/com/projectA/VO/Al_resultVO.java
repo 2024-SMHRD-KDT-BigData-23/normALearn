@@ -14,4 +14,7 @@ public class Al_resultVO {
     private String nickname;
     private char favorite;
     private int number;
+    // 아래 DB에 없는 값
+    private int oldNumber;
+    private int newNumber;
 }

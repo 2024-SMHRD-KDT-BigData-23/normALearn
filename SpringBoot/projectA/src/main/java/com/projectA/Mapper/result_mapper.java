@@ -11,4 +11,6 @@ public interface result_mapper {
 
 	public List<Al_resultVO> getResultList();
 	
+	public Al_resultVO changeResultNumber(Al_resultVO data);
+	
 }
