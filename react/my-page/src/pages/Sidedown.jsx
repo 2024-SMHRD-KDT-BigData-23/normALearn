@@ -3,9 +3,6 @@ import $ from 'jquery';
 import 'jquery-ui/ui/widgets/sortable';
 
 // 리스트 아이템 컴포넌트
-// ListItem 컴포넌트는 개별 리스트 아이템을 렌더링합니다.
-// fixedList 배열에 포함된 항목들은 체크박스로 표시됩니다.
-// handleCheckboxChange 함수는 체크박스 상태 변경을 처리합니다.
 const ListItem = ({ item, fixedList, handleCheckboxChange }) => (
     <li className="darkerli" data-nickname={item.nickname}>
         <a href="#">
@@ -18,15 +15,13 @@ const ListItem = ({ item, fixedList, handleCheckboxChange }) => (
                     checked={fixedList.includes(item.nickname)}
                     onChange={() => handleCheckboxChange(item)}
                 />
-                {`${item.nickname}`} - {Object.values(item).filter((_, i) => i !== 3).join(' - ')}
+                {`${item.nickname}`} - {Object.values(item).map((value, i) => (i === 4 ? (fixedList.includes(item.nickname) ? "Y" : "N") : value)).filter((_, i) => i !== 3).join(' - ')}
             </span>
         </a>
     </li>
 );
 
 // 리스트 렌더링 컴포넌트
-// RenderList 컴포넌트는 리스트 데이터를 받아서 ListItem 컴포넌트를 렌더링합니다.
-// fixedList와 handleCheckboxChange를 전달하여 개별 아이템의 상태를 관리합니다.
 export const RenderList = ({ data, fixedList, handleCheckboxChange }) => (
     <ul id="checked-sortable">
         {data.map((item, index) => (
@@ -41,11 +36,6 @@ export const RenderList = ({ data, fixedList, handleCheckboxChange }) => (
 );
 
 // Sidedown 컴포넌트
-// Sidedown 컴포넌트는 데이터를 가져오고 상태를 관리합니다.
-// useEffect 훅을 사용하여 컴포넌트가 마운트될 때 데이터를 가져옵니다.
-// useEffect 훅을 사용하여 jQuery UI의 sortable 기능을 활성화합니다.
-// handleCheckboxChange 함수는 체크박스 상태를 변경하고 서버로 변경 사항을 전송합니다.
-// handleOrderChange 함수는 리스트 항목의 순서를 변경하고 서버로 전송합니다.
 const Sidedown = () => {
     const [data, setData] = useState([]);
     const [fixedList, setFixedList] = useState([]); // 선택된 항목 상태 변수
@@ -65,11 +55,11 @@ const Sidedown = () => {
     const postData = async (url, data) => {
         try {
             const response = await fetch(url, {
-                method: 'POST',
+                method: 'POST', // 데이터를 포함하여 전송하기 위해 POST 사용
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(data)
+                body: JSON.stringify(data) // 데이터를 JSON 형태로 전송
             });
             if (!response.ok) {
                 throw new Error(`Failed to submit data to ${url}`);
@@ -88,6 +78,7 @@ const Sidedown = () => {
     // jQuery UI sortable 기능 활성화 및 순서 변경 이벤트 핸들러
     useEffect(() => {
         $("#checked-sortable").sortable({
+            items: "li:has(input:checked)", // 체크된 항목만 드래그 앤 드롭 가능
             update: function () {
                 const newOrder = $("#checked-sortable").sortable('toArray', { attribute: 'data-nickname' });
                 handleOrderChange(newOrder);
@@ -99,25 +90,33 @@ const Sidedown = () => {
     const handleCheckboxChange = (item) => {
         let checkList;
         let action;
+        let updatedItem = { ...item }; // 항목의 복사본 생성
+
         if (fixedList.includes(item.nickname)) {
             checkList = fixedList.filter(i => i !== item.nickname);
             action = 'checkout';
-            console.log("체크아웃:", item.nickname); // 체크 해제된 항목 콘솔에 출력
+            updatedItem.favorite = 'N'; // favorite 필드를 N으로 변경
+            updatedItem.work = 'null'
+            console.log("체크아웃:", updatedItem); // 체크 해제된 항목 콘솔에 출력
+            console.log(`체크아웃 항목: ${JSON.stringify(updatedItem)}, 상태: 체크 해제됨`); // 상세 내용 출력
         } else {
             checkList = [...fixedList, item.nickname];
             action = 'checkin';
-            console.log("체크인:", item.nickname); // 체크된 항목 콘솔에 출력
+            updatedItem.favorite = 'Y'; // favorite 필드를 Y으로 변경
+            updatedItem.work = 'ChangeCheckBox'
+            console.log("체크인:", updatedItem); // 체크된 항목 콘솔에 출력
+            console.log(`체크인 항목: ${JSON.stringify(updatedItem)}, 상태: 체크됨`); // 상세 내용 출력
         }
         setFixedList(checkList);
 
         // 체크 상태를 서버로 전송
-        postData('http://localhost:8080/NomAlearn/submitCheck', { ...item, action });
+        postData(`http://localhost:8080/NomAlearn/sendListResult`, updatedItem);
     };
 
     // 순서 변경을 서버로 전송하는 함수
     const handleOrderChange = (newOrder) => {
         const orderedItems = newOrder.map(nickname => data.find(item => item.nickname === nickname));
-        postData('http://localhost:8080/NomAlearn/submitOrder', orderedItems);
+        postData(`http://localhost:8080/NomAlearn/submitOrder`, orderedItems);
     };
 
     // 체크된 항목과 체크되지 않은 항목을 분리하여 고정된 항목이 상단에 나오도록 정렬
