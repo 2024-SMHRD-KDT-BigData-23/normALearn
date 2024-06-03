@@ -14,6 +14,7 @@ import com.projectA.Mapper.input_mapper;
 import com.projectA.Mapper.output_mapper;
 import com.projectA.Mapper.result_mapper;
 import com.projectA.Mapper.user_mapper;
+import com.projectA.VO.Al_outputVO;
 import com.projectA.VO.Al_resultVO;
 import com.projectA.VO.Al_userVO;
 
@@ -57,6 +58,17 @@ public class BackController {
 			System.out.println("오류");
 		}
 	}
+	
+	@GetMapping("/getListOutput") // 출력값 가져오기
+	public ResponseEntity <List<Al_outputVO>> getListOutput(){
+		List<Al_outputVO> list = output.getListOutput();
+		for (int i = 0; i < list.size(); i++) {
+			System.out.println(list.get(i).getTensileTtrengthResult());
+		}
+		
+		
+		return ResponseEntity.ok(list);
+	}
 
 	@PostMapping("/join") // 회원가입
 	public String join(@RequestBody Al_userVO joinData) {
@@ -74,7 +86,7 @@ public class BackController {
 
 	}
 
-	@PostMapping("/login") // 로그인
+	@PostMapping("/login") // 로그인 ** 나중에 JWT 추가 해야함 **
 	public String login(@RequestBody Al_userVO loginData) {
 		int result = user.login(loginData);
 		if (result == 1) {

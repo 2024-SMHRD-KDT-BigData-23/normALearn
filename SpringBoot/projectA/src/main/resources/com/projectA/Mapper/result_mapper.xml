@@ -4,8 +4,25 @@
 
 	<!-- 처음 DB에 저장된 -->
 	<select id="getResultList" resultType="com.projectA.VO.Al_resultVO">
-		SELECT * FROM al_result
-		ORDER BY number ASC
+		SELECT 
+		    i.tensileStrength,
+		    i.yieldStrength,
+		    i.hardness,
+		    i.elongation,
+		    r.resultIdx AS result_idx,
+		    r.userId,
+		    r.outputIdx AS output_idx,
+		    r.nickname,
+		    r.favorite,
+		    r.number
+		FROM 
+		    al_result r
+		INNER JOIN 
+		    al_output o ON r.outputIdx = o.outputIdx
+		INNER JOIN
+		    al_input i ON o.inputIdx = i.inputIdx
+		ORDER BY 
+		    r.number ASC;
 	</select>
 
 	<!-- 드래그로 위치 변경시 기존 번호와 변경 번호를 활용하여 작동되는 순서변경 sql -->
