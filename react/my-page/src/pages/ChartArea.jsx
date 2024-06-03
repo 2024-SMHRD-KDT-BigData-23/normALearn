@@ -1,8 +1,9 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './About.css';
+import './ChartArea.css';
 
-const About = () => {
+
+const ChartArea = () => {
     return (
         <div className="container-fluid">
             <div className="row">
@@ -44,9 +45,8 @@ const About = () => {
                     </div>
                 </div>
             </div>
-            
         </div>
     );
 }
 
-export default About;
+export default ChartArea;

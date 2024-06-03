@@ -3,6 +3,9 @@ import $ from 'jquery';
 import 'jquery-ui/ui/widgets/sortable';
 
 // 리스트 아이템 컴포넌트
+// ListItem 컴포넌트는 개별 리스트 아이템을 렌더링합니다.
+// fixedList 배열에 포함된 항목들은 체크박스로 표시됩니다.
+// handleCheckboxChange 함수는 체크박스 상태 변경을 처리합니다.
 const ListItem = ({ item, fixedList, handleCheckboxChange }) => (
     <li className="darkerli" data-nickname={item.nickname}>
         <a href="#">
@@ -22,6 +25,8 @@ const ListItem = ({ item, fixedList, handleCheckboxChange }) => (
 );
 
 // 리스트 렌더링 컴포넌트
+// RenderList 컴포넌트는 리스트 데이터를 받아서 ListItem 컴포넌트를 렌더링합니다.
+// fixedList와 handleCheckboxChange를 전달하여 개별 아이템의 상태를 관리합니다.
 export const RenderList = ({ data, fixedList, handleCheckboxChange }) => (
     <ul id="checked-sortable">
         {data.map((item, index) => (
@@ -35,6 +40,12 @@ export const RenderList = ({ data, fixedList, handleCheckboxChange }) => (
     </ul>
 );
 
+// Sidedown 컴포넌트
+// Sidedown 컴포넌트는 데이터를 가져오고 상태를 관리합니다.
+// useEffect 훅을 사용하여 컴포넌트가 마운트될 때 데이터를 가져옵니다.
+// useEffect 훅을 사용하여 jQuery UI의 sortable 기능을 활성화합니다.
+// handleCheckboxChange 함수는 체크박스 상태를 변경하고 서버로 변경 사항을 전송합니다.
+// handleOrderChange 함수는 리스트 항목의 순서를 변경하고 서버로 전송합니다.
 const Sidedown = () => {
     const [data, setData] = useState([]);
     const [fixedList, setFixedList] = useState([]); // 선택된 항목 상태 변수
@@ -83,6 +94,7 @@ const Sidedown = () => {
             }
         });
     }, [fixedList]);
+
     // 체크박스 선택 변경 핸들러
     const handleCheckboxChange = (item) => {
         let checkList;
