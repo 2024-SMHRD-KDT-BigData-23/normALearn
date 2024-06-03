@@ -1,10 +1,7 @@
 import React from 'react';
 import './Search.css'; // Importing the CSS file
 import '../fonts.css'; // Import the new CSS file with the font-face rule
-import './About.jsx';
-import './ChartArea.jsx';
-
-
+import ChartArea from './ChartArea'; // ChartArea 컴포넌트 불러오기
 
 function Search() {
   return (
@@ -19,9 +16,10 @@ function Search() {
           <button className="input-button">입력</button>
         </div>
       </div>
-     <ChartArea/>
+      <ChartArea /> {/* ChartArea 컴포넌트 사용 */}
     </div>
   );
 }
 
 export default Search;
+

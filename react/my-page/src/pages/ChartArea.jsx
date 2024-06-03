@@ -1,6 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './CharArea.css';
+import './ChartArea.css';
 
 
 const ChartArea = () => {
