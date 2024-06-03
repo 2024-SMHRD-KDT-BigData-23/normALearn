@@ -11,7 +11,7 @@ import Sidedown, { RenderList } from "./pages/Sidedown";
 
 // 페이지 관련
 import Search from "./pages/Search";
-import About from "./pages/About";
+
 import Input2 from "./pages/Input2";
 import Counter from "./pages/Counter";
 
@@ -79,7 +79,7 @@ function App() {
             <div className="content-container">
                 <Routes>
                     <Route path="/" element={<Search />} />
-                    <Route path="/about" element={<About />} />
+                   
                     <Route path="/input2" element={<Input2 />} />
                     <Route path="/counter" element={<Counter />} />
                 </Routes>

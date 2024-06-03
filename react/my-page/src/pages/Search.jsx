@@ -1,7 +1,8 @@
 import React from 'react';
 import './Search.css'; // Importing the CSS file
 import '../fonts.css'; // Import the new CSS file with the font-face rule
-import './About'
+import './About.jsx'
+import About from './About.jsx';
 
 
 function Search() {
@@ -17,6 +18,7 @@ function Search() {
           <button className="input-button">입력</button>
         </div>
       </div>
+     <About/>
     </div>
   );
 }
