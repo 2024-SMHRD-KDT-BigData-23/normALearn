@@ -1,7 +1,6 @@
 /* 기존 스타일 유지 */
 
 html {
-  background-color: lightsalmon;
   padding: 0px;
   margin: 0px;
 }
@@ -9,7 +8,6 @@ html {
 .Search {
   position: absolute;
   margin-top: 80px;
-  margin-left: 300px;
   width: calc(100% - 300px); /* Adjust width to account for margin-left */
   background-color: green;
 }
