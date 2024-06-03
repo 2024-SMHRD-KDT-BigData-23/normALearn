@@ -42,11 +42,7 @@ public class BackController {
 	}
 
 	@PostMapping("/sendListResult") // 리스트 변경시 작동하는 메소드
-<<<<<<< HEAD
-	public String sendListResult(@RequestBody Al_resultVO ListInfo) {
-=======
 	public void sendListResult(@RequestBody Al_resultVO ListInfo) {
->>>>>>> 6b192e6bf0f6ee26f16a5f64071442e7510a6213
 		String work = ListInfo.getWork();
 		// 무슨 작업을 하는지 확인 프린트
 		System.out.println(work);
