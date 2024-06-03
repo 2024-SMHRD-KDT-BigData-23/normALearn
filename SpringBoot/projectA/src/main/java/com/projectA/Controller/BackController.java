@@ -44,6 +44,7 @@ public class BackController {
 	@GetMapping("/sendListResult") // 리스트 변경시 작동하는 메소드
 	public String sendListResult(@RequestBody Al_resultVO ListInfo) {
 		String work = ListInfo.getWork();
+		System.out.println(work);
 		// if 문 사용 무슨 작업하는지 캐치
 		if (work.equals("ChangeNumber")) {
 			// 만약 react에서 ChangeNumber라는 문장을 work에 담아서 보냈을때 실행되는 매퍼  ListInfo에서 oldNumber, newNumber 가져와 쿼리문 작동
@@ -54,6 +55,7 @@ public class BackController {
 			result.changeResultCheckBox(ListInfo);
 			return "체크 박스";
 		} else {
+			System.out.println("오류");
 			return "오류";
 		}
 	}
