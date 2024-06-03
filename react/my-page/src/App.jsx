@@ -11,7 +11,7 @@ import Sidedown, { RenderList } from "./pages/Sidedown";
 
 // 페이지 관련
 import Search from "./pages/Search";
-import About from "./pages/About";
+
 import Input2 from "./pages/Input2";
 import Counter from "./pages/Counter";
 
@@ -68,18 +68,18 @@ function App() {
                 </div>
 
                 {/* side-down 관련 기능 정의 */}
-                <div className="side-down">
+               
                     <div className="scrollbar" id="style-1">
                         <RenderList data={orderedData} fixedList={fixedList} handleCheckboxChange={handleCheckboxChange} />
                     </div>
-                </div>
+                
             </nav>
 
             {/* 메인 페이지 변경 부분 링크 기능 */}
-            <div>
+            <div className="content-container">
                 <Routes>
                     <Route path="/" element={<Search />} />
-                    <Route path="/about" element={<About />} />
+                   
                     <Route path="/input2" element={<Input2 />} />
                     <Route path="/counter" element={<Counter />} />
                 </Routes>
