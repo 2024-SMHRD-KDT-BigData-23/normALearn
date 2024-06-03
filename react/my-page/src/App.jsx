@@ -11,8 +11,6 @@ import Sidedown, { RenderList } from "./pages/Sidedown";
 
 // 페이지 관련
 import Search from "./pages/Search";
-
-import Input2 from "./pages/Input2";
 import Counter from "./pages/Counter";
 
 function App() {
@@ -53,7 +51,7 @@ function App() {
                             </Link>
                         </li>
                         <li>
-                            <Link to="/input2">
+                            <Link to="/">
                                 <i className="fa fa-bookmark"></i>
                                 <span className="nav-text">북마크 페이지</span>
                             </Link>
@@ -80,7 +78,6 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Search />} />
                    
-                    <Route path="/input2" element={<Input2 />} />
                     <Route path="/counter" element={<Counter />} />
                 </Routes>
             </div>
