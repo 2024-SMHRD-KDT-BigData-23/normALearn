@@ -8,9 +8,13 @@ import com.projectA.VO.Al_resultVO;
 
 @Mapper
 public interface result_mapper {
-
+	// 처음 리스트 가져옴
 	public List<Al_resultVO> getResultList();
-	
+	// 드래그해서 순서 바뀔때 순서 바뀌게 해줌
 	public Al_resultVO changeResultNumber(Al_resultVO data);
+	// 체크박스로 Y N 변경
+	public void changeResultCheckBox(Al_resultVO listInfo);
+	
+	
 	
 }

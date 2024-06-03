@@ -2,7 +2,14 @@ package com.projectA.Mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.projectA.VO.Al_userVO;
+
 @Mapper
 public interface user_mapper {
+	
+	// 회원가입
+	public int join(Al_userVO data);
+	// 로그인
+	public int login(Al_userVO data);
 
 }

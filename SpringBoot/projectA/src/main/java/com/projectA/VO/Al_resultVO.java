@@ -14,7 +14,9 @@ public class Al_resultVO {
     private String nickname;
     private char favorite;
     private int number;
-    // 아래 DB에 없는 값
+    // 아래부터 DB에 없는 값
     private int oldNumber;
     private int newNumber;
+    // 작업 식별자
+    private String work;
 }
