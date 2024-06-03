@@ -41,7 +41,7 @@ public class BackController {
 		return ResponseEntity.ok(data);
 	}
 
-	@GetMapping("/sendListResult") // 리스트 변경시 작동하는 메소드
+	@PostMapping("/sendListResult") // 리스트 변경시 작동하는 메소드
 	public String sendListResult(@RequestBody Al_resultVO ListInfo) {
 		String work = ListInfo.getWork();
 		System.out.println(work);
