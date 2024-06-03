@@ -42,21 +42,23 @@ public class BackController {
 	}
 
 	@PostMapping("/sendListResult") // 리스트 변경시 작동하는 메소드
+<<<<<<< HEAD
 	public String sendListResult(@RequestBody Al_resultVO ListInfo) {
+=======
+	public void sendListResult(@RequestBody Al_resultVO ListInfo) {
+>>>>>>> 6b192e6bf0f6ee26f16a5f64071442e7510a6213
 		String work = ListInfo.getWork();
+		// 무슨 작업을 하는지 확인 프린트
 		System.out.println(work);
 		// if 문 사용 무슨 작업하는지 캐치
 		if (work.equals("ChangeNumber")) {
 			// 만약 react에서 ChangeNumber라는 문장을 work에 담아서 보냈을때 실행되는 매퍼  ListInfo에서 oldNumber, newNumber 가져와 쿼리문 작동
 			result.changeResultNumber(ListInfo);
-			return "순서 변경";
 		} else if (work.equals("ChangeCheckBox")) {
 			// sql ListInfo 내부의 favorite 값과 number 의 값을 활용해 변경
 			result.changeResultCheckBox(ListInfo);
-			return "체크 박스";
 		} else {
 			System.out.println("오류");
-			return "오류";
 		}
 	}
 
