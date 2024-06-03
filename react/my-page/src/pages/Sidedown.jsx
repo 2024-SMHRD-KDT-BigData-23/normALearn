@@ -83,7 +83,6 @@ const Sidedown = () => {
             }
         });
     }, [fixedList]);
-
     // 체크박스 선택 변경 핸들러
     const handleCheckboxChange = (item) => {
         let checkList;
