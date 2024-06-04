@@ -92,36 +92,38 @@ public class BackController {
 
 	}
 
-	@PostMapping("/login") // 로그인 
+	@PostMapping("/login")
 	public ResponseEntity<Map<String, Object>> login(@RequestBody Al_userVO loginData, HttpSession session, HttpServletResponse response) {
-	    // 프론트로 데이터를 전송해줄 해쉬맵 생성 <- 정보를 키값이랑 같이 전송할수 있음.
 	    Map<String, Object> responseBody = new HashMap<>();
-	    // 로그인 sql : 아이디와 비밀번호로 DB에 있는 정보들을 가져온다.
 	    Al_userVO result = user.login(loginData);
-	    if (result != null) { // 로그인 성공시
+	    if (result != null) { // 로그인 성공 시
 	        System.out.println("로그인 성공");
-	        // 세션으로 보낼 유저 정보에 회사이름과 유저 아이디만 보낸다. api,비밀번호는 보내면안됨
+
+	        // 세션에 사용자 정보 저장
 	        Al_userVO user = new Al_userVO();
 	        user.setCompanyName(result.getCompanyName());
 	        user.setUserId(result.getUserId());
-	        // 프론트로 보낼 메세지 추가 프론트에선 json 으로 방식으로 꺼내면됨.
-	        responseBody.put("message", "로그인 성공");
 	        session.setAttribute("user", user);
 
-	        // 세션 ID를 쿠키로 설정
-	        Cookie cookie = new Cookie("JSESSIONID", session.getId());
+	        // 쿠키 설정
+	        Cookie cookie = new Cookie("WoogunSession", session.getId());
 	        cookie.setHttpOnly(true);
 	        cookie.setPath("/");
 	        cookie.setMaxAge(30 * 60); // 30분 동안 유효
 	        response.addCookie(cookie);
 
+	        // 응답에 최소한의 사용자 정보 포함
+	        responseBody.put("message", "로그인 성공");
+	        responseBody.put("userId", user.getUserId());
+
 	        return ResponseEntity.ok(responseBody);
 	    } else {
-	        System.out.println("Login Failed");
+	        System.out.println("로그인 실패");
 	        responseBody.put("message", "로그인 실패");
 	        return ResponseEntity.ok(responseBody);
 	    }
 	}
+
 
 	@PostMapping("/submit")
 	public String submitData(@RequestBody Al_userVO profile) {
