@@ -7,14 +7,14 @@ body {
     margin: 0;
 }
 
-.Chart {
+.search-info {
     position: absolute;
     margin-top: 30px;
     width: 100%;
     background-color: green;
 }
 
-.row {
+.search-row {
     width: 80%;
     background-color: yellow;
     margin: 0 auto; /* Center the element horizontally */
@@ -28,7 +28,7 @@ body {
     
 }
 
-.Chart-area {
+.search-area {
     margin-top: 20px;
     display: flex;
     flex-direction: row; /* Arrange children in a row */
@@ -51,7 +51,7 @@ body {
     --group-background-focus: #678EFE;
 }
 
-.Serch-result {
+.serch-result {
     background-color: #f2f5f8;
     padding: 10px;
     margin: 5px;
@@ -67,21 +67,21 @@ body {
     align-items: center; /* Center items vertically */
 }
 
-.Serch-result span:nth-child(1) {
+.serch-result span:nth-child(1) {
     justify-content: flex-start;
     align-self: flex-start; /* Align the first span to the top */
     margin-top: 0;
     color: #6b7684;
 }
 
-.figure span:nth-child(1){
+.search-figure span:nth-child(1){
     font-size: 40px;
     color: #191F28 !important;
     justify-content: flex-start;
     font-weight: 700;
 }
 
-.figure span:nth-child(2) {
+.search-figure span:nth-child(2) {
     font-size: 14px;
     color: #6b7684 !important;
     margin-top: 30px; /* 필요에 따라 값을 조정하여 아래로 내립니다 */
@@ -90,7 +90,7 @@ body {
 
 }
 
-.Serch-result:hover {
+.serch-result:hover {
   background: #e5e8eb;
   cursor: pointer;
   border: #e5e8eb;

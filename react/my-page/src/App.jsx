@@ -3,7 +3,6 @@ import { Routes, Route, Link } from "react-router-dom";
 // css 관련
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'; // Import the CSS
-import './index.css'; // This is where your global styles might be
 import './fonts.css'; // Import the new CSS file with the font-face rule
 
 // 변수 관련
@@ -11,9 +10,10 @@ import Sidedown, { RenderList } from "./pages/Sidedown";
 
 // 페이지 관련
 import Search from "./pages/Search";
-
 import Input2 from "./pages/Input2";
 import Counter from "./pages/Counter";
+
+
 
 function App() {
     // Sidedown.jsx에서 불러오는 기능들

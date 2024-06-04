@@ -1,9 +1,9 @@
 import React from 'react';
 import './Search.css'; // Importing the CSS file
 import '../fonts.css'; // Import the new CSS file with the font-face rule
-import ChartArea from './ChartArea.jsx';
-
-
+import SearchInfo from './SearchInfo';
+import Chart from './Chart';
+import Table from './Table';
 
 function Search() {
   return (
@@ -18,8 +18,11 @@ function Search() {
           <button className="input-button">입력</button>
         </div>
       </div>
-     <ChartArea/>
+      <SearchInfo/>
+      <Chart/>
+      <Table/>
     </div>
+    
   );
 }
 

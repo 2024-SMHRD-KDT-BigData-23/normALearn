@@ -4,7 +4,6 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'; // Import the CSS
-import './index.css'; // This is where your global styles might be
 import './fonts.css'; // Import the new CSS file with the font-face rule
 
 ReactDOM.render(

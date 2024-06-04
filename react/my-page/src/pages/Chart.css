@@ -1,0 +1,55 @@
+html {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    margin: 0;
+}
+
+.chart-wrap{
+    position: absolute;
+    margin-top: 150px;
+    width: 100%;
+    background-color: green;
+}
+
+.chart-row{
+    width: 80%;
+    background-color: yellow;
+    margin: 0 auto; /* Center the element horizontally */
+    display: flex;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align items to the start of the container */
+    justify-content: center; /* Center content vertically */
+}
+
+.chart-area{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row; /* Arrange children in a row */
+    flex-wrap: wrap; /* Allow children to wrap to the next line if needed */
+    width: 100%;
+    justify-content: space-around; /* Distribute space around items */
+    align-items: center; /* Center items vertically */
+    margin-left: 0;
+    padding-left: 0;
+}
+
+.chart-result{
+    background-color: #f2f5f8;
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid var(--input-border);
+    flex: 1 1 20%; /* Flex-grow, flex-shrink, and flex-basis to control item size */
+    text-align: center;
+    border-radius: 10px;
+    font-size: 14px;
+    display: flex;
+    align-items: flex-end;
+    flex-direction: row; /* Ensure children are arranged in a row */
+    justify-content: space-between; /* Distribute space between items */
+    align-items: center; /* Center items vertically */
+    height: 350px;
+}
