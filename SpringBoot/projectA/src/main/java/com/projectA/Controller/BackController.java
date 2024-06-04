@@ -79,13 +79,13 @@ public class BackController {
 		// 회원가입 메소드 작동 성공시 1을 반환한다.
 		int result = user.join(joinData);
 		if (result == 1) {
-			System.out.println("Join Success");
+			System.out.println("회원가입 성공");
 			String id = joinData.getUserId();
 			// id 를 리액트로 보내서 "## 님 환영합니다 출력"
 			return id;
 		} else {
-			System.out.println("Join Failed");
-			return "Join Failed";
+			System.out.println("회원가입 실패");
+			return "회원가입이 실패하였습니다.";
 		}
 
 	}
