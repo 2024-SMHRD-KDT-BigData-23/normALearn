@@ -64,8 +64,8 @@ h1 {
 }
 
 .user-info li {
-  display: flex;            /* Enable flexbox on the list item */
-  align-items: center;     
+  display: flex;
+  align-items: center;
   margin-left: 30px;
 }
 
@@ -73,14 +73,14 @@ h1 {
   color: #191F28;
   margin: 0;
   display: flex;
-  align-items: center;      /* Align items vertically in the p element */
+  align-items: center;
 }
 
 .user-info li i {
-  margin-left: 5px;        /* Optional: Adjust spacing between text and icon */
+  margin-left: 5px;
 }
 
-.user-info li:nth-child(1) {
+.user-info .user-name {
   padding-top: 80px;
   font-size: 25px;
   display: flex;
@@ -88,33 +88,92 @@ h1 {
   font-weight: 600;
 }
 
-.user-info li:nth-child(1) .fa {
+.user-info .user-name .fa {
   margin: 0;
   padding: 0;
   width: 20px !important;
 }
 
-.user-info li:nth-child(2) {
-  display: flex;            /* Enable flexbox on the list item */
-  align-items: center;     
+.user-info .user-actions {
+  display: flex;
+  align-items: center;
   margin-bottom: 20px;
 }
 
-.user-info li:nth-child(2) p {
+.user-info .user-actions p {
   margin: 0;
   font-size: 12px;
   color: #6b7684;
 }
 
-.user-info li:nth-child(2) p:nth-child(2) {
+.user-info .user-actions p:nth-child(2) {
   margin: 0;
   font-size: 8px;
   padding-left: 5px;
   padding-right: 5px;
 }
 
-.user-info li:nth-child(2) p:nth-child(1), 
-.user-info li:nth-child(2) p:nth-child(3) {
+.user-info .user-actions p:nth-child(1),
+.user-info .user-actions p:nth-child(3) {
+  cursor: pointer;
+}
+
+/* 로그인 입력 필드 스타일 */
+.user-info .login-fields {
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 85px; /* 상단 마진 추가 */
+}
+
+.user-info .login-fields input[type="text"],
+.user-info .login-fields input[type="password"] {
+  width: 150px; /* 원하는 너비로 설정 */
+  height: 30px;
+  padding: 5px; /* 패딩 조절 */
+  margin: 5px 0; /* 상하 마진 추가 */
+  font-size: 14px; /* 텍스트 크기 설정 */
+}
+
+.user-info .login-fields button {
+  width: 110px; /* 버튼 너비 설정 */
+  height: 30px;
+  padding: 5px; /* 패딩 조절 */
+  margin-top: 5px; /* 상단 마진 추가 */
+  font-size: 14px; /* 버튼 텍스트 크기 설정 */
+}
+
+/* 모달 창 스타일 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 25%; /* 너비를 3분의 1로 설정 */
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  font-size: 14px;
+}
+
+.modal-content button {
+  padding: 10px 20px;
+  font-size: 14px;
   cursor: pointer;
 }
 

@@ -2,7 +2,6 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Table.css';
 import 'boxicons/css/boxicons.min.css'; // Corrected path for boxicons
-import 'material-design-icons/iconfont/material-icons.css'; // Corrected path for material design icons
 
 
 

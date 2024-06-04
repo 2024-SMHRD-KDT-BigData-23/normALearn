@@ -10,6 +10,7 @@ import Sidedown, { RenderList } from "./pages/Sidedown";
 
 // 페이지 관련
 import Search from "./pages/Search";
+import { useUserInfoData, useLoginInfo } from "./pages/Log"; 
 import Input2 from "./pages/Input2";
 import Counter from "./pages/Counter";
 
@@ -23,20 +24,57 @@ function App() {
         handleCheckboxChange
     } = Sidedown(); // 커스텀 훅
 
+    // Log에서 커스텀 훅 사용
+    const {
+        userId,
+        password,
+        isLoggedIn,
+        handleUserIdChange,
+        handlePasswordInputChange,
+        handleLogin,
+        setIsLoggedIn
+    } = useLoginInfo();
+
+    // Log에서 사용자 정보 관련 훅 사용
+    const {
+        userName,
+        companyName,
+        handleLogout,
+        setUserInfoAfterLogin,
+    } = useUserInfoData(setIsLoggedIn);
+
     return (
         <div className="App">
             <nav className="main-menu">
                 {/* 사이트 탑 관련 기능 정의 */}
                 <div className="side-top">
-                    <ul className="user-info">
-                        <li>
-                            <p>normALearn </p><i className="fa fa-angle-right"></i>
-                        </li>
-                        <li>
-                            <p>비밀번호 변경</p>
-                            <p> | </p>
-                            <p>logout</p>
-                        </li>
+                <ul className="user-info">
+                        {!isLoggedIn ? (
+                            <li className="login-fields">
+                                <input 
+                                    type="text" 
+                                    placeholder="아이디" 
+                                    value={userId} 
+                                    onChange={handleUserIdChange} 
+                                />
+                                <input 
+                                    type="password" 
+                                    placeholder="비밀번호" 
+                                    value={password} 
+                                    onChange={handlePasswordInputChange} 
+                                />
+                                <button onClick={() => handleLogin(setUserInfoAfterLogin)}>로그인</button>
+                            </li>
+                        ) : (
+                            <>
+                                <li className="user-name">
+                                    <p>{userName} ({companyName})</p><i className="fa fa-angle-right"></i>
+                                </li>
+                                <li className="user-actions">
+                                    <p onClick={handleLogout}>logout</p>
+                                </li>
+                            </>
+                        )}
                     </ul>
 
                     <ul className="top-ul">
