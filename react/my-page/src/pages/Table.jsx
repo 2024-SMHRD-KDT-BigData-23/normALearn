@@ -1,21 +1,13 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './ChartArea.css';
 
 
-const About = () => {
+const ChartArea = () => {
     return (
         <div className="container-fluid">
             <div className="row">
-                <h1>시각화 페이지</h1>
                 <div className="table-container">
-                    <div className='dongdong'>
-                        <div className='dongdongone'>
-                            위 1번째
-                        </div>
-                        <div className='dongdongtwo'>
-                            위 2번째      
-                        </div>
-                    </div>
                     <div className="scrollable-table-container">
                         <table className="table">
                             <thead>
@@ -44,9 +36,8 @@ const About = () => {
                     </div>
                 </div>
             </div>
-            
         </div>
     );
 }
 
-export default About;
+export default ChartArea;

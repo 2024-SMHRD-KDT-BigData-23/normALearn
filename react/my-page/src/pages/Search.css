@@ -75,6 +75,7 @@ html {
   /* 최소 너비를 100px로 설정 */
   max-width: 180px;
 }
+
 .input-text-group .form-field::placeholder {
   color: var(--input-placeholder);
 }

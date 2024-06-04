@@ -2,46 +2,41 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './ChartArea.css';
 
-
 const ChartArea = () => {
     return (
-        <div className="container-fluid">
+        <div className="Chart">
             <div className="row">
-                <h1>시각화 페이지</h1>
-                <div className="table-container">
-                    <div className='dongdong'>
-                        <div className='dongdongone'>
-                            위 1번째
+                <div className='Chart-area'>
+                    <div className='Serch-result'>
+                        <span>인장강도</span>
+                        <div className='figure'>
+                        <span>13.2</span>
+                        <span>MPa</span>
                         </div>
-                        <div className='dongdongtwo'>
-                            위 2번째      
+
+
+                        
+                    </div>
+                    <div className='Serch-result'>
+                        <span>항복강도</span>
+                        <div className='figure'>
+                        <span>14.3</span>
+                        <span>MPa</span>
                         </div>
                     </div>
-                    <div className="scrollable-table-container">
-                        <table className="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">번호</th>
-                                    <th scope="col">인장강도</th>
-                                    <th scope="col">항복강도</th>
-                                    <th scope="col">경도</th>
-                                    <th scope="col">연신율</th>
-                                    <th scope="col">조성 확인</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {Array.from({ length: 20 }, (_, index) => (
-                                    <tr key={index}>
-                                        <th scope="row">{index + 1}</th>
-                                        <td>13.2</td>
-                                        <td>14.3</td>
-                                        <td>123</td>
-                                        <td>123</td>
-                                        <td><a href="">확인</a></td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                    <div className='Serch-result'>
+                        <span>경도</span>
+                        <div className='figure'>
+                        <span>123</span>
+                        <span>Hv</span>
+                        </div>
+                    </div>
+                    <div className='Serch-result'>
+                        <span>연신율</span>
+                        <div className='figure'>
+                        <span>456</span>
+                        <span>%</span>
+                        </div>
                     </div>
                 </div>
             </div>

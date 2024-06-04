@@ -1,7 +1,6 @@
 import React from 'react';
 import './Search.css'; // Importing the CSS file
 import '../fonts.css'; // Import the new CSS file with the font-face rule
-import './About.jsx';
 import ChartArea from './ChartArea.jsx';
 
 
