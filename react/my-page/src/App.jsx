@@ -27,10 +27,10 @@ function App() {
     // Log에서 커스텀 훅 사용
     const {
         userId,
-        password,
+        userPw,
         isLoggedIn,
         handleUserIdChange,
-        handlePasswordInputChange,
+        handleUserPwChange,
         handleLogin,
         setIsLoggedIn
     } = useLoginInfo();
@@ -60,15 +60,15 @@ function App() {
                                 <input 
                                     type="password" 
                                     placeholder="비밀번호" 
-                                    value={password} 
-                                    onChange={handlePasswordInputChange} 
+                                    value={userPw} 
+                                    onChange={handleUserPwChange} 
                                 />
                                 <button onClick={() => handleLogin(setUserInfoAfterLogin)}>로그인</button>
                             </li>
                         ) : (
                             <>
                                 <li className="user-name">
-                                    <p>{userName} ({companyName})</p><i className="fa fa-angle-right"></i>
+                                    <p>{userId} ({companyName})</p><i className="fa fa-angle-right"></i>
                                 </li>
                                 <li className="user-actions">
                                     <p onClick={handleLogout}>logout</p>

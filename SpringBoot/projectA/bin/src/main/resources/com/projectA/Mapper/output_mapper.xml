@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.projectA.Mapper.output_mapper">
+	<!-- output 정보 내림차로 가져오는 쿼리 -->
+	<select id="getListOutput" resultType="com.projectA.VO.Al_outputVO">
+		SELECT * FROM al_output
+		ORDER BY searchDate DESC
+	</select>
+
+</mapper>
