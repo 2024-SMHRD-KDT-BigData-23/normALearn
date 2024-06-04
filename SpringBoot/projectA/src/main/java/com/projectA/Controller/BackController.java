@@ -20,6 +20,8 @@ import com.projectA.VO.Al_outputVO;
 import com.projectA.VO.Al_resultVO;
 import com.projectA.VO.Al_userVO;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @RestController
@@ -91,27 +93,34 @@ public class BackController {
 	}
 
 	@PostMapping("/login") // 로그인 
-	public ResponseEntity<Map<String, Object>> login(@RequestBody Al_userVO loginData, HttpSession session) {
-		// 프론트로 데이터를 전송해줄 해쉬맵 생성 <- 정보를 키값이랑 같이 전송할수 있음.
-		Map<String, Object> response = new HashMap<>();
-		// 로그인 sql : 아이디와 비밀번호로 DB에 있는 정보들을 가져온다.
-		Al_userVO result = user.login(loginData);
-		if (result != null) { // 로그인 성공시
-			System.out.println("로그인 성공");
-			// 세션으로 보낼 유저 정보에 회사이름과 유저 아이디만 보낸다. api,비밀번호는 보내면안됨
-			Al_userVO user = new Al_userVO();
-			user.setCompanyName(result.getCompanyName());
-			user.setUserId(result.getUserId());
-				// 프론트로 보낼 메세지 추가 프론트에선 json 으로 방식으로 꺼내면됨.
-				response.put("message", "로그인 성공");
-			session.setAttribute("user", user);
-			return ResponseEntity.ok(response);
-		} else {
-			System.out.println("Login Failed");
-				response.put("message", "로그인 실패");
-			return ResponseEntity.ok(response);
-		}
+	public ResponseEntity<Map<String, Object>> login(@RequestBody Al_userVO loginData, HttpSession session, HttpServletResponse response) {
+	    // 프론트로 데이터를 전송해줄 해쉬맵 생성 <- 정보를 키값이랑 같이 전송할수 있음.
+	    Map<String, Object> responseBody = new HashMap<>();
+	    // 로그인 sql : 아이디와 비밀번호로 DB에 있는 정보들을 가져온다.
+	    Al_userVO result = user.login(loginData);
+	    if (result != null) { // 로그인 성공시
+	        System.out.println("로그인 성공");
+	        // 세션으로 보낼 유저 정보에 회사이름과 유저 아이디만 보낸다. api,비밀번호는 보내면안됨
+	        Al_userVO user = new Al_userVO();
+	        user.setCompanyName(result.getCompanyName());
+	        user.setUserId(result.getUserId());
+	        // 프론트로 보낼 메세지 추가 프론트에선 json 으로 방식으로 꺼내면됨.
+	        responseBody.put("message", "로그인 성공");
+	        session.setAttribute("user", user);
 
+	        // 세션 ID를 쿠키로 설정
+	        Cookie cookie = new Cookie("JSESSIONID", session.getId());
+	        cookie.setHttpOnly(true);
+	        cookie.setPath("/");
+	        cookie.setMaxAge(30 * 60); // 30분 동안 유효
+	        response.addCookie(cookie);
+
+	        return ResponseEntity.ok(responseBody);
+	    } else {
+	        System.out.println("Login Failed");
+	        responseBody.put("message", "로그인 실패");
+	        return ResponseEntity.ok(responseBody);
+	    }
 	}
 
 	@PostMapping("/submit")
