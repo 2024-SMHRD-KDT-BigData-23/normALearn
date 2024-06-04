@@ -98,7 +98,7 @@ public class BackController {
 	    Al_userVO result = user.login(loginData);
 	    if (result != null) { // 로그인 성공 시
 	        System.out.println("로그인 성공");
-
+	        
 	        // 세션에 사용자 정보 저장
 	        Al_userVO user = new Al_userVO();
 	        user.setCompanyName(result.getCompanyName());
@@ -109,7 +109,7 @@ public class BackController {
 	        Cookie cookie = new Cookie("WoogunSession", session.getId());
 	        cookie.setHttpOnly(true);
 	        cookie.setPath("/");
-	        cookie.setMaxAge(30 * 60); // 30분 동안 유효
+	        cookie.setMaxAge(-1); // 30분 동안 유효
 	        response.addCookie(cookie);
 
 	        // 응답에 최소한의 사용자 정보 포함 + 회사이름

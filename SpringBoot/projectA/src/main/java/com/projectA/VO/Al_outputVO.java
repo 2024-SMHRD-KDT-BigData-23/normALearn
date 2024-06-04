@@ -24,20 +24,7 @@ public class Al_outputVO {
     private BigDecimal ni;
     private BigDecimal sr;
     private BigDecimal ce;
-    // 아래 추가 데이터
-    private BigDecimal ag;
-    private BigDecimal b;
-    private BigDecimal be;
-    private BigDecimal bi;
-    private BigDecimal cd;
-    private BigDecimal co;
-    private BigDecimal cr;
-    private BigDecimal er;
-    private BigDecimal eu;
-    private BigDecimal ga;
-    private BigDecimal li;
-    private BigDecimal pb;
-    private BigDecimal v;
+  
     // 여기까지
     private int firstTemperature;
     private int firstTime;
