@@ -3,32 +3,36 @@ import $ from 'jquery';
 import 'jquery-ui/ui/widgets/sortable';
 
 // 리스트 아이템 컴포넌트
-const ListItem = ({ item, fixedList, handleCheckboxChange }) => (
+const ListItem = ({ item, handleCheckboxChange }) => (
     <li className="darkerli" data-nickname={item.nickname}>
-        <a href="#">
+        <a href="#" className="list-item">
             <i className="fa fa-rocket fa-lg"></i>
             <span className="nav-text">
-                <input
-                    type="checkbox"
-                    name="item"
-                    value={item.nickname}
-                    checked={fixedList.includes(item.nickname)}
-                    onChange={() => handleCheckboxChange(item)}
-                />
-                {`${item.nickname}`} - {Object.values(item).map((value, i) => (i === 4 ? (fixedList.includes(item.nickname) ? "Y" : "N") : value)).filter((_, i) => i !== 3).join(' - ')}
+                {
+                    ['tensileStrength', 'yieldStrength', 'hardness', 'elongation']
+                        .map(key => item[key])
+                        .join(' - ')
+                }
             </span>
+            <input
+                type="checkbox"
+                name="item"
+                value={item.nickname}
+                checked={item.favorite === 'Y'}
+                onChange={() => handleCheckboxChange(item)}
+                className="checkbox"
+            />
         </a>
     </li>
 );
 
 // 리스트 렌더링 컴포넌트
-export const RenderList = ({ data, fixedList, handleCheckboxChange }) => (
+export const RenderList = ({ data, handleCheckboxChange }) => (
     <ul id="checked-sortable">
         {data.map((item, index) => (
             <ListItem
                 key={index}
                 item={item}
-                fixedList={fixedList}
                 handleCheckboxChange={handleCheckboxChange}
             />
         ))}
@@ -46,6 +50,8 @@ const Sidedown = () => {
             const response = await fetch('http://localhost:8080/NomAlearn/getListResult'); // 백엔드 API 주소
             const result = await response.json();
             setData(result); // 데이터를 상태 변수에 저장
+            const initiallyFixed = result.filter(item => item.favorite === 'Y').map(item => item.nickname);
+            setFixedList(initiallyFixed); // 초기 고정된 항목 설정
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -96,18 +102,21 @@ const Sidedown = () => {
             checkList = fixedList.filter(i => i !== item.nickname);
             action = 'checkout';
             updatedItem.favorite = 'N'; // favorite 필드를 N으로 변경
-            updatedItem.work = 'null'
+            updatedItem.work = 'ChangeCheckBox';
             console.log("체크아웃:", updatedItem); // 체크 해제된 항목 콘솔에 출력
             console.log(`체크아웃 항목: ${JSON.stringify(updatedItem)}, 상태: 체크 해제됨`); // 상세 내용 출력
         } else {
             checkList = [...fixedList, item.nickname];
             action = 'checkin';
             updatedItem.favorite = 'Y'; // favorite 필드를 Y으로 변경
-            updatedItem.work = 'ChangeCheckBox'
+            updatedItem.work = 'ChangeCheckBox';
             console.log("체크인:", updatedItem); // 체크된 항목 콘솔에 출력
             console.log(`체크인 항목: ${JSON.stringify(updatedItem)}, 상태: 체크됨`); // 상세 내용 출력
         }
         setFixedList(checkList);
+        
+        // 업데이트된 항목을 데이터 리스트에 반영
+        setData(data.map(d => (d.nickname === item.nickname ? updatedItem : d)));
 
         // 체크 상태를 서버로 전송
         postData(`http://localhost:8080/NomAlearn/sendListResult`, updatedItem);
