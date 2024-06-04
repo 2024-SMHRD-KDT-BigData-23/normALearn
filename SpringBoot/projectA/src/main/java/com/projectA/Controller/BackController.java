@@ -112,9 +112,10 @@ public class BackController {
 	        cookie.setMaxAge(30 * 60); // 30분 동안 유효
 	        response.addCookie(cookie);
 
-	        // 응답에 최소한의 사용자 정보 포함
+	        // 응답에 최소한의 사용자 정보 포함 + 회사이름
 	        responseBody.put("message", "로그인 성공");
 	        responseBody.put("userId", user.getUserId());
+	        responseBody.put("companyName", user.getCompanyName());
 
 	        return ResponseEntity.ok(responseBody);
 	    } else {
