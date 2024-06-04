@@ -9,7 +9,7 @@
 	</insert>
 	
 	<!-- 로그인 쿼리 암호화된 비밀번호 변경후 전송 -->
-	<select id="login" parameterType="com.projectA.VO.Al_userVO">
+	<select id="login" parameterType="com.projectA.VO.Al_userVO" resultType="com.projectA.VO.Al_userVO">
 		SELECT * FROM al_user WHERE userId=#{userId} AND userPw= SHA2(#{userPw}, 256) 
 	</select>
 	
