@@ -13,6 +13,7 @@ public class Al_resultVO {
     private Long outputIdx;
     private String nickname;
     private char favorite;
+    private char myPage;  
     private int number;
     // 아래부터 DB에 없는 값
     private int oldNumber;

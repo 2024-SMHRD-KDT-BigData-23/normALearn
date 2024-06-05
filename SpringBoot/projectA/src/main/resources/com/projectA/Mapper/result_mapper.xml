@@ -42,6 +42,12 @@
 		SET favorite = #{favorite} 
 		WHERE number = #{number}
 	</update>
+	<!-- 마이페이지에 뜨는 result 값 -->
+	<update id="mypageCheck" parameterType="com.projectA.VO.Al_resultVO">
+		UPDATE al_result 
+		SET myPage =#{myPage}
+		WHERE resultIdx=#{resultIdx}
+	</update>
 	
 	
 

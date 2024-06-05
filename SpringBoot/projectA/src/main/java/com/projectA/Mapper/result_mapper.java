@@ -14,6 +14,8 @@ public interface result_mapper {
 	public Al_resultVO changeResultNumber(Al_resultVO data);
 	// 체크박스로 Y N 변경
 	public void changeResultCheckBox(Al_resultVO listInfo);
+	// 마이페이지에 표시되는 result 값 on/off 
+	public void mypageCheck(Al_resultVO resultInfo);
 	
 	
 	

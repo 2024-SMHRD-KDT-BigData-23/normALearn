@@ -1,31 +1,60 @@
 import React, { useEffect, useState } from 'react';
 import {
   Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
+  ArcElement,
   Tooltip,
   Legend,
+  Title,
 } from 'chart.js';
-import { Bar } from 'react-chartjs-2';
+import { Doughnut } from 'react-chartjs-2';
 
 // Register the required elements for Chart.js
 ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
+  ArcElement,
   Tooltip,
-  Legend
+  Legend,
+  Title
 );
 
-const BarChart = () => {
+// 플러그인 정의
+const centerTextPlugin = {
+  id: 'centerTextPlugin',
+  beforeDraw: function(chart) {
+    const ctx = chart.ctx;
+    const width = chart.width;
+    const height = chart.height;
+    const centerX = chart.chartArea.left + (chart.chartArea.right - chart.chartArea.left) / 2;
+    const centerY = chart.chartArea.top + (chart.chartArea.bottom - chart.chartArea.top) / 2;
+
+    // 도넛 차트의 가운데 구멍 크기 계산
+    const innerRadius = Math.min(width, height) / 4; // 대략적인 innerRadius 계산
+
+    // 가운데 원 색칠
+    ctx.save();
+    ctx.fillStyle = 'white'; // 원하는 색상으로 변경
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, innerRadius, 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.restore();
+
+    // 가운데 텍스트
+    ctx.save();
+    ctx.font = '20px Arial';
+    ctx.textBaseline = 'middle';
+    ctx.textAlign = 'center';
+    ctx.fillStyle = 'black';
+    const text = '중앙 텍스트';
+    ctx.fillText(text, centerX, centerY);
+    ctx.restore();
+  }
+};
+
+const DoughnutChart = () => {
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: [
       {
-        label: '# of Votes',
+        label: '하이',
         data: [],
         backgroundColor: [],
         borderColor: [],
@@ -40,16 +69,15 @@ const BarChart = () => {
       const result = await response.json();
       console.log('Fetched Data:', result); // Log the fetched data to the console
 
-      // Assuming result is an array of objects with 'label' and 'value' properties
-      const labels = result.map(item => item.label);
-      const data = result.map(item => item.value);
+      const labels = result.map(item => item.outputIdx);
+      const data = result.map(item => item.al);
 
       setChartData({
         labels,
         datasets: [
           {
-            label: '# of Votes',
-            data,
+            label: '하이',
+            data: data,
             backgroundColor: [
               'rgba(255, 99, 132, 0.2)',
               'rgba(54, 162, 235, 0.2)',
@@ -75,20 +103,39 @@ const BarChart = () => {
     }
   };
 
-  // Fetch data when the component mounts
   useEffect(() => {
     fetchChartData();
   }, []);
 
   const options = {
-    scales: {
-      y: {
-        beginAtZero: true,
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
       },
+      title: {
+        display: true,
+        text: 'Doughnut Chart with Center Text',
+      },
+      tooltip: {
+        callbacks: {
+          label: function(context) {
+            let label = context.label || '';
+            if (label) {
+              label += ': ';
+            }
+            if (context.raw !== null) {
+              label += context.raw;
+            }
+            return label;
+          }
+        }
+      }
     },
+    cutout: '70%', // 도넛 차트의 가운데 구멍 크기
   };
 
-  return <Bar data={chartData} options={options} />;
+  return <Doughnut data={chartData} options={options} plugins={[centerTextPlugin]} />;
 };
 
-export default BarChart;
+export default DoughnutChart;

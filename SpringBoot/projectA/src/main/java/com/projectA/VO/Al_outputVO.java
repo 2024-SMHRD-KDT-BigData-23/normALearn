@@ -40,4 +40,6 @@ public class Al_outputVO {
     private LocalDateTime searchDate;
     private Long inputIdx;
     private String userId;
+    // 추가 된것
+    private String work;
 }
