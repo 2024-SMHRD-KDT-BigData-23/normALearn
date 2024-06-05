@@ -41,6 +41,7 @@ body {
     width: 5%;
 }
 
+
 .spaced-title th {
     color: #6b7684;
     background-color: #fff !important;
@@ -55,6 +56,11 @@ body {
     font-size: 14px;
 }
 
+.rank-column-td{
+    color: #007bff !important;
+}
+
+
 .red {
     color: red;
 }
@@ -67,6 +73,7 @@ body {
     display: flex;
     justify-content: center;
     margin-top: 20px;
+    color: ;
 }
 
 .pagination ul {

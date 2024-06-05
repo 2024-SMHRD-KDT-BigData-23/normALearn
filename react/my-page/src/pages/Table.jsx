@@ -82,7 +82,7 @@ const Table = () => {
                     <tbody>
                         {currentItems.map((item) => (
                             <tr key={item.rank}>
-                                <td className="rank-column">{item.rank}</td>
+                                <td className="rank-column-td">{item.rank}</td>
                                 <td>{item.tensileStrength}</td>
                                 <td>{item.yieldStrength}</td>
                                 <td>{item.hardness}</td>

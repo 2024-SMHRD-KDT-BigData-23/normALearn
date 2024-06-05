@@ -44,34 +44,17 @@ function App() {
         <div className="App">
             <nav className="main-menu">
                 <div className="side-top">
-                    <ul className="user-info">
-                        {!isLoggedIn ? (
-                            <li className="login-fields">
-                                <input 
-                                    type="text" 
-                                    placeholder="아이디" 
-                                    value={userId} 
-                                    onChange={handleUserIdChange} 
-                                />
-                                <input 
-                                    type="password" 
-                                    placeholder="비밀번호" 
-                                    value={userPw} 
-                                    onChange={handleUserPwChange} 
-                                />
-                                <button onClick={() => handleLogin(setUserInfoAfterLogin)}>로그인</button>
-                            </li>
-                        ) : (
-                            <>
-                                <li className="user-name">
-                                    <p>{companyName}</p><i className="fa fa-angle-right"></i>
-                                </li>
-                                <li className="user-actions">
-                                    <p onClick={handleLogout}>logout</p>
-                                </li>
-                            </>
-                        )}
+                <ul className="user-info">
+                    <li className="user-name">
+                    <p>{companyName}companyName</p><i className="fa fa-angle-right"></i>
+                        </li>
+                        <li className="user-actions">
+                            <p>비밀번호 변경</p>
+                            <p> | </p>
+                            <p onClick={handleLogout}>logout</p>
+                        </li>
                     </ul>
+
 
                     <ul className="top-ul">
                         <li>
