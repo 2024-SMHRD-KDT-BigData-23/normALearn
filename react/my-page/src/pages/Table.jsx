@@ -1,104 +1,111 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Table.css';
-import 'boxicons/css/boxicons.min.css'; // Corrected path for boxicons
-
-
+import '../fonts.css'; // Import the new CSS file with the font-face rule
 
 const Table = () => {
+    const data = [
+        { rank: 1, tensileStrength: '700 MPa', yieldStrength: '400 MPa', hardness: '150 Hv', elongation: '12%', efficiency: '85%', changeClass: 'red' },
+        { rank: 2, tensileStrength: '750 MPa', yieldStrength: '450 MPa', hardness: '155 Hv', elongation: '14%', efficiency: '90%', changeClass: 'red' },
+        { rank: 3, tensileStrength: '800 MPa', yieldStrength: '500 MPa', hardness: '160 Hv', elongation: '10%', efficiency: '88%', changeClass: 'red' },
+        { rank: 4, tensileStrength: '650 MPa', yieldStrength: '380 MPa', hardness: '140 Hv', elongation: '15%', efficiency: '92%', changeClass: 'red' },
+        { rank: 5, tensileStrength: '600 MPa', yieldStrength: '350 MPa', hardness: '130 Hv', elongation: '11%', efficiency: '87%', changeClass: 'red' },
+        { rank: 6, tensileStrength: '720 MPa', yieldStrength: '420 MPa', hardness: '145 Hv', elongation: '13%', efficiency: '80%', changeClass: 'green' },
+        { rank: 7, tensileStrength: '680 MPa', yieldStrength: '400 MPa', hardness: '150 Hv', elongation: '12%', efficiency: '75%', changeClass: 'green' },
+        { rank: 8, tensileStrength: '740 MPa', yieldStrength: '430 MPa', hardness: '152 Hv', elongation: '14%', efficiency: '82%', changeClass: 'green' },
+        { rank: 9, tensileStrength: '710 MPa', yieldStrength: '410 MPa', hardness: '148 Hv', elongation: '13%', efficiency: '89%', changeClass: 'red' },
+        { rank: 10, tensileStrength: '670 MPa', yieldStrength: '390 MPa', hardness: '142 Hv', elongation: '12%', efficiency: '85%', changeClass: 'red' },
+        { rank: 11, tensileStrength: '700 MPa', yieldStrength: '400 MPa', hardness: '150 Hv', elongation: '12%', efficiency: '85%', changeClass: 'red' },
+        { rank: 12, tensileStrength: '750 MPa', yieldStrength: '450 MPa', hardness: '155 Hv', elongation: '14%', efficiency: '90%', changeClass: 'red' },
+        { rank: 13, tensileStrength: '800 MPa', yieldStrength: '500 MPa', hardness: '160 Hv', elongation: '10%', efficiency: '88%', changeClass: 'red' },
+        { rank: 14, tensileStrength: '650 MPa', yieldStrength: '380 MPa', hardness: '140 Hv', elongation: '15%', efficiency: '92%', changeClass: 'red' },
+        { rank: 15, tensileStrength: '600 MPa', yieldStrength: '350 MPa', hardness: '130 Hv', elongation: '11%', efficiency: '87%', changeClass: 'red' },
+        { rank: 16, tensileStrength: '720 MPa', yieldStrength: '420 MPa', hardness: '145 Hv', elongation: '13%', efficiency: '80%', changeClass: 'green' },
+        { rank: 17, tensileStrength: '680 MPa', yieldStrength: '400 MPa', hardness: '150 Hv', elongation: '12%', efficiency: '75%', changeClass: 'green' },
+        { rank: 18, tensileStrength: '740 MPa', yieldStrength: '430 MPa', hardness: '152 Hv', elongation: '14%', efficiency: '82%', changeClass: 'green' },
+        { rank: 19, tensileStrength: '710 MPa', yieldStrength: '410 MPa', hardness: '148 Hv', elongation: '13%', efficiency: '89%', changeClass: 'red' },
+        { rank: 20, tensileStrength: '670 MPa', yieldStrength: '390 MPa', hardness: '142 Hv', elongation: '12%', efficiency: '85%', changeClass: 'red' },
+    ];
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10;
+
+    const handleClick = (event) => {
+        event.preventDefault();
+        setCurrentPage(Number(event.target.id));
+    };
+
+    const handlePrevClick = (event) => {
+        event.preventDefault();
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    const handleNextClick = (event) => {
+        event.preventDefault();
+        if (currentPage < Math.ceil(data.length / itemsPerPage)) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
+
+    const renderPageNumbers = () => {
+        const pageNumbers = [];
+        for (let i = 1; i <= Math.ceil(data.length / itemsPerPage); i++) {
+            pageNumbers.push(i);
+        }
+        return pageNumbers.map(number => (
+            <li key={number} className={number === currentPage ? 'active' : ''}>
+                <a href="#" id={number} onClick={handleClick}>{number}</a>
+            </li>
+        ));
+    };
+
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+
     return (
         <div className="container">
-            <div className="row align-items-center">
-                <div className="col-md-6">
-                    <div className="mb-3">
-                        <h5 className="card-title">Contact List <span className="text-muted fw-normal ms-2">(834)</span></h5>
-                    </div>
-                </div>
-                <div className="col-md-6">
-                    <div className="d-flex flex-wrap align-items-center justify-content-end gap-2 mb-3">
-                        <div>
-                            <ul className="nav nav-pills">
-                                <li className="nav-item">
-                                    <a
-                                        href="#"
-                                        className="router-link-active router-link-exact-active nav-link active"
-                                        data-bs-toggle="tooltip"
-                                        data-bs-placement="top"
-                                        title=""
-                                        data-bs-original-title="List"
-                                        aria-label="List"
-                                    >
-                                        <i className="bx bx-list-ul"></i>
-                                    </a>
-                                </li>
-                                <li className="nav-item">
-                                    <a href="#" className="nav-link" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Grid" aria-label="Grid"><i className="bx bx-grid-alt"></i></a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div>
-                            <a href="#" data-bs-toggle="modal" data-bs-target=".add-new" className="btn btn-primary"><i className="bx bx-plus me-1"></i> Add New</a>
-                        </div>
-                        <div className="dropdown">
-                            <a className="btn btn-link text-muted py-1 font-size-16 shadow-none dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i className="bx bx-dots-horizontal-rounded"></i></a>
-                            <ul className="dropdown-menu dropdown-menu-end">
-                                <li><a className="dropdown-item" href="#">Action</a></li>
-                                <li><a className="dropdown-item" href="#">Another action</a></li>
-                                <li><a className="dropdown-item" href="#">Something else here</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className="row">
-                <div className="col-lg-12">
-                    <div className="">
-                        <div className="table-responsive">
-                            <table className="table project-list-table table-nowrap align-middle table-borderless">
-                                <thead>
-                                    <tr>
-                                        <th scope="col" className="ps-4" style={{ width: "50px" }}>
-                                            <div className="form-check font-size-16"><input type="checkbox" className="form-check-input" id="contacusercheck" /><label className="form-check-label" htmlFor="contacusercheck"></label></div>
-                                        </th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Position</th>
-                                        <th scope="col">Email</th>
-                                        <th scope="col">Projects</th>
-                                        <th scope="col" style={{ width: "200px" }}>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {/* 내용 생략 */}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className="row g-0 align-items-center pb-4">
-                <div className="col-sm-6">
-                    <div><p className="mb-sm-0">Showing 1 to 10 of 57 entries</p></div>
-                </div>
-                <div className="col-sm-6">
-                    <div className="float-sm-end">
-                        <ul className="pagination mb-sm-0">
-                            <li className="page-item disabled">
-                                <a href="#" className="page-link"><i className="mdi mdi-chevron-left"></i></a>
-                            </li>
-                            <li className="page-item active"><a href="#" className="page-link">1</a></li>
-                            <li className="page-item"><a href="#" className="page-link">2</a></li>
-                            <li className="page-item"><a href="#" className="page-link">3</a></li>
-                            <li className="page-item"><a href="#" className="page-link">4</a></li>
-                            <li className="page-item"><a href="#" className="page-link">5</a></li>
-                            <li className="page-item">
-                                <a href="#" className="page-link"><i className="mdi mdi-chevron-right"></i></a>
-                            </li>
-                        </ul>
-                    </div>
+            <div className="table-container">
+                <table className="table">
+                    <thead>
+                        <tr className="spaced-title">
+                            <th className="rank-column">목차</th>
+                            <th>인장강도</th>
+                            <th>항복강도</th>
+                            <th>경도</th>
+                            <th>연신율</th>
+                            <th>조성</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {currentItems.map((item) => (
+                            <tr key={item.rank}>
+                                <td className="rank-column">{item.rank}</td>
+                                <td>{item.tensileStrength}</td>
+                                <td>{item.yieldStrength}</td>
+                                <td>{item.hardness}</td>
+                                <td>{item.elongation}</td>
+                                <td><button className="btn btn-primary">상세보기</button></td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+                <div className="pagination">
+                    <ul>
+                        <li className={currentPage === 1 ? 'disabled' : ''}>
+                            <a href="#" onClick={handlePrevClick}>&laquo; Prev</a>
+                        </li>
+                        {renderPageNumbers()}
+                        <li className={currentPage === Math.ceil(data.length / itemsPerPage) ? 'disabled' : ''}>
+                            <a href="#" onClick={handleNextClick}>Next &raquo;</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
     );
-}
+};
 
 export default Table;

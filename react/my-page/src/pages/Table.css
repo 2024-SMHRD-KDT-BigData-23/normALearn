@@ -1,76 +1,89 @@
-body{margin-top:20px;
-    background-color:#eee;
-    }
-    .project-list-table {
-        border-collapse: separate;
-        border-spacing: 0 12px
-    }
+.container {
+    margin-top: 550px !important;
+    max-width: 1100px;
+}
+
+.table-container {
+    margin: 0;
+    width: 100%;
+    padding: 0;
+    border: none;
     
-    .project-list-table tr {
-        background-color: #fff
-    }
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    table-layout: fixed;
     
-    .table-nowrap td, .table-nowrap th {
-        white-space: nowrap;
-    }
-    .table-borderless>:not(caption)>*>* {
-        border-bottom-width: 0;
-    }
-    .table>:not(caption)>*>* {
-        padding: 0.75rem 0.75rem;
-        background-color: var(--bs-table-bg);
-        border-bottom-width: 1px;
-        box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
-    }
-    
-    .avatar-sm {
-        height: 2rem;
-        width: 2rem;
-    }
-    .rounded-circle {
-        border-radius: 50%!important;
-    }
-    .me-2 {
-        margin-right: 0.5rem!important;
-    }
-    img, svg {
-        vertical-align: middle;
-    }
-    
-    a {
-        color: #3b76e1;
-        text-decoration: none;
-    }
-    
-    .badge-soft-danger {
-        color: #f56e6e !important;
-        background-color: rgba(245,110,110,.1);
-    }
-    .badge-soft-success {
-        color: #63ad6f !important;
-        background-color: rgba(99,173,111,.1);
-    }
-    
-    .badge-soft-primary {
-        color: #3b76e1 !important;
-        background-color: rgba(59,118,225,.1);
-    }
-    
-    .badge-soft-info {
-        color: #57c9eb !important;
-        background-color: rgba(87,201,235,.1);
-    }
-    
-    .avatar-title {
-        align-items: center;
-        background-color: #3b76e1;
-        color: #fff;
-        display: flex;
-        font-weight: 500;
-        height: 100%;
-        justify-content: center;
-        width: 100%;
-    }
-    .bg-soft-primary {
-        background-color: rgba(59,118,225,.25)!important;
-    }
+}
+
+.table th, .table td {
+    padding: 8px;
+    text-align: center;
+    vertical-align: middle; /* 행과 열을 중간 정렬 */
+    border: none; /* 모든 border 제거 */
+}
+
+.rank-column {
+    width: 5%;
+}
+
+.spaced-title th {
+    color: #6b7684;
+    background-color: #fff !important;
+    padding: 10px 0 10px 0; /* th 아래 간격 추가 */
+    border-bottom: 1px solid #e2e5e9;
+    font-weight: 400;
+    font-size: 14px;
+}
+
+.table tbody tr td{
+    color: #6b7684;
+    font-size: 14px;
+}
+
+
+
+.red {
+    color: red;
+}
+
+.green {
+    color: green;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.pagination ul li {
+    display: inline;
+    margin: 0 5px;
+}
+
+.pagination ul li a {
+    text-decoration: none;
+    padding: 8px 16px;
+    color: #007bff;
+}
+
+.pagination ul li.active a,
+.pagination ul li a:hover {
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+}
+
+.pagination ul li.disabled a {
+    color: #ccc;
+    pointer-events: none;
+}

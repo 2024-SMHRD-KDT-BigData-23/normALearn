@@ -9,27 +9,26 @@ body {
 
 .search-info {
     position: absolute;
-    margin-top: 30px;
+    margin-top: 15px;
     width: 100%;
-    background-color: green;
+
 }
 
 .search-row {
     width: 80%;
-    background-color: yellow;
     margin: 0 auto; /* Center the element horizontally */
     display: flex;
     display: flex;
     flex-direction: column;
     align-items: flex-start; /* Align items to the start of the container */
     justify-content: center; /* Center content vertically */
-    border-top: 1px solid #6b7684;
+    border-top: 1px solid #e2e5e9;
 
     
 }
 
 .search-area {
-    margin-top: 20px;
+    margin-top: 10px;
     display: flex;
     flex-direction: row; /* Arrange children in a row */
     flex-wrap: wrap; /* Allow children to wrap to the next line if needed */
