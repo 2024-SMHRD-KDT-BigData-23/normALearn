@@ -54,7 +54,7 @@ public class BackController {
 	public void sendListResult(@RequestBody Al_resultVO ResultInfo) {
 		String work = ResultInfo.getWork();
 		// 무슨 작업을 하는지 확인 프린트
-		System.out.println("무야호");
+		System.out.println("무야호1");
 		System.out.println(work);
 		// if 문 사용 무슨 작업하는지 캐치
 		if (work.equals("ChangeNumber")) {
