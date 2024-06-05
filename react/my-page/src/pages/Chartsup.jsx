@@ -8,7 +8,7 @@ import {
 } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 
-// Chart.js에서 필요한 요소들을 등록합니다.
+// Chart.js에서 필요한 요소들을 등록합니다. (3)
 ChartJS.register(
   ArcElement,
   Tooltip,
@@ -16,7 +16,7 @@ ChartJS.register(
   Title
 );
 
-// 도넛 차트 가운데 텍스트를 표시하는 플러그인 정의
+// 도넛 차트 가운데 텍스트를 표시하는 플러그인 정의 (4)
 const centerTextPlugin = {
   id: 'centerTextPlugin',
   beforeDraw: function(chart) {
@@ -39,7 +39,7 @@ const centerTextPlugin = {
 };
 
 const DoughnutChart = () => {
-  // chartData와 currentIndex, alValue라는 상태를 정의하고 초기값을 설정합니다.
+  // chartData와 currentIndex, alValue라는 상태를 정의하고 초기값을 설정합니다. (5)
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: [
@@ -54,23 +54,26 @@ const DoughnutChart = () => {
     ],
   });
 
-  const [currentIndex, setCurrentIndex] = useState(0); // 현재 인덱스를 관리하는 상태
+  const [currentIndex, setCurrentIndex] = useState(0); // 현재 인덱스를 관리하는 상태 (6)
 
-  // 차트 데이터를 불러오는 비동기 함수
+  // 차트 데이터를 불러오는 비동기 함수 (1)
   const fetchChartData = async (pienum) => {
     try {
-      // API를 호출하여 데이터를 가져옵니다.
+      // API를 호출하여 데이터를 가져옵니다. (2)
       const response = await fetch('http://localhost:8080/NomAlearn/getListOutput');
       const result = await response.json();
       console.log('Fetched Data:', result); // 불러온 데이터를 콘솔에 출력
 
-      // 특정 인덱스의 객체의 특정 속성만을 사용합니다.
+      // 특정 인덱스의 객체의 특정 속성만을 사용합니다. (7)
       const firstItem = result[pienum];
       const keys = ['si', 'cu', 'sc', 'fe', 'mn', 'mg', 'zr', 'sm', 'zn', 'ti', 'sr', 'ni', 'ce']; // 시각화할 특정 속성 (변경 가능)
 
-      // 'al' 값을 상태에 저장합니다.
+      // 'al' 값을 상태에 저장합니다. (8)
       const alValue = firstItem['al']; // 'al' 값 추출
       console.log('alValue:', alValue); // 'al' 값 확인
+
+      const labels = [];
+      const data = [];
 
       for (let i = 0; i < keys.length; i++) {
         const key = keys[i];
@@ -79,11 +82,8 @@ const DoughnutChart = () => {
           data.push(firstItem[key]);
         }
       }
-      // 값이 0이 아닌 경우에만 labels와 data 배열에 추가합니다.
-      const labels = [];
-      const data = [];
 
-      // 불러온 데이터를 바탕으로 chartData 상태를 업데이트합니다.
+      // 불러온 데이터를 바탕으로 chartData 상태를 업데이트합니다. (9)
       setChartData({
         labels,
         datasets: [
@@ -124,22 +124,22 @@ const DoughnutChart = () => {
         ],
       });
     } catch (error) {
-      // 데이터를 불러오는 도중 에러가 발생하면 콘솔에 에러를 출력합니다.
+      // 데이터를 불러오는 도중 에러가 발생하면 콘솔에 에러를 출력합니다. (10)
       console.log('Error fetching data:', error);
     }
   };
 
-  // 컴포넌트가 마운트될 때 fetchChartData 함수가 실행되도록 useEffect 훅을 사용합니다.
+  // 컴포넌트가 마운트될 때 fetchChartData 함수가 실행되도록 useEffect 훅을 사용합니다. (11)
   useEffect(() => {
     fetchChartData(currentIndex);
   }, [currentIndex]);
 
-  // 버튼 클릭 시 호출될 함수
+  // 버튼 클릭 시 호출될 함수 (12)
   const handleNext = () => {
     setCurrentIndex((prevIndex) => prevIndex + 1);
   };
 
-  // Doughnut 컴포넌트를 사용하여 데이터를 시각화하고 버튼을 추가합니다.
+  // Doughnut 컴포넌트를 사용하여 데이터를 시각화하고 버튼을 추가합니다. (13)
   return (
     <div>
       <Doughnut data={chartData} plugins={[centerTextPlugin]} /> {/* 중앙 텍스트를 표시하는 플러그인 추가 */}
