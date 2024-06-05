@@ -2,33 +2,12 @@ import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Table.css';
 import '../fonts.css'; // Import the new CSS file with the font-face rule
+import Tablesub from './Tablesub';
 
 const Table = () => {
-    const data = [
-        { rank: 1, tensileStrength: '700 MPa', yieldStrength: '400 MPa', hardness: '150 Hv', elongation: '12%', efficiency: '85%', changeClass: 'red' },
-        { rank: 2, tensileStrength: '750 MPa', yieldStrength: '450 MPa', hardness: '155 Hv', elongation: '14%', efficiency: '90%', changeClass: 'red' },
-        { rank: 3, tensileStrength: '800 MPa', yieldStrength: '500 MPa', hardness: '160 Hv', elongation: '10%', efficiency: '88%', changeClass: 'red' },
-        { rank: 4, tensileStrength: '650 MPa', yieldStrength: '380 MPa', hardness: '140 Hv', elongation: '15%', efficiency: '92%', changeClass: 'red' },
-        { rank: 5, tensileStrength: '600 MPa', yieldStrength: '350 MPa', hardness: '130 Hv', elongation: '11%', efficiency: '87%', changeClass: 'red' },
-        { rank: 6, tensileStrength: '720 MPa', yieldStrength: '420 MPa', hardness: '145 Hv', elongation: '13%', efficiency: '80%', changeClass: 'green' },
-        { rank: 7, tensileStrength: '680 MPa', yieldStrength: '400 MPa', hardness: '150 Hv', elongation: '12%', efficiency: '75%', changeClass: 'green' },
-        { rank: 8, tensileStrength: '740 MPa', yieldStrength: '430 MPa', hardness: '152 Hv', elongation: '14%', efficiency: '82%', changeClass: 'green' },
-        { rank: 9, tensileStrength: '710 MPa', yieldStrength: '410 MPa', hardness: '148 Hv', elongation: '13%', efficiency: '89%', changeClass: 'red' },
-        { rank: 10, tensileStrength: '670 MPa', yieldStrength: '390 MPa', hardness: '142 Hv', elongation: '12%', efficiency: '85%', changeClass: 'red' },
-        { rank: 11, tensileStrength: '700 MPa', yieldStrength: '400 MPa', hardness: '150 Hv', elongation: '12%', efficiency: '85%', changeClass: 'red' },
-        { rank: 12, tensileStrength: '750 MPa', yieldStrength: '450 MPa', hardness: '155 Hv', elongation: '14%', efficiency: '90%', changeClass: 'red' },
-        { rank: 13, tensileStrength: '800 MPa', yieldStrength: '500 MPa', hardness: '160 Hv', elongation: '10%', efficiency: '88%', changeClass: 'red' },
-        { rank: 14, tensileStrength: '650 MPa', yieldStrength: '380 MPa', hardness: '140 Hv', elongation: '15%', efficiency: '92%', changeClass: 'red' },
-        { rank: 15, tensileStrength: '600 MPa', yieldStrength: '350 MPa', hardness: '130 Hv', elongation: '11%', efficiency: '87%', changeClass: 'red' },
-        { rank: 16, tensileStrength: '720 MPa', yieldStrength: '420 MPa', hardness: '145 Hv', elongation: '13%', efficiency: '80%', changeClass: 'green' },
-        { rank: 17, tensileStrength: '680 MPa', yieldStrength: '400 MPa', hardness: '150 Hv', elongation: '12%', efficiency: '75%', changeClass: 'green' },
-        { rank: 18, tensileStrength: '740 MPa', yieldStrength: '430 MPa', hardness: '152 Hv', elongation: '14%', efficiency: '82%', changeClass: 'green' },
-        { rank: 19, tensileStrength: '710 MPa', yieldStrength: '410 MPa', hardness: '148 Hv', elongation: '13%', efficiency: '89%', changeClass: 'red' },
-        { rank: 20, tensileStrength: '670 MPa', yieldStrength: '390 MPa', hardness: '142 Hv', elongation: '12%', efficiency: '85%', changeClass: 'red' },
-    ];
-
-    const [currentPage, setCurrentPage] = useState(1);
+    const [data, setData] = useState([]);
     const itemsPerPage = 10;
+    const [currentPage, setCurrentPage] = useState(1);
 
     const handleClick = (event) => {
         event.preventDefault();
@@ -67,6 +46,7 @@ const Table = () => {
 
     return (
         <div className="table-wrap">
+            <Tablesub setData={setData} />
             <div className="table-area">
                 <table className="table-group">
                     <thead>

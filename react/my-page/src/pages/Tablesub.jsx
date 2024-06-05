@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import Table from './Table';
+import $ from 'jquery';
+import 'jquery-ui/ui/widgets/sortable';
 
-const Tablesub = () => {
-    const [data, setData] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 10;
-
+const Tablesub = ({ setData }) => {
+    // 데이터 가져오기 함수
     const fetchData = async () => {
         try {
             const response = await fetch('http://localhost:8080/NomAlearn/getListResult'); // 백엔드 API 주소
@@ -16,61 +14,12 @@ const Tablesub = () => {
         }
     };
 
+    // 컴포넌트가 마운트될 때 데이터 가져오기
     useEffect(() => {
         fetchData();
     }, []);
 
-    const handleClick = (event) => {
-        event.preventDefault();
-        setCurrentPage(Number(event.target.id));
-    };
-
-    const handlePrevClick = (event) => {
-        event.preventDefault();
-        if (currentPage > 1) {
-            setCurrentPage(currentPage - 1);
-        }
-    };
-
-    const handleNextClick = (event) => {
-        event.preventDefault();
-        if (currentPage < Math.ceil(data.length / itemsPerPage)) {
-            setCurrentPage(currentPage + 1);
-        }
-    };
-
-    const renderPageNumbers = () => {
-        const pageNumbers = [];
-        for (let i = 1; i <= Math.ceil(data.length / itemsPerPage); i++) {
-            pageNumbers.push(i);
-        }
-        return pageNumbers.map(number => (
-            <li key={number} className={number === currentPage ? 'active' : ''}>
-                <a href="#" id={number} onClick={handleClick}>{number}</a>
-            </li>
-        ));
-    };
-
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
-
-    return (
-        <div className="container">
-            <Table data={currentItems} currentPage={currentPage} />
-            <div className="pagination">
-                <ul>
-                    <li className={currentPage === 1 ? 'disabled' : ''}>
-                        <a href="#" onClick={handlePrevClick}>&laquo; Prev</a>
-                    </li>
-                    {renderPageNumbers()}
-                    <li className={currentPage === Math.ceil(data.length / itemsPerPage) ? 'disabled' : ''}>
-                        <a href="#" onClick={handleNextClick}>Next &raquo;</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    );
+    return null; // 이 컴포넌트는 데이터를 가져오는 역할만 하므로 렌더링하지 않습니다.
 };
 
 export default Tablesub;
