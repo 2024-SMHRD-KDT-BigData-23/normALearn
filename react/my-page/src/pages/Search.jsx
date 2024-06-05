@@ -5,6 +5,7 @@ import SearchInfo from './SearchInfo';
 import Chart from './Chart';
 import Table from './Table';
 
+
 function Search() {
   return (
     <div className="Search">
