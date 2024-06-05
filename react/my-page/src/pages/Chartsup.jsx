@@ -8,11 +8,7 @@ import {
 } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 
-<<<<<<< HEAD
-// Register the required elements for Chart.js
-=======
 // Chart.js에서 필요한 요소들을 등록합니다. (3)
->>>>>>> 309c47de347d90b78243fd229c2e28da6d683ff4
 ChartJS.register(
   ArcElement,
   Tooltip,
@@ -20,11 +16,7 @@ ChartJS.register(
   Title
 );
 
-<<<<<<< HEAD
-// 플러그인 정의
-=======
 // 도넛 차트 가운데 텍스트를 표시하는 플러그인 정의 (4)
->>>>>>> 309c47de347d90b78243fd229c2e28da6d683ff4
 const centerTextPlugin = {
   id: 'centerTextPlugin',
   beforeDraw: function(chart) {
@@ -34,50 +26,25 @@ const centerTextPlugin = {
     const centerX = chart.chartArea.left + (chart.chartArea.right - chart.chartArea.left) / 2;
     const centerY = chart.chartArea.top + (chart.chartArea.bottom - chart.chartArea.top) / 2;
 
-<<<<<<< HEAD
-    // 도넛 차트의 가운데 구멍 크기 계산
-    const innerRadius = Math.min(width, height) / 4; // 대략적인 innerRadius 계산
-
-    // 가운데 원 색칠
-    ctx.save();
-    ctx.fillStyle = 'white'; // 원하는 색상으로 변경
-    ctx.beginPath();
-    ctx.arc(centerX, centerY, innerRadius, 0, 2 * Math.PI);
-    ctx.fill();
-    ctx.restore();
-
-=======
->>>>>>> 309c47de347d90b78243fd229c2e28da6d683ff4
     // 가운데 텍스트
     ctx.save();
     ctx.font = '20px Arial';
     ctx.textBaseline = 'middle';
     ctx.textAlign = 'center';
     ctx.fillStyle = 'black';
-<<<<<<< HEAD
-    const text = '중앙 텍스트';
-=======
     const text = chart.config.data.datasets[0].alValue || 'N/A'; // 중앙에 표시할 텍스트
->>>>>>> 309c47de347d90b78243fd229c2e28da6d683ff4
     ctx.fillText(text, centerX, centerY);
     ctx.restore();
   }
 };
 
 const DoughnutChart = () => {
-<<<<<<< HEAD
-=======
   // chartData와 currentIndex, alValue라는 상태를 정의하고 초기값을 설정합니다. (5)
->>>>>>> 309c47de347d90b78243fd229c2e28da6d683ff4
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: [
       {
-<<<<<<< HEAD
-        label: '하이',
-=======
         label: '# of Votes', // 차트에 표시될 데이터의 라벨 (변경 가능)
->>>>>>> 309c47de347d90b78243fd229c2e28da6d683ff4
         data: [],
         backgroundColor: [], // 데이터 항목의 배경색 (변경 가능)
         borderColor: [], // 데이터 항목의 테두리 색 (변경 가능)
@@ -97,14 +64,9 @@ const DoughnutChart = () => {
       const result = await response.json();
       console.log('Fetched Data:', result); // 불러온 데이터를 콘솔에 출력
 
-<<<<<<< HEAD
-      const labels = result.map(item => item.outputIdx);
-      const data = result.map(item => item.al);
-=======
       // 특정 인덱스의 객체의 특정 속성만을 사용합니다. (7)
       const firstItem = result[pienum];
       const keys = ['si', 'cu', 'sc', 'fe', 'mn', 'mg', 'zr', 'sm', 'zn', 'ti', 'sr', 'ni', 'ce']; // 시각화할 특정 속성 (변경 가능)
->>>>>>> 309c47de347d90b78243fd229c2e28da6d683ff4
 
       // 'al' 값을 상태에 저장합니다. (8)
       const alValue = firstItem['al']; // 'al' 값 추출
@@ -126,11 +88,7 @@ const DoughnutChart = () => {
         labels,
         datasets: [
           {
-<<<<<<< HEAD
-            label: '하이',
-=======
             label: labels,
->>>>>>> 309c47de347d90b78243fd229c2e28da6d683ff4
             data: data,
             backgroundColor: [
               'rgba(255, 99, 132, 0.2)', // 각 데이터 항목의 배경색 (변경 가능)
@@ -171,45 +129,11 @@ const DoughnutChart = () => {
     }
   };
 
-<<<<<<< HEAD
-=======
   // 컴포넌트가 마운트될 때 fetchChartData 함수가 실행되도록 useEffect 훅을 사용합니다. (11)
->>>>>>> 309c47de347d90b78243fd229c2e28da6d683ff4
   useEffect(() => {
     fetchChartData(currentIndex);
   }, [currentIndex]);
 
-<<<<<<< HEAD
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top',
-      },
-      title: {
-        display: true,
-        text: 'Doughnut Chart with Center Text',
-      },
-      tooltip: {
-        callbacks: {
-          label: function(context) {
-            let label = context.label || '';
-            if (label) {
-              label += ': ';
-            }
-            if (context.raw !== null) {
-              label += context.raw;
-            }
-            return label;
-          }
-        }
-      }
-    },
-    cutout: '70%', // 도넛 차트의 가운데 구멍 크기
-  };
-
-  return <Doughnut data={chartData} options={options} plugins={[centerTextPlugin]} />;
-=======
   // 버튼 클릭 시 호출될 함수 (12)
   const handleNext = () => {
     setCurrentIndex((prevIndex) => prevIndex + 1);
@@ -222,7 +146,6 @@ const DoughnutChart = () => {
       <button onClick={handleNext}>Next</button>
     </div>
   );
->>>>>>> 309c47de347d90b78243fd229c2e28da6d683ff4
 };
 
 export default DoughnutChart;
