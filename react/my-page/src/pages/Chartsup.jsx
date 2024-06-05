@@ -10,7 +10,7 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 
-// Register the required elements for Chart.js
+// 1. Chart.js에서 필요한 요소들을 등록합니다.
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -21,6 +21,7 @@ ChartJS.register(
 );
 
 const BarChart = () => {
+  // 2. chartData라는 상태를 정의하고 초기값을 설정합니다.
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: [
@@ -34,16 +35,19 @@ const BarChart = () => {
     ],
   });
 
+  // 3. 차트 데이터를 불러오는 비동기 함수
   const fetchChartData = async () => {
     try {
+      // 4. API를 호출하여 데이터를 가져옵니다.
       const response = await fetch('http://localhost:8080/NomAlearn/getListOutput');
       const result = await response.json();
-      console.log('Fetched Data:', result); // Log the fetched data to the console
+      console.log('Fetched Data:', result); // 불러온 데이터를 콘솔에 출력
 
-      // Assuming result is an array of objects with 'label' and 'value' properties
+      // 5. result가 'label'과 'value' 속성을 가진 객체의 배열이라고 가정
       const labels = result.map(item => item.label);
       const data = result.map(item => item.value);
 
+      // 6. 불러온 데이터를 바탕으로 chartData 상태를 업데이트합니다.
       setChartData({
         labels,
         datasets: [
@@ -71,15 +75,17 @@ const BarChart = () => {
         ],
       });
     } catch (error) {
+      // 7. 데이터를 불러오는 도중 에러가 발생하면 콘솔에 에러를 출력합니다.
       console.log('Error fetching data:', error);
     }
   };
 
-  // Fetch data when the component mounts
+  // 8. 컴포넌트가 마운트될 때 fetchChartData 함수가 실행되도록 useEffect 훅을 사용합니다.
   useEffect(() => {
     fetchChartData();
   }, []);
 
+  // 9. 차트의 옵션을 정의합니다.
   const options = {
     scales: {
       y: {
@@ -88,6 +94,7 @@ const BarChart = () => {
     },
   };
 
+  // 10. Bar 컴포넌트를 사용하여 데이터를 시각화합니다.
   return <Bar data={chartData} options={options} />;
 };
 
