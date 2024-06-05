@@ -1,60 +1,102 @@
 import React, { useEffect, useState } from 'react';
 import {
   Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
+  ArcElement,
   Tooltip,
   Legend,
-} from 'chart.js';
-import { Bar } from 'react-chartjs-2';
-
-// 1. Chart.js에서 필요한 요소들을 등록합니다.
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
   Title,
+} from 'chart.js';
+import { Doughnut } from 'react-chartjs-2';
+
+// Chart.js에서 필요한 요소들을 등록합니다.
+ChartJS.register(
+  ArcElement,
   Tooltip,
-  Legend
+  Legend,
+  Title
 );
 
-const BarChart = () => {
-  // 2. chartData라는 상태를 정의하고 초기값을 설정합니다.
+// 도넛 차트 가운데 텍스트를 표시하는 플러그인 정의
+const centerTextPlugin = {
+  id: 'centerTextPlugin',
+  beforeDraw: function(chart) {
+    const ctx = chart.ctx;
+    const width = chart.width;
+    const height = chart.height;
+    const centerX = chart.chartArea.left + (chart.chartArea.right - chart.chartArea.left) / 2;
+    const centerY = chart.chartArea.top + (chart.chartArea.bottom - chart.chartArea.top) / 2;
+
+    // 가운데 텍스트
+    ctx.save();
+    ctx.font = '20px Arial';
+    ctx.textBaseline = 'middle';
+    ctx.textAlign = 'center';
+    ctx.fillStyle = 'black';
+    const text = chart.config.data.datasets[0].alValue || 'N/A'; // 중앙에 표시할 텍스트
+    ctx.fillText(text, centerX, centerY);
+    ctx.restore();
+  }
+};
+
+const DoughnutChart = () => {
+  // chartData와 currentIndex, alValue라는 상태를 정의하고 초기값을 설정합니다.
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: [
       {
-        label: '# of Votes',
+        label: '# of Votes', // 차트에 표시될 데이터의 라벨 (변경 가능)
         data: [],
-        backgroundColor: [],
-        borderColor: [],
-        borderWidth: 1,
+        backgroundColor: [], // 데이터 항목의 배경색 (변경 가능)
+        borderColor: [], // 데이터 항목의 테두리 색 (변경 가능)
+        borderWidth: 1, // 테두리 두께 (변경 가능)
+        alValue: '', // 중앙 텍스트로 표시할 'al' 값
       },
     ],
   });
 
-  // 3. 차트 데이터를 불러오는 비동기 함수
-  const fetchChartData = async () => {
+  const [currentIndex, setCurrentIndex] = useState(0); // 현재 인덱스를 관리하는 상태
+
+  // 차트 데이터를 불러오는 비동기 함수
+  const fetchChartData = async (pienum) => {
     try {
-      // 4. API를 호출하여 데이터를 가져옵니다.
+      // API를 호출하여 데이터를 가져옵니다.
       const response = await fetch('http://localhost:8080/NomAlearn/getListOutput');
       const result = await response.json();
       console.log('Fetched Data:', result); // 불러온 데이터를 콘솔에 출력
 
-      // 5. result가 'label'과 'value' 속성을 가진 객체의 배열이라고 가정
-      const labels = result.map(item => item.label);
-      const data = result.map(item => item.value);
+      // 특정 인덱스의 객체의 특정 속성만을 사용합니다.
+      const firstItem = result[pienum];
+      const keys = ['si', 'cu', 'sc', 'fe', 'mn', 'mg', 'zr', 'sm', 'zn', 'ti', 'sr', 'ni', 'ce']; // 시각화할 특정 속성 (변경 가능)
 
-      // 6. 불러온 데이터를 바탕으로 chartData 상태를 업데이트합니다.
+      // 'al' 값을 상태에 저장합니다.
+      const alValue = firstItem['al']; // 'al' 값 추출
+      console.log('alValue:', alValue); // 'al' 값 확인
+
+      for (let i = 0; i < keys.length; i++) {
+        const key = keys[i];
+        if (firstItem[key] !== null && firstItem[key] !== 0) {
+          labels.push(key);
+          data.push(firstItem[key]);
+        }
+      }
+      // 값이 0이 아닌 경우에만 labels와 data 배열에 추가합니다.
+      const labels = [];
+      const data = [];
+
+      // 불러온 데이터를 바탕으로 chartData 상태를 업데이트합니다.
       setChartData({
         labels,
         datasets: [
           {
-            label: '# of Votes',
-            data,
+            label: labels,
+            data: data,
             backgroundColor: [
+              'rgba(255, 99, 132, 0.2)', // 각 데이터 항목의 배경색 (변경 가능)
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+              'rgba(255, 159, 64, 0.2)',
               'rgba(255, 99, 132, 0.2)',
               'rgba(54, 162, 235, 0.2)',
               'rgba(255, 206, 86, 0.2)',
@@ -63,6 +105,12 @@ const BarChart = () => {
               'rgba(255, 159, 64, 0.2)',
             ],
             borderColor: [
+              'rgba(255, 99, 132, 1)', // 각 데이터 항목의 테두리 색 (변경 가능)
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(153, 102, 255, 1)',
+              'rgba(255, 159, 64, 1)',
               'rgba(255, 99, 132, 1)',
               'rgba(54, 162, 235, 1)',
               'rgba(255, 206, 86, 1)',
@@ -70,32 +118,34 @@ const BarChart = () => {
               'rgba(153, 102, 255, 1)',
               'rgba(255, 159, 64, 1)',
             ],
-            borderWidth: 1,
+            borderWidth: 1, // 테두리 두께 (변경 가능)
+            alValue, // 'al' 값을 dataset에 추가
           },
         ],
       });
     } catch (error) {
-      // 7. 데이터를 불러오는 도중 에러가 발생하면 콘솔에 에러를 출력합니다.
+      // 데이터를 불러오는 도중 에러가 발생하면 콘솔에 에러를 출력합니다.
       console.log('Error fetching data:', error);
     }
   };
 
-  // 8. 컴포넌트가 마운트될 때 fetchChartData 함수가 실행되도록 useEffect 훅을 사용합니다.
+  // 컴포넌트가 마운트될 때 fetchChartData 함수가 실행되도록 useEffect 훅을 사용합니다.
   useEffect(() => {
-    fetchChartData();
-  }, []);
+    fetchChartData(currentIndex);
+  }, [currentIndex]);
 
-  // 9. 차트의 옵션을 정의합니다.
-  const options = {
-    scales: {
-      y: {
-        beginAtZero: true,
-      },
-    },
+  // 버튼 클릭 시 호출될 함수
+  const handleNext = () => {
+    setCurrentIndex((prevIndex) => prevIndex + 1);
   };
 
-  // 10. Bar 컴포넌트를 사용하여 데이터를 시각화합니다.
-  return <Bar data={chartData} options={options} />;
+  // Doughnut 컴포넌트를 사용하여 데이터를 시각화하고 버튼을 추가합니다.
+  return (
+    <div>
+      <Doughnut data={chartData} plugins={[centerTextPlugin]} /> {/* 중앙 텍스트를 표시하는 플러그인 추가 */}
+      <button onClick={handleNext}>Next</button>
+    </div>
+  );
 };
 
-export default BarChart;
+export default DoughnutChart;
