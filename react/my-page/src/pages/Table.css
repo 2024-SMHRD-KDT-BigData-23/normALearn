@@ -1,25 +1,36 @@
-.container {
-    margin-top: 550px !important;
-    max-width: 1100px;
-}
-
-.table-container {
-    margin: 0;
-    width: 100%;
+html {
     padding: 0;
-    border: none;
-    
+    margin: 0;
 }
 
-.table {
+body {
+    margin: 0;
+}
+
+.table-wrap {
+    position: absolute;
+    margin-top: 550px;
+    width: 100%;
+
+}
+
+.table-area {
+    width: 80%;
+
+    margin: 0 auto; /* Center the element horizontally */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center content vertically */
+}
+
+.table-group {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
     table-layout: fixed;
-    
 }
 
-.table th, .table td {
+.table-group th, .table-group td {
     padding: 8px;
     text-align: center;
     vertical-align: middle; /* 행과 열을 중간 정렬 */
@@ -33,18 +44,16 @@
 .spaced-title th {
     color: #6b7684;
     background-color: #fff !important;
-    padding: 10px 0 10px 0; /* th 아래 간격 추가 */
+    padding: 10px 0; /* th 아래 간격 추가 */
     border-bottom: 1px solid #e2e5e9;
     font-weight: 400;
     font-size: 14px;
 }
 
-.table tbody tr td{
+.table-group tbody tr td {
     color: #6b7684;
     font-size: 14px;
 }
-
-
 
 .red {
     color: red;

@@ -66,9 +66,9 @@ const Table = () => {
     const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
 
     return (
-        <div className="container">
-            <div className="table-container">
-                <table className="table">
+        <div className="table-wrap">
+            <div className="table-area">
+                <table className="table-group">
                     <thead>
                         <tr className="spaced-title">
                             <th className="rank-column">목차</th>

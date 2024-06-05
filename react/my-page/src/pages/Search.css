@@ -9,12 +9,10 @@ html {
   position: absolute;
   margin-top: 80px;
   width: calc(100% - 300px); /* Adjust width to account for margin-left */
-
 }
 
 .checkbox-table {
   width: 80%;
-
   margin: 0 auto; /* Center the element horizontally */
   display: flex;
   flex-direction: column;

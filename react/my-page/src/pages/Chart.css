@@ -11,12 +11,12 @@ body {
     position: absolute;
     margin-top: 150px;
     width: 100%;
-    background-color: green;
+
 }
 
 .chart-row{
     width: 80%;
-    background-color: yellow;
+
     margin: 0 auto; /* Center the element horizontally */
     display: flex;
     display: flex;
