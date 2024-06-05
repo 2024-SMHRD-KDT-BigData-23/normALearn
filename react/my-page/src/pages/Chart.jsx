@@ -1,6 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Chart.css';
+import PieChart from './Chartsup';
 
 const Chart = () => {
     return (
@@ -8,10 +9,10 @@ const Chart = () => {
             <div className="chart-row">
                 <div className='chart-area'>
                     <div className='chart-result'>
-                        차트박스1
+                        <PieChart />
                     </div>
                     <div className='chart-result'>
-                            차트박스2
+                        차트박스2
                     </div>
                 </div>
             </div>
