@@ -93,6 +93,8 @@ public class BackController {
 	@PostMapping("/sendSearchData") // 조성을 입력해 검색하는 기능
 	public ResponseEntity<List<Al_outputVO>> sendSearchData(@RequestBody Al_inputVO inputData){
 		// 검색자료를 토대로 output 자료 출력
+		  // 입력받은 데이터를 콘솔에 출력
+		System.out.println("검색" + inputData);
 		List<Al_outputVO> SearchResult =input.insertInputAndUseIdxSearchOutput(inputData);
 		// 일단 DB에서 가져와서 바로 출력하는 기능임 -> 머신러닝 구현해서 코드 추가할것
 		return ResponseEntity.ok(SearchResult);
