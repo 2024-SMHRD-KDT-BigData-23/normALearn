@@ -8,6 +8,9 @@ const SearchSub = ({ onResults }) => {
   const [hardness, setHardness] = useState(''); // 경도 상태
   const [elongation, setElongation] = useState(''); // 연신율 상태
 
+  // 검색 결과를 저장할 상태 변수
+  const [start, setStart] = useState([]); // 검색 결과 상태
+
   // 검색 버튼 클릭 시 호출되는 함수
   const handleSearch = async () => {
     // 전송할 데이터 객체 생성
@@ -32,11 +35,14 @@ const SearchSub = ({ onResults }) => {
       });
 
       // 서버로부터 받은 결과를 JSON 형식으로 변환
-      const results = await response.json();
+      const results = await response.json(); 
       // 서버 응답을 콘솔에 출력
-      console.log('서버 응답:', JSON.stringify(results, null, 2));
-      // 부모 컴포넌트로 결과 전달
-      onResults(results); 
+      console.log('spring에서 보낸:SearchResult데이터', JSON.stringify(results, null, 2));
+      
+      // 검색 결과를 상태 변수에 저장
+      setStart(results); 
+
+
     } catch (error) {
       // 오류 발생 시 콘솔에 에러 출력
       console.error('Error fetching search results:', error);

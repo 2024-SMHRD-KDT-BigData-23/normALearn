@@ -1,21 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Table.css';
-import '../fonts.css'; // Import the new CSS file with the font-face rule
+import '../fonts.css';
 import Tablesub from './Tablesub';
 
-const Table = ({ setSelectedItem }) => {
+const Table = ({ setSelectedItem, start }) => {
     const [data, setData] = useState([]);
     const itemsPerPage = 10;
     const [currentPage, setCurrentPage] = useState(1);
+    const [list, setList] = useState([]);
 
-    // 페이지 클릭 핸들러
+    // start가 변경될 때마다 데이터를 업데이트하고 콘솔에 출력
+    useEffect(() => { 
+        setList(start); // start 데이터를 data로 설정
+        console.log('search 전달한 start:', start); // 콘솔에 출력
+    }, [start]);
+
     const handleClick = (event) => {
         event.preventDefault();
         setCurrentPage(Number(event.target.id));
     };
 
-    // 이전 페이지 클릭 핸들러
     const handlePrevClick = (event) => {
         event.preventDefault();
         if (currentPage > 1) {
@@ -23,13 +28,11 @@ const Table = ({ setSelectedItem }) => {
         }
     };
 
-    // 상세보기 클릭 핸들러
     const handleViewDetails = (item) => {
         setSelectedItem(item); // 선택된 항목의 데이터를 부모 컴포넌트로 전달
         console.log('상세보기 클릭 시:', item); // 콘솔에 데이터 출력
     };
 
-    // 다음 페이지 클릭 핸들러
     const handleNextClick = (event) => {
         event.preventDefault();
         if (currentPage < Math.ceil(data.length / itemsPerPage)) {
@@ -37,7 +40,6 @@ const Table = ({ setSelectedItem }) => {
         }
     };
 
-    // 페이지 번호 렌더링 함수
     const renderPageNumbers = () => {
         const pageNumbers = [];
         for (let i = 1; i <= Math.ceil(data.length / itemsPerPage); i++) {
