@@ -97,6 +97,7 @@ public class BackController {
 		System.out.println("검색 데이터" + inputData);
 		List<Al_outputVO> SearchResult =input.insertInputAndUseIdxSearchOutput(inputData);
 		// 일단 DB에서 가져와서 바로 출력하는 기능임 -> 머신러닝 구현해서 코드 추가할것
+		System.out.println(SearchResult.get(0).getInputIdx());
 		return ResponseEntity.ok(SearchResult);
 	}
 
