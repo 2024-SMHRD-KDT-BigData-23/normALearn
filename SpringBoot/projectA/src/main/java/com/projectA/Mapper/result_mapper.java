@@ -17,6 +17,8 @@ public interface result_mapper {
 	// 마이페이지에 표시되는 result 값 on/off 
 	public void mypageCheck(Al_resultVO resultInfo);
 	
+	public List<Al_resultVO> getMypageList();
+	
 	
 	
 }

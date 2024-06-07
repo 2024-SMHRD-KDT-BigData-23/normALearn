@@ -49,6 +49,13 @@
 		WHERE resultIdx=#{resultIdx}
 	</update>
 	
+	<!-- Mypage 체크 된것만 불러오기  -->
+	<select id="getMypageList" parameterType="com.projectA.VO.Al_resultVO" resultType="com.projectA.VO.Al_resultVO">
+		SELECT * 
+		FROM al_result
+		WHERE myPage = #{work}
+	</select>
+	
 	
 
 </mapper>
