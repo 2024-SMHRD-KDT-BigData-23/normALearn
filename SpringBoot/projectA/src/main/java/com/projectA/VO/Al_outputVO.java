@@ -33,7 +33,7 @@ public class Al_outputVO {
     private int agingTemperature;
     private int agingTime;
     private char learning;
-    private int tensileTtrengthResult;
+    private int tensileStrengthResult;
     private int yieldStrengthResult;
     private int hardnessResult;
     private int elongationResult;

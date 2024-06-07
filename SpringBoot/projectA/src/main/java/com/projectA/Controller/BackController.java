@@ -74,7 +74,7 @@ public class BackController {
 	public ResponseEntity <List<Al_outputVO>> getListOutput(){
 		List<Al_outputVO> list = output.getListOutput();
 		for (int i = 0; i < list.size(); i++) {
-			System.out.println(list.get(i).getTensileTtrengthResult());
+			System.out.println(list.get(i).getTensileStrengthResult());
 		}
 		
 		
@@ -130,10 +130,10 @@ public class BackController {
 	        session.setAttribute("user", user);
 
 	        // 쿠키 설정
-	        Cookie cookie = new Cookie("WoogunSession", session.getId());
+	        Cookie cookie = new Cookie("AlSession", session.getId());
 	        cookie.setHttpOnly(true);
 	        cookie.setPath("/");
-	        cookie.setMaxAge(-1);
+	        cookie.setMaxAge(43200);
 	        response.addCookie(cookie);
 
 	        // 응답에 최소한의 사용자 정보 포함 + 회사이름
@@ -148,7 +148,24 @@ public class BackController {
 	        return ResponseEntity.ok(responseBody);
 	    }
 	}
+	
+	 @PostMapping("/logout")
+	    public ResponseEntity<Map<String, Object>> logout(HttpSession session, HttpServletResponse response) {
+	        Map<String, Object> responseBody = new HashMap<>();
+	        
+	        // 세션 무효화
+	        session.invalidate();
+	        
+	        // 쿠키 삭제
+	        Cookie cookie = new Cookie("AlSession", null);
+	        cookie.setHttpOnly(true);
+	        cookie.setPath("/");
+	        cookie.setMaxAge(0); // 쿠키 삭제
+	        response.addCookie(cookie);
 
+	        responseBody.put("message", "로그아웃 성공");
+	        return ResponseEntity.ok(responseBody);
+	    }
 
 	@PostMapping("/submit")
 	public String submitData(@RequestBody Al_userVO profile) {
