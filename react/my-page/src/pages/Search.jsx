@@ -9,7 +9,8 @@ import SearchSub from './searchsub'
 
 function Search() {
   const [selectedItem, setSelectedItem] = useState(null); // 테이블에서 상세보기 클릭시 받아온정보
-  const [start, setStart] = useState([]); // searchsup에서 가져온 정보
+  const [start, setStart] = useState([]); // searchsub에서 가져온 정보
+
   // 선택된 아이템이 변경될 때마다 콘솔에 출력
   useEffect(() => {
     console.log('table에서 가져온 코드(search):', selectedItem);
@@ -17,7 +18,7 @@ function Search() {
 
   // start가 변경될 때마다 콘솔에 값을 출력
   useEffect(() => {
-    console.log('searchsup에서 search로 가져온정보:', start);
+    console.log('searchsub에서 search로 가져온정보:', start);
   }, [start]); // start가 변경될 때만 실행
 
   // SearchSub에서 전달받은 결과를 처리하는 함수
@@ -27,14 +28,12 @@ function Search() {
     setStart(results);
   };
 
-
-
   return (
     <div className="Search">
       <div className="checkbox-table">
         <h1>검색 페이지</h1>
         {/* SearchSub 컴포넌트를 추가하고 onResults 콜백을 전달 */}
-        <SearchSub onResults={handleResults} start={start} />
+        <SearchSub onResults={handleResults} setStart={setStart} />
       </div>
       <SearchInfo />
       {/* 검색 결과를 전달하여 차트를 렌더링 */}

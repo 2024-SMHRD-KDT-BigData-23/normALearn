@@ -2,17 +2,15 @@ import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Table.css';
 import '../fonts.css';
-import Tablesub from './Tablesub';
 
 const Table = ({ setSelectedItem, start }) => {
-    const [data, setData] = useState([]);
+    const [list, setList] = useState([]);
     const itemsPerPage = 10;
     const [currentPage, setCurrentPage] = useState(1);
-    const [list, setList] = useState([]);
 
     // start가 변경될 때마다 데이터를 업데이트하고 콘솔에 출력
-    useEffect(() => { 
-        setList(start); // start 데이터를 data로 설정
+    useEffect(() => {
+        setList(start); // start 데이터를 list로 설정
         console.log('search 전달한 start:', start); // 콘솔에 출력
     }, [start]);
 
@@ -35,14 +33,14 @@ const Table = ({ setSelectedItem, start }) => {
 
     const handleNextClick = (event) => {
         event.preventDefault();
-        if (currentPage < Math.ceil(data.length / itemsPerPage)) {
+        if (currentPage < Math.ceil(list.length / itemsPerPage)) {
             setCurrentPage(currentPage + 1);
         }
     };
 
     const renderPageNumbers = () => {
         const pageNumbers = [];
-        for (let i = 1; i <= Math.ceil(data.length / itemsPerPage); i++) {
+        for (let i = 1; i <= Math.ceil(list.length / itemsPerPage); i++) {
             pageNumbers.push(i);
         }
         return pageNumbers.map(number => (
@@ -54,11 +52,10 @@ const Table = ({ setSelectedItem, start }) => {
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+    const currentItems = list.slice(indexOfFirstItem, indexOfLastItem);
 
     return (
         <div className="table-wrap">
-            <Tablesub setData={setData} />
             <div className="table-area">
                 <table className="table-group">
                     <thead>
@@ -80,8 +77,8 @@ const Table = ({ setSelectedItem, start }) => {
                                 <td>{item.hardnessResult}</td>
                                 <td>{item.elongationResult}</td>
                                 <td>
-                                    <button 
-                                        className="btn btn-primary" 
+                                    <button
+                                        className="btn btn-primary"
                                         onClick={() => handleViewDetails(item)} // 클릭 핸들러 추가
                                     >
                                         상세보기
@@ -97,7 +94,7 @@ const Table = ({ setSelectedItem, start }) => {
                             <a href="#" onClick={handlePrevClick}>&laquo; Prev</a>
                         </li>
                         {renderPageNumbers()}
-                        <li className={currentPage === Math.ceil(data.length / itemsPerPage) ? 'disabled' : ''}>
+                        <li className={currentPage === Math.ceil(list.length / itemsPerPage) ? 'disabled' : ''}>
                             <a href="#" onClick={handleNextClick}>Next &raquo;</a>
                         </li>
                     </ul>
