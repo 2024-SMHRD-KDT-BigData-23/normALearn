@@ -4,16 +4,18 @@ import './Table.css';
 import '../fonts.css'; // Import the new CSS file with the font-face rule
 import Tablesub from './Tablesub';
 
-const Table = () => {
+const Table = ({ setSelectedItem }) => {
     const [data, setData] = useState([]);
     const itemsPerPage = 10;
     const [currentPage, setCurrentPage] = useState(1);
 
+    // 페이지 클릭 핸들러
     const handleClick = (event) => {
         event.preventDefault();
         setCurrentPage(Number(event.target.id));
     };
 
+    // 이전 페이지 클릭 핸들러
     const handlePrevClick = (event) => {
         event.preventDefault();
         if (currentPage > 1) {
@@ -21,6 +23,13 @@ const Table = () => {
         }
     };
 
+    // 상세보기 클릭 핸들러
+    const handleViewDetails = (item) => {
+        setSelectedItem(item); // 선택된 항목의 데이터를 부모 컴포넌트로 전달
+        console.log('상세보기 클릭 시:', item); // 콘솔에 데이터 출력
+    };
+
+    // 다음 페이지 클릭 핸들러
     const handleNextClick = (event) => {
         event.preventDefault();
         if (currentPage < Math.ceil(data.length / itemsPerPage)) {
@@ -28,6 +37,7 @@ const Table = () => {
         }
     };
 
+    // 페이지 번호 렌더링 함수
     const renderPageNumbers = () => {
         const pageNumbers = [];
         for (let i = 1; i <= Math.ceil(data.length / itemsPerPage); i++) {
@@ -60,14 +70,21 @@ const Table = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {currentItems.map((item) => (
-                            <tr key={item.rank}>
-                                <td className="rank-column-td">{item.rank}</td>
-                                <td>{item.tensileStrength}</td>
-                                <td>{item.yieldStrength}</td>
-                                <td>{item.hardness}</td>
-                                <td>{item.elongation}</td>
-                                <td><button className="btn btn-primary">상세보기</button></td>
+                        {currentItems.map((item, index) => (
+                            <tr key={index}>
+                                <td className="rank-column-td">{index + 1}</td>
+                                <td>{item.tensileTtrengthResult}</td>
+                                <td>{item.yieldStrengthResult}</td>
+                                <td>{item.hardnessResult}</td>
+                                <td>{item.elongationResult}</td>
+                                <td>
+                                    <button 
+                                        className="btn btn-primary" 
+                                        onClick={() => handleViewDetails(item)} // 클릭 핸들러 추가
+                                    >
+                                        상세보기
+                                    </button>
+                                </td>
                             </tr>
                         ))}
                     </tbody>

@@ -6,9 +6,10 @@ const Tablesub = ({ setData }) => {
     // 데이터 가져오기 함수
     const fetchData = async () => {
         try {
-            const response = await fetch('http://localhost:8080/NomAlearn/getListResult'); // 백엔드 API 주소
+            const response = await fetch('http://localhost:8080/NomAlearn/getListOutput'); // 백엔드 API 주소
             const result = await response.json();
             setData(result);
+            console.log('시각화 리스트데이터:', result); // 콘솔에 데이터 출력
         } catch (error) {
             console.error('Error fetching data:', error);
         }
