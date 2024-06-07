@@ -73,7 +73,7 @@ const Table = ({ setSelectedItem }) => {
                         {currentItems.map((item, index) => (
                             <tr key={index}>
                                 <td className="rank-column-td">{index + 1}</td>
-                                <td>{item.tensileTtrengthResult}</td>
+                                <td>{item.tensileStrengthResult}</td>
                                 <td>{item.yieldStrengthResult}</td>
                                 <td>{item.hardnessResult}</td>
                                 <td>{item.elongationResult}</td>

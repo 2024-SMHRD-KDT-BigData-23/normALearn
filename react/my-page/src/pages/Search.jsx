@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import './Search.css'; // Importing the CSS file
-import '../fonts.css'; // Import the new CSS file with the font-face rule
+import React, { useState, useEffect } from 'react';
+import './Search.css';
+import '../fonts.css';
 import SearchInfo from './SearchInfo';
 import Chart from './Chart';
 import Table from './Table';
-import DoughnutChart from './Chartsup';
 
 function Search() {
-  // 선택된 항목의 데이터를 상태로 관리
   const [selectedItem, setSelectedItem] = useState(null);
 
   // 선택된 아이템이 변경될 때마다 콘솔에 출력
-  console.log('table에서 가져온 코드(search:', selectedItem);
+  useEffect(() => {
+    console.log('table에서 가져온 코드(search:', selectedItem);
+  }, [selectedItem]); // selectedItem이 변경될 때만 실행
 
   return (
     <div className="Search">
@@ -26,9 +26,8 @@ function Search() {
         </div>
       </div>
       <SearchInfo />
-      <Chart vsData={selectedItem} /> {/* 선택된 데이터를 Chart에 전달 */}
-      <Table setSelectedItem={setSelectedItem} /> {/* setSelectedItem 함수 전달 */}
-      
+      <Chart vsData={selectedItem} />
+      <Table setSelectedItem={setSelectedItem} />
     </div>
   );
 }
