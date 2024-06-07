@@ -1,0 +1,19 @@
+.darkerli {
+    width: 100%;
+    box-sizing: border-box !important;
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+  }
+
+.darkerli:nth-child(1){
+    margin-top: 10px;
+}
+
+.search-change .nav-text{
+    margin-right: 0px;
+}
+
+  .search-change .checkbox{
+    margin-right: 20px;
+  }

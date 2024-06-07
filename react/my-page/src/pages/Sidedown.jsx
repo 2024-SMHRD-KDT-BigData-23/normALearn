@@ -1,29 +1,32 @@
 import { useState, useEffect } from 'react';
 import $ from 'jquery';
 import 'jquery-ui/ui/widgets/sortable';
+import './Sidedown.css';
 
 // 리스트 아이템 컴포넌트
 const ListItem = ({ item, handleCheckboxChange }) => (
-    <li className="darkerli" data-nickname={item.nickname}>
-        <a href="#" className="list-item">
-            <i className="fa fa-rocket fa-lg"></i>
-            <span className="nav-text">
-                {
-                    ['tensileStrength', 'yieldStrength', 'hardness', 'elongation']
-                        .map(key => item[key])
-                        .join(' - ')
-                }
-            </span>
-            <input
-                type="checkbox"
-                name="item"
-                value={item.nickname}
-                checked={item.favorite === 'Y'}
-                onChange={() => handleCheckboxChange(item)}
-                className="checkbox"
-            />
-        </a>
-    </li>
+    <ul className="darkerli" data-nickname={item.nickname}>
+        <li className="search-change">
+            <a href="#" className="list-item">
+                <i className="fa fa-circle-o"></i>
+                <span className="nav-text">
+                    {
+                        ['tensileStrength', 'yieldStrength', 'hardness', 'elongation']
+                            .map(key => item[key])
+                            .join(' - ')
+                    }
+                </span>
+                <input
+                    type="checkbox"
+                    name="item"
+                    value={item.nickname}
+                    checked={item.favorite === 'Y'}
+                    onChange={() => handleCheckboxChange(item)}
+                    className="checkbox"
+                />
+            </a>
+        </li>
+    </ul>
 );
 
 // 리스트 렌더링 컴포넌트
@@ -114,7 +117,7 @@ const Sidedown = () => {
             console.log(`체크인 항목: ${JSON.stringify(updatedItem)}, 상태: 체크됨`); // 상세 내용 출력
         }
         setFixedList(checkList);
-        
+
         // 업데이트된 항목을 데이터 리스트에 반영
         setData(data.map(d => (d.nickname === item.nickname ? updatedItem : d)));
 
