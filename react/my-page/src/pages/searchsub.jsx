@@ -10,32 +10,33 @@ const SearchSub = ({ onResults }) => {
 
   // 검색 버튼 클릭 시 호출되는 함수
   const handleSearch = async () => {
-    // 콘솔에 사용자가 입력한 내용을 출력
-    console.log('검색 조건:', {
-      tensileStrength,
-      yieldStrength,
-      hardness,
-      elongation,
-    });
+    // 전송할 데이터 객체 생성
+    const searchData = {
+      tensileStrength, // 인장 강도 데이터
+      yieldStrength, // 항복 강도 데이터
+      hardness, // 경도 데이터
+      elongation, // 연신율 데이터
+    };
+
+    // 콘솔에 사용자가 입력한 내용을 JSON 형식으로 출력
+    console.log('전송할 데이터:', JSON.stringify(searchData, null, 2));
 
     try {
       // 서버에 검색 조건을 POST 요청으로 전송
-      const response = await fetch('http://localhost:8080/sendSearchData', {
+      const response = await fetch('http://localhost:8080/NomAlearn/sendSearchData', {
         method: 'POST', // 요청 방법: POST
         headers: {
           'Content-Type': 'application/json', // 요청 헤더: JSON 데이터 전송
         },
-        body: JSON.stringify({
-          tensileStrength, // 인장 강도 데이터
-          yieldStrength, // 항복 강도 데이터
-          hardness, // 경도 데이터
-          elongation, // 연신율 데이터
-        }),
+        body: JSON.stringify(searchData), // JSON 형식으로 데이터 전송
       });
 
       // 서버로부터 받은 결과를 JSON 형식으로 변환
       const results = await response.json();
-      onResults(results); // 부모 컴포넌트로 결과 전달
+      // 서버 응답을 콘솔에 출력
+      console.log('서버 응답:', JSON.stringify(results, null, 2));
+      // 부모 컴포넌트로 결과 전달
+      onResults(results); 
     } catch (error) {
       // 오류 발생 시 콘솔에 에러 출력
       console.error('Error fetching search results:', error);

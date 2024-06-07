@@ -4,6 +4,7 @@ import '../fonts.css';
 import SearchInfo from './SearchInfo';
 import Chart from './Chart';
 import Table from './Table';
+import SearchSub from './searchsub';
 
 function Search() {
   const [selectedItem, setSelectedItem] = useState(null);
@@ -13,17 +14,19 @@ function Search() {
     console.log('table에서 가져온 코드(search:', selectedItem);
   }, [selectedItem]); // selectedItem이 변경될 때만 실행
 
+  // SearchSub에서 전달받은 결과를 처리하는 함수
+  const handleResults = (results) => {
+    console.log('검색 결과:', results);
+    // 필요한 경우 selectedItem 상태 업데이트
+    setSelectedItem(results);
+  };
+
   return (
     <div className="Search">
       <div className="checkbox-table">
         <h1>검색 페이지</h1>
-        <div className="input-text-group">
-          <input className="form-field" type="text" placeholder="인장 강도" />
-          <input className="form-field" type="text" placeholder="항복 강도" />
-          <input className="form-field" type="text" placeholder="경도" />
-          <input className="form-field" type="text" placeholder="연신율" />
-          <button className="input-button">입력</button>
-        </div>
+        {/* SearchSub 컴포넌트를 추가하고 onResults 콜백을 전달 */}
+        <SearchSub onResults={handleResults} />
       </div>
       <SearchInfo />
       <Chart vsData={selectedItem} />
