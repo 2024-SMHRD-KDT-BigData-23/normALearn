@@ -40,9 +40,17 @@ public class BackController {
 
 	@PostMapping("/getListResult") // 처음 리스트 불러오는 메소드 <- 좌측 리스트
 	public ResponseEntity<List<Al_resultVO>> getListResult(@RequestBody Al_resultVO ResultInfo) {
-		// 무슨 작업할지 확인
-		String work = ResultInfo.getWork();
-		System.out.println(work);
+		String work = "noting";
+		try {
+			// 무슨 작업할지 확인
+			if(ResultInfo.getWork() != null) {
+				work = ResultInfo.getWork();
+			}
+			System.out.println(work);
+		} catch (Exception e) {
+			System.out.println("null 값 입니다~");
+		}
+		
 		if(work.equals("myPage")) { // 프론트에서 work 파라미터에 myPage 라고 보내면 마이페이지 리스트만 불러온다.
 			List<Al_resultVO> data = result.getMypageList();
 			return ResponseEntity.ok(data);
