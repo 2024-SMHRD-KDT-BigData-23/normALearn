@@ -27,16 +27,16 @@ public class Al_outputVO {
   
     // 여기까지
     private int firstTemperature;
-    private int firstTime;
+    private BigDecimal firstTime;
     private int secondTemperature;
-    private int secondTime;
+    private BigDecimal secondTime;
     private int agingTemperature;
-    private int agingTime;
+    private BigDecimal agingTime;
     private char learning;
-    private int tensileStrengthResult;
-    private int yieldStrengthResult;
-    private int hardnessResult;
-    private int elongationResult;
+    private BigDecimal tensileStrengthResult;
+    private BigDecimal yieldStrengthResult;
+    private BigDecimal hardnessResult;
+    private BigDecimal elongationResult;
     private LocalDateTime searchDate;
     private Long inputIdx;
     private String userId;
