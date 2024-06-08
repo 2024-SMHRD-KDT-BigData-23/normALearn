@@ -35,7 +35,7 @@ function Search({ onStartChange }) { // onStartChange prop 추가
         {/* SearchSub 컴포넌트를 추가하고 onResults 콜백을 전달 */}
         <SearchSub onResults={handleResults} setStart={setStart} />
       </div>
-      <SearchInfo />
+      <SearchInfo start={start}/>
       {/* 검색 결과를 전달하여 차트를 렌더링 */}
       <Chart vsData={selectedItem} />
       {/* 검색 결과를 테이블에 전달 */}
