@@ -52,6 +52,20 @@ const DoughnutChart = ({ data }) => {
     ],
   });
 
+  // 체크박스 상태 관리
+  const [isChecked, setIsChecked] = useState(false);
+
+  // 체크박스 상태가 변경될 때 호출되는 함수
+  const chartbookmark = () => {
+    const newCheckedState = !isChecked;
+    setIsChecked(newCheckedState);
+    
+    if (newCheckedState) {
+      // 체크박스가 체크되었을 때 data 객체를 콘솔에 출력
+      console.log('북마크된 데이터:', data);
+    }
+  };
+
   // 데이터가 변경될 때마다 콘솔에 출력하고 차트 데이터를 업데이트
   useEffect(() => {
     console.log('DoughnutChart.jsx에서 받은 data:', data);
@@ -117,6 +131,16 @@ const DoughnutChart = ({ data }) => {
   return (
     <div>
       <Doughnut data={chartData} plugins={[centerTextPlugin]} />
+      <div className="checkbox-container">
+        <label>
+          <input
+            type="checkbox"
+            checked={isChecked}
+            onChange={chartbookmark}
+          />
+          북마크
+        </label>
+      </div>
     </div>
   );
 };
