@@ -4,22 +4,22 @@ import '../fonts.css';
 import SearchInfo from './SearchInfo';
 import Chart from './Chart';
 import Table from './Table';
-import SearchSub from './searchsub'
+import SearchSub from './searchsub';
 
-
-function Search() {
+function Search({ onStartChange }) { // onStartChange prop 추가
   const [selectedItem, setSelectedItem] = useState(null); // 테이블에서 상세보기 클릭시 받아온정보
   const [start, setStart] = useState([]); // searchsub에서 가져온 정보
 
   // 선택된 아이템이 변경될 때마다 콘솔에 출력
   useEffect(() => {
-    console.log('table에서보낸 상세보기:', selectedItem);
+    console.log('table에서 가져온 코드(search):', selectedItem);
   }, [selectedItem]); // selectedItem이 변경될 때만 실행
 
-  // start가 변경될 때마다 콘솔에 값을 출력
+  // start가 변경될 때마다 콘솔에 값을 출력하고, 부모 컴포넌트에 알림
   useEffect(() => {
     console.log('searchsub에서 search로 가져온정보:', start);
-  }, [start]); // start가 변경될 때만 실행
+    onStartChange(start); // start가 변경될 때마다 부모에게 알림
+  }, [start, onStartChange]); // start와 onStartChange가 변경될 때만 실행
 
   // SearchSub에서 전달받은 결과를 처리하는 함수
   const handleResults = (results) => {
@@ -39,7 +39,7 @@ function Search() {
       {/* 검색 결과를 전달하여 차트를 렌더링 */}
       <Chart vsData={selectedItem} />
       {/* 검색 결과를 테이블에 전달 */}
-      <Table setSelectedItem={setSelectedItem} start={start}/>
+      <Table setSelectedItem={setSelectedItem} start={start} />
     </div>
   );
 }

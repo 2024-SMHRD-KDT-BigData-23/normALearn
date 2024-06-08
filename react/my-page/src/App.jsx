@@ -10,12 +10,14 @@ import Input2 from "./pages/Input2";
 import Counter from "./pages/Counter";
 
 function App() {
+    // Sidedown 관련 상태와 함수
     const {
         orderedData,
         fixedList,
         handleCheckboxChange
     } = Sidedown();
 
+    // 로그인 관련 상태와 함수
     const {
         userId,
         userPw,
@@ -26,12 +28,22 @@ function App() {
         setIsLoggedIn
     } = useLoginInfo();
 
+    // 유저 정보 관련 상태와 함수
     const {
         companyName,
         handleLogout,
         setUserInfoAfterLogin,
     } = useUserInfoData(setIsLoggedIn);
 
+    // startData 상태 추가
+    const [startData, setStartData] = useState([]); // 검색에서 받아오는 데이터
+
+    // startData가 변경될 때마다 콘솔에 출력
+    useEffect(() => {
+        console.log('App에서 받은 startData:', startData);
+    }, [startData]);
+
+    // 페이지 로드 시 유저 정보 로드
     useEffect(() => {
         const savedUserInfo = JSON.parse(localStorage.getItem('userInfo'));
         if (savedUserInfo) {
@@ -40,20 +52,13 @@ function App() {
         }
     }, [setIsLoggedIn, setUserInfoAfterLogin]);
 
-    const [start, setStart] = useState([]); // searchsub에서 가져온 정보를 상태로 관리
-
-    // start 상태가 변경될 때마다 콘솔에 값을 출력
-    useEffect(() => {
-        console.log('App에서 관리하는 start 데이터:', start);
-    }, [start]); // start가 변경될 때마다 실행
-
     return (
         <div className="App">
             <nav className="main-menu">
                 <div className="side-top">
-                <ul className="user-info">
-                    <li className="user-name">
-                    <p>{companyName}companyName</p><i className="fa fa-angle-right"></i>
+                    <ul className="user-info">
+                        <li className="user-name">
+                            <p>{companyName}</p><i className="fa fa-angle-right"></i>
                         </li>
                         <li className="user-actions">
                             <p>비밀번호 변경</p>
@@ -61,7 +66,6 @@ function App() {
                             <p onClick={handleLogout}>logout</p>
                         </li>
                     </ul>
-
                     <ul className="top-ul">
                         <li>
                             <Link to="/">
@@ -89,11 +93,12 @@ function App() {
             </nav>
             <div className="content-container">
                 <Routes>
-                    <Route path="/" element={<Search setStart={setStart} />} />
+                    <Route path="/" element={<Search onStartChange={setStartData} />} />
                     <Route path="/input2" element={<Input2 />} />
                     <Route path="/counter" element={<Counter />} />
                 </Routes>
             </div>
+            
         </div>
     );
 }
