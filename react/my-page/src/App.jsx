@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -40,6 +40,13 @@ function App() {
         }
     }, [setIsLoggedIn, setUserInfoAfterLogin]);
 
+    const [start, setStart] = useState([]); // searchsub에서 가져온 정보를 상태로 관리
+
+    // start 상태가 변경될 때마다 콘솔에 값을 출력
+    useEffect(() => {
+        console.log('App에서 관리하는 start 데이터:', start);
+    }, [start]); // start가 변경될 때마다 실행
+
     return (
         <div className="App">
             <nav className="main-menu">
@@ -54,7 +61,6 @@ function App() {
                             <p onClick={handleLogout}>logout</p>
                         </li>
                     </ul>
-
 
                     <ul className="top-ul">
                         <li>
@@ -83,7 +89,7 @@ function App() {
             </nav>
             <div className="content-container">
                 <Routes>
-                    <Route path="/" element={<Search />} />
+                    <Route path="/" element={<Search setStart={setStart} />} />
                     <Route path="/input2" element={<Input2 />} />
                     <Route path="/counter" element={<Counter />} />
                 </Routes>

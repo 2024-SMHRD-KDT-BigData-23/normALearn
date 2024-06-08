@@ -24,3 +24,4 @@ const Tablesub = ({ setData }) => {
 };
 
 export default Tablesub;
+// 이제는 사용하지 않는 코드입니다.

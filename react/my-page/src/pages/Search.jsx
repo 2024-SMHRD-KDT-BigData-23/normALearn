@@ -13,7 +13,7 @@ function Search() {
 
   // 선택된 아이템이 변경될 때마다 콘솔에 출력
   useEffect(() => {
-    console.log('table에서 가져온 코드(search):', selectedItem);
+    console.log('table에서보낸 상세보기:', selectedItem);
   }, [selectedItem]); // selectedItem이 변경될 때만 실행
 
   // start가 변경될 때마다 콘솔에 값을 출력
@@ -37,7 +37,7 @@ function Search() {
       </div>
       <SearchInfo />
       {/* 검색 결과를 전달하여 차트를 렌더링 */}
-      <Chart vsData={start} />
+      <Chart vsData={selectedItem} />
       {/* 검색 결과를 테이블에 전달 */}
       <Table setSelectedItem={setSelectedItem} start={start}/>
     </div>

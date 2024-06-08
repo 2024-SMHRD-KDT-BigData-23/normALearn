@@ -50,7 +50,16 @@ const Sidedown = () => {
     // 데이터 가져오기 함수
     const fetchData = async () => {
         try {
-            const response = await fetch('http://localhost:8080/NomAlearn/getListResult'); // 백엔드 API 주소
+            const response = await fetch('http://localhost:8080/NomAlearn/getListResult', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    // 필요한 요청 데이터를 여기에 추가하세요.
+                })
+            });
+    
             const result = await response.json();
             setData(result); // 데이터를 상태 변수에 저장
             const initiallyFixed = result.filter(item => item.favorite === 'Y').map(item => item.nickname);
