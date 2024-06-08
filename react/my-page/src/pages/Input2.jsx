@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Input2.css';
 import '../fonts.css'; // Import the new CSS file with the font-face rule
@@ -6,9 +6,36 @@ import Tablesub from './Tablesub';
 
 const Bookmark = () => {
     const [data, setData] = useState([]);
+    const [fixedList, setFixedList] = useState([]);
     const itemsPerPage = 10;
     const [currentPage, setCurrentPage] = useState(1);
     const [svgColors, setSvgColors] = useState({}); // setSvgColors 정의
+
+    // 데이터 가져오기 함수
+    const fetchData = async () => {
+        try {
+            const response = await fetch('http://localhost:8080/NomAlearn/getListResult', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    // 필요한 요청 데이터를 여기에 추가하세요.
+                })
+            });
+    
+            const result = await response.json();
+            setData(result); // 데이터를 상태 변수에 저장
+            const initiallyFixed = result.filter(item => item.favorite === 'Y').map(item => item.nickname);
+            setFixedList(initiallyFixed); // 초기 고정된 항목 설정
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchData(); // 페이지가 마운트되면 데이터를 가져오기
+    }, []);
 
     const handleClick = (event, rank) => {
         event.preventDefault();
@@ -51,7 +78,7 @@ const Bookmark = () => {
 
     return (
         <div className="bookmark-wrap">
-            <Tablesub setData={setData} />
+            <Tablesub setData={setData} /> {/* Tablesub 컴포넌트로 데이터 전달 */}
             <div className="bookmark-area">
                 <table className="bookmark-group">
                     <thead>
