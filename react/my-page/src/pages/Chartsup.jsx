@@ -128,9 +128,24 @@ const DoughnutChart = ({ data }) => {
     }
   }, [data]);
 
+  // 객체의 정보를 표시하는 JSX
+  const renderObjectInfo = () => {
+    const infoItems = Object.keys(data).map((key, index) => (
+      <div key={index}>
+        {index + 1}. {key}: {data[key]}
+      </div>
+    ));
+    return <div className="data-info">{infoItems}</div>;
+  };
+
   return (
-    <div>
-      <Doughnut data={chartData} plugins={[centerTextPlugin]} />
+    <div className="chart-area">
+      <div className="chart-result">
+        <Doughnut data={chartData} plugins={[centerTextPlugin]} />
+      </div>
+      <div className="chart-result">
+        {renderObjectInfo()}
+      </div>
       <div className="checkbox-container">
         <label>
           <input
