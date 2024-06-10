@@ -46,8 +46,28 @@ body {
     border-radius: 10px;
     font-size: 14px;
     text-align: left; /* 텍스트를 왼쪽 정렬 */
+<<<<<<< HEAD
     flex: 3; /* 차트 박스의 비율을 크게 설정 */
     height: 350px;
+=======
+    flex: 1; /* 아이템의 크기를 동일하게 */
+    height: 380px;
+    display: flex;
+    flex-direction: column; /* 세로로 나열 */
+    align-items: center; /* 중앙 정렬 */
+    justify-content: center; /* 중앙 정렬 */
+}
+.chart-result-left{
+    background-color: #f2f5f8;
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid var(--input-border);
+    border-radius: 10px;
+    font-size: 30px;
+    text-align: left; /* 텍스트를 왼쪽 정렬 */
+    flex: 1; /* 아이템의 크기를 동일하게 */
+    height: 380px;
+>>>>>>> 22e94c0604be5c8e69e6002d921b017e8e872756
     display: flex;
     flex-direction: column; /* 세로로 나열 */
     align-items: center; /* 중앙 정렬 */
@@ -64,11 +84,19 @@ body {
     flex-direction: column;
     align-items: flex-start;
     padding: 10px;
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
+    background-color: #f2f5f8;
     border-radius: 5px;
+<<<<<<< HEAD
     flex: 1; /* 텍스트 박스의 비율을 작게 설정 */
     max-width: 100%;
     overflow-x: hidden; /* 수평 스크롤을 숨깁니다 */
     overflow-y: hidden; /* 수직 스크롤을 숨깁니다 */
 }
+=======
+    max-width: 130%; /* max-width를 설정하여 컨테이너의 크기를 제한합니다. */
+    overflow-x: hidden; /* 수평 스크롤을 숨깁니다. */
+    overflow-y: hidden; /* 수직 스크롤을 숨깁니다. */
+    font-size: 0.9vw; /* 글자 크기를 16px로 설정합니다. 원하는 크기로 변경하세요. */
+    line-height: 1.5; /* 줄 간격을 조절합니다. */
+}
+>>>>>>> 22e94c0604be5c8e69e6002d921b017e8e872756
