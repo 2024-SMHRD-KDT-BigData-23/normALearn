@@ -1,94 +1,155 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+  Title,
+} from 'chart.js';
+import { Doughnut } from 'react-chartjs-2';
 
-// SearchSub 컴포넌트 정의. 'onResults'라는 콜백 함수를 속성으로 받음.
-const SearchSub = ({ onResults }) => {
-  // 상태 변수 선언
-  const [tensileStrengthResult, setTensileStrength] = useState(''); // 인장 강도 상태
-  const [yieldStrengthResult, setYieldStrength] = useState(''); // 항복 강도 상태
-  const [elongationResult, setElongation] = useState(''); // 연신율 상태
-  const [hardnessResult, setHardness] = useState(''); // 경도 상태
+// Chart.js에서 필요한 요소들을 등록합니다.
+ChartJS.register(
+  ArcElement,
+  Tooltip,
+  Legend,
+  Title
+);
 
-  // 검색 버튼 클릭 시 호출되는 함수
-  const handleSearch = async () => {
-    // 전송할 데이터 객체 생성
-    const searchData = {
-      tensileStrengthResult:tensileStrengthResult, // 인장 강도 데이터
-      yieldStrengthResult:yieldStrengthResult, // 항복 강도 데이터
-      elongationResult:elongationResult, // 연신율 데이터
-      hardnessResult:hardnessResult, // 경도 데이터
-    };
+// 도넛 차트 가운데 텍스트를 표시하는 플러그인 정의
+const centerTextPlugin = {
+  id: 'centerTextPlugin',
+  beforeDraw: function(chart) {
+    const ctx = chart.ctx;
+    const width = chart.width;
+    const height = chart.height;
+    const centerX = chart.chartArea.left + (chart.chartArea.right - chart.chartArea.left) / 2;
+    const centerY = chart.chartArea.top + (chart.chartArea.bottom - chart.chartArea.top) / 2;
 
-    // 콘솔에 사용자가 입력한 내용을 JSON 형식으로 출력
-    console.log('전송할 데이터:', JSON.stringify(searchData, null, 2));
+    ctx.save();
+    ctx.font = '20px Arial';
+    ctx.textBaseline = 'middle';
+    ctx.textAlign = 'center';
+    ctx.fillStyle = 'black';
+    const text = chart.config.data.datasets[0].alValue || 'N/A'; // 중앙에 표시할 텍스트
+    ctx.fillText(text, centerX, centerY);
+    ctx.restore();
+  }
+};
 
-    try {
-      // 서버에 검색 조건을 POST 요청으로 전송
-      const response = await fetch('http://localhost:5001/predict', {
-        method: 'POST', // 요청 방법: POST
-        headers: {
-          'Content-Type': 'application/json', // 요청 헤더: JSON 데이터 전송
-        },
-        body: JSON.stringify(searchData), // JSON 형식으로 데이터 전송
-      });
+const DoughnutChart = ({ data }) => {
+  const [chartData, setChartData] = useState({
+    labels: [],
+    datasets: [
+      {
+        label: '# of Votes',
+        data: [],
+        backgroundColor: [],
+        borderColor: [],
+        borderWidth: 1,
+        alValue: '',
+      },
+    ],
+  });
 
-      // 서버로부터 받은 결과를 JSON 형식으로 변환
-      const results = await response.json(); 
-      // 서버 응답을 콘솔에 출력
-      console.log('spring에서 보낸:SearchResult데이터', results);
-      
-      // 검색 결과를 부모 컴포넌트에 전달
-      onResults(results); 
+  // 체크박스 상태 관리
+  const [isChecked, setIsChecked] = useState(false);
 
-    } catch (error) {
-      // 오류 발생 시 콘솔에 에러 출력
-      console.error('Error fetching search results:', error);
+  // 체크박스 상태가 변경될 때 호출되는 함수
+  const chartbookmark = () => {
+    const newCheckedState = !isChecked;
+    setIsChecked(newCheckedState);
+    
+    if (newCheckedState) {
+      // 체크박스가 체크되었을 때 data 객체를 콘솔에 출력
+      console.log('북마크된 데이터:', data);
     }
   };
 
+  // 데이터가 변경될 때마다 콘솔에 출력하고 차트 데이터를 업데이트
+  useEffect(() => {
+    console.log('DoughnutChart.jsx에서 받은 data:', data);
+
+    if (data) {
+      const keys = ['si', 'cu', 'sc', 'fe', 'mn', 'mg', 'zr', 'sm', 'zn', 'ti', 'sr', 'ni', 'ce']; // 변경 가능
+      const alValue = data['al']; // 'al' 값 추출
+      console.log('alValue:', alValue); // 'al' 값 확인
+
+      const labels = [];
+      const datasetData = [];
+
+      for (let i = 0; i < keys.length; i++) {
+        const key = keys[i];
+        if (data[key] !== null && data[key] !== 0) {
+          labels.push(key);
+          datasetData.push(data[key]);
+        }
+      }
+
+      setChartData({
+        labels,
+        datasets: [
+          {
+            label: labels,
+            data: datasetData,
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.2)', // 각 데이터 항목의 배경색
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+              'rgba(255, 159, 64, 0.2)',
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+              'rgba(255, 159, 64, 0.2)',
+            ],
+            borderColor: [
+              'rgba(255, 99, 132, 1)', // 각 데이터 항목의 테두리 색
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(153, 102, 255, 1)',
+              'rgba(255, 159, 64, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(153, 102, 255, 1)',
+              'rgba(255, 159, 64, 1)',
+            ],
+            borderWidth: 1,
+            alValue,
+          },
+        ],
+      });
+    }
+  }, [data]);
+
+
+
   return (
-    <div className="input-text-group">
-      {/* 인장 강도 입력 필드 */}
-      <input
-        className="form-field"
-        name='tensileStrengthResult'
-        type="text"
-        placeholder="인장 강도"
-        value={tensileStrengthResult}
-        onChange={(e) => setTensileStrength(e.target.value)}
-      />
-      {/* 항복 강도 입력 필드 */}
-      <input
-        className="form-field"
-        type="text"
-        name='yieldStrengthResult'
-        placeholder="항복 강도"
-        value={yieldStrengthResult}
-        onChange={(e) => setYieldStrength(e.target.value)}
-      />
-      {/* 연신율 입력 필드 */}
-      <input
-        className="form-field"
-        type="text"
-        name='elongationResult'
-        placeholder="연신율"
-        value={elongationResult}
-        onChange={(e) => setElongation(e.target.value)}
-      />
-      {/* 경도 입력 필드 */}
-      <input
-        className="form-field"
-        type="text"
-        name='hardnessResult'
-        placeholder="경도"
-        value={hardnessResult}
-        onChange={(e) => setHardness(e.target.value)}
-      />
-      {/* 입력 버튼 */}
-      <button className="input-button" onClick={handleSearch}>
-        입력
-      </button>
+    <div className="chart-area">
+      <div className="chart-result">
+        <Doughnut data={chartData} plugins={[centerTextPlugin]} />
+      </div>
+      <div className="chart-result">
+       
+      </div>
+      <div className="checkbox-container">
+        <label>
+          <input
+            type="checkbox"
+            checked={isChecked}
+            onChange={chartbookmark}
+          />
+          북마크
+        </label>
+      </div>
     </div>
   );
 };
 
-export default SearchSub;
+export default DoughnutChart;
