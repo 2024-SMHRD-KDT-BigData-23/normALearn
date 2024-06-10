@@ -44,16 +44,19 @@
 	</update>
 	<!-- 마이페이지에 뜨는 result 값 -->
 	<update id="mypageCheck" parameterType="com.projectA.VO.Al_resultVO">
-		UPDATE al_result 
-		SET myPage =#{myPage}
-		WHERE resultIdx=#{resultIdx}
+		UPDATE al_result
+		SET myPage = CASE 
+                WHEN myPage = 'Y' THEN 'N'
+                ELSE 'Y'
+             END
+		WHERE outputIdx = #{outputIdx}
 	</update>
 	
 	<!-- Mypage 체크 된것만 불러오기  -->
 	<select id="getMypageList" parameterType="com.projectA.VO.Al_resultVO" resultType="com.projectA.VO.Al_resultVO">
 		SELECT * 
 		FROM al_result
-		WHERE myPage = #{work}
+		WHERE myPage = 'Y'
 	</select>
 	
 	

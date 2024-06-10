@@ -40,6 +40,10 @@ public class BackController {
 
 	@PostMapping("/getListResult") // 처음 리스트 불러오는 메소드 <- 좌측 리스트
 	public ResponseEntity<List<Al_resultVO>> getListResult(@RequestBody Al_resultVO ResultInfo) {
+		
+		///////////////
+		///// 전체값 가져와서 리액트에서 컨트롤하는 방향으로 변경 나중에 로그인 추가하면 아이디 값으로 가져오게끔 변경해야함 !!!!!!!!!!!!!!!!!!!!!
+		////////////////
 		String work = "noting";
 		try {
 			// 무슨 작업할지 확인
