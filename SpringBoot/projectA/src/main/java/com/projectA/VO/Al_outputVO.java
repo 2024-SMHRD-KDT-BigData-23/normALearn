@@ -34,6 +34,7 @@ public class Al_outputVO {
     private BigDecimal agingTime;
     private char learning;
     private int cooling;
+    private char myPage;
     private BigDecimal tensileStrengthResult;
     private BigDecimal yieldStrengthResult;
     private BigDecimal hardnessResult;
