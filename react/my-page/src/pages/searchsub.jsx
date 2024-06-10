@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-// SearchSub 컴포넌트 정의. 'onResults'라는 콜백 함수를 속성으로 받음.
-const SearchSub = ({ onResults, setStart }) => {
+// SearchSub 컴포넌트 정의. 'onResults', 'setStart', 'setInfoData' 콜백을 속성으로 받음.
+const SearchSub = ({ onResults, setStart, setInfoData }) => {
   // 상태 변수 선언
   const [tensileStrength, setTensileStrength] = useState(''); // 인장 강도 상태
   const [yieldStrength, setYieldStrength] = useState(''); // 항복 강도 상태
@@ -32,12 +32,16 @@ const SearchSub = ({ onResults, setStart }) => {
       });
 
       // 서버로부터 받은 결과를 JSON 형식으로 변환
-      const results = await response.json(); 
+      const results = await response.json();
       // 서버 응답을 콘솔에 출력
       console.log('spring에서 보낸:SearchResult데이터', results);
       
       // 검색 결과를 부모 컴포넌트에 전달
-      setStart(results); 
+      setStart(results);
+      onResults(results); // onResults를 호출하여 부모 컴포넌트에 결과 전달
+
+      // 처음 검색한 데이터를 설정
+      setInfoData(searchData);
 
     } catch (error) {
       // 오류 발생 시 콘솔에 에러 출력

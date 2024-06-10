@@ -7,8 +7,9 @@ import Table from './Table';
 import SearchSub from './searchsub';
 
 function Search({ onStartChange }) { // onStartChange prop 추가
-  const [selectedItem, setSelectedItem] = useState(null); // 테이블에서 상세보기 클릭시 받아온정보
-  const [start, setStart] = useState([]); // searchsub에서 가져온 정보
+  const [selectedItem, setSelectedItem] = useState(null); // 테이블에서 상세보기 클릭 시 받아온 정보
+  const [start, setStart] = useState([]); // SearchSub에서 가져온 정보
+  const [infoData, setInfoData] = useState(null); // 처음 검색한 데이터를 저장할 상태
 
   // 선택된 아이템이 변경될 때마다 콘솔에 출력
   useEffect(() => {
@@ -17,9 +18,14 @@ function Search({ onStartChange }) { // onStartChange prop 추가
 
   // start가 변경될 때마다 콘솔에 값을 출력하고, 부모 컴포넌트에 알림
   useEffect(() => {
-    console.log('searchsub에서 search로 가져온정보:', start);
+    console.log('searchsub에서 search로 가져온 정보:', start);
     onStartChange(start); // start가 변경될 때마다 부모에게 알림
   }, [start, onStartChange]); // start와 onStartChange가 변경될 때만 실행
+
+  // infoData가 변경될 때마다 콘솔에 출력
+  useEffect(() => {
+    console.log('처음 검색한 데이터:', infoData);
+  }, [infoData]); // infoData가 변경될 때만 실행
 
   // SearchSub에서 전달받은 결과를 처리하는 함수
   const handleResults = (results) => {
@@ -33,9 +39,13 @@ function Search({ onStartChange }) { // onStartChange prop 추가
       <div className="checkbox-table">
         <h1>검색 페이지</h1>
         {/* SearchSub 컴포넌트를 추가하고 onResults 콜백을 전달 */}
-        <SearchSub onResults={handleResults} setStart={setStart} />
+        <SearchSub 
+          onResults={handleResults} 
+          setStart={setStart} 
+          setInfoData={setInfoData} 
+        />
       </div>
-      <SearchInfo start={start}/>
+      <SearchInfo infoData={infoData} />
       {/* 검색 결과를 전달하여 차트를 렌더링 */}
       <Chart vsData={selectedItem} />
       {/* 검색 결과를 테이블에 전달 */}

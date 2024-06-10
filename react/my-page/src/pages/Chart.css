@@ -48,7 +48,7 @@ body {
     align-items: center; /* 중앙 정렬 */
     justify-content: center; /* 중앙 정렬 */
 }
-
+/*상세보기 기능*/
 .data-info {
     display: flex;
     flex-direction: column;
