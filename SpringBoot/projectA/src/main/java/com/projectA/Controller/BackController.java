@@ -53,10 +53,12 @@ public class BackController {
 		
 		if(work.equals("myPage")) { // 프론트에서 work 파라미터에 myPage 라고 보내면 마이페이지 리스트만 불러온다.
 			List<Al_resultVO> data = result.getMypageList();
+			System.out.println("BookMark출력");
 			return ResponseEntity.ok(data);
 		}else {
 			// DB의 al_result 에서 가져온 값들을 리스트 data 에 담아서 리엑트로 보낸다.
 			List<Al_resultVO> data = result.getResultList();
+			System.out.println("전챗값 출력");
 			return ResponseEntity.ok(data);
 		}
 		
@@ -79,7 +81,7 @@ public class BackController {
 		} else if (work.equals("ChangeCheckBox")) {
 			// sql ListInfo 내부의 favorite 값과 number 의 값을 활용해 변경
 			result.changeResultCheckBox(ResultInfo);
-		} else if (work.equals("MypageCheck")) {
+		} else if (work.equals("ChangeMypage")) {
 			result.mypageCheck(ResultInfo);
 		} else {
 			System.out.println("오류");
