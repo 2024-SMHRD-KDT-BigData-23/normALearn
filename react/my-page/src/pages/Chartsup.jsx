@@ -31,7 +31,7 @@ const centerTextPlugin = {
     ctx.textBaseline = 'middle'; // 텍스트의 수직 정렬 기준
     ctx.textAlign = 'center'; // 텍스트의 수평 정렬 기준
     ctx.fillStyle = 'black'; // 텍스트 색상 설정
-    const text = chart.config.data.datasets[0].alValue || '0'; // 중앙에 표시할 텍스트 (alValue가 없으면 'N/A')
+    const text = chart.config.data.datasets[0].alValue || '준범팀'; // 중앙에 표시할 텍스트 (alValue가 없으면 '준범팀')
     ctx.fillText(text, centerX, centerY); // 중앙에 텍스트 그리기
     ctx.restore(); // 이전에 저장한 캔버스 상태로 복원
   }
@@ -77,6 +77,7 @@ const DoughnutChart = ({ data }) => {
     }
   };
 
+  // 북마크 상태 변경 및 데이터 전송 함수
   const chartbookmark = () => {
     const newCheckedState = !isChecked; // 체크박스 상태를 반전
     setIsChecked(newCheckedState); // 상태 업데이트
@@ -101,8 +102,11 @@ const DoughnutChart = ({ data }) => {
   useEffect(() => {
     console.log('DoughnutChart.jsx에서 받은 data:', data);
 
-    // 데이터가 변경될 때 체크박스 상태를 초기화
-    setIsChecked(false);
+    if (data?.learnin === 'Y') {
+      setIsChecked(true); // data.learnin이 'Y'이면 체크박스를 체크 상태로 설정
+    } else {
+      setIsChecked(false); // 그렇지 않으면 체크박스를 체크 해제 상태로 설정
+    }
 
     if (data) {
       const keys = ['si', 'cu', 'sc', 'fe', 'mn', 'mg', 'zr', 'sm', 'zn', 'ti', 'sr', 'ni', 'ce']; // 변경 가능한 데이터 키 목록
