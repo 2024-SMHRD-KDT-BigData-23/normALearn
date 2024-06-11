@@ -1,60 +1,83 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './Counter.css';
+import '../fonts.css';
 
-const About = () => {
+const Modelling = () => {
     const [view, setView] = useState('default');
+
+    // keysToShow는 텍스트 박스 항목에 대한 배열입니다.
+    const keysToShow = [
+        { key: 'elongationResult', name: '연신율' },
+        { key: 'hardnessResult', name: '경도' },
+        { key: 'tensileStrengthResult', name: '인장강도' },
+        { key: 'yieldStrengthResult', name: '항복강도' },
+        { key: 'firstTemperature', name: '1차 용체화온도' },
+        { key: 'firstTime', name: '1차 용체화 시간' },
+        { key: 'secondTemperature', name: '2차 용체화온도' },
+        { key: 'secondTime', name: '2차 용체화 시간' },
+        { key: 'agingTemperature', name: '시효온도' },
+        { key: 'agingTime', name: '시효시간' },
+        { key: 'cooling', name: '냉각' }
+    ];
+
+    // keys는 추가적인 텍스트 박스 항목에 대한 배열입니다.
+    const keys = [
+        { key: 'si', name: 'Si' },
+        { key: 'cu', name: 'Cu' },
+        { key: 'sc', name: 'Sc' },
+        { key: 'fe', name: 'Fe' },
+        { key: 'mn', name: 'Mn' },
+        { key: 'mg', name: 'Mg' },
+        { key: 'zr', name: 'Zr' },
+        { key: 'sm', name: 'Sm' },
+        { key: 'zn', name: 'Zn' },
+        { key: 'ti', name: 'Ti' },
+        { key: 'sr', name: 'Sr' },
+        { key: 'ni', name: 'Ni' },
+        { key: 'ce', name: 'Ce' },
+        { key: 'al', name: 'Al' }
+    ];
 
     const renderContent = () => {
         if (view === 'techInput') {
             return (
                 <form>
-                    <div className="form-group">
-                        <label htmlFor='onein'>설정1</label>
-                        <input type="text" className="form-control" id='onein' placeholder="조성을 입력하세요" />
+                    <div className="option-select">
+                        <label htmlFor="techSelect">공법설정 선택</label>
+                        <select id="techSelect" className="form-control">
+                            <option>공법설정1</option>
+                            <option>공법설정2</option>
+                            <option>공법설정3</option>
+                        </select>
+                        <button type="submit" className="btn btn-primary">확인</button>
                     </div>
-                    <div className="form-group">
-                        <label htmlFor='twoin'>설정2</label>
-                        <input type="text" className="form-control" id='twoin' placeholder="공법을 입력하세요" />
+
+                    <div className="option-text">
+                        {keysToShow.map(({ key, name }, index) => (
+                            <div className="form-group" key={index}>
+                                <label htmlFor={key}>{name}</label>
+                                <input
+                                    type="text"
+                                    id={key}
+                                    className="form-control"
+                                    placeholder={`${name} 입력`}
+                                />
+                            </div>
+                        ))}
+                        {keys.map(({ key, name }, index) => (
+                            <div className="form-group" key={index + keysToShow.length}>
+                                <label htmlFor={key}>{name}</label>
+                                <input
+                                    type="text"
+                                    id={key}
+                                    className="form-control"
+                                    placeholder={`${name} 입력`}
+                                />
+                            </div>
+                        ))}
+                        <button type="submit" className="btn btn-primary">확인</button>
                     </div>
-                    <div className="form-group">
-                        <label className="form-check-label d-block">설정3</label>
-                        <div className="form-check form-check-inline">
-                            <input className="form-check-input" type="checkbox" />
-                            <label >인장강도</label>
-                        </div>
-                        <div className="form-check form-check-inline">
-                            <input className="form-check-input" type="checkbox" />
-                            <label>항복강도</label>
-                        </div>
-                        <div className="form-check form-check-inline">
-                            <input className="form-check-input" type="checkbox" />
-                            <label>경도</label>
-                        </div>
-                        <div className="form-check form-check-inline">
-                            <input className="form-check-input" type="checkbox" />
-                            <label >연신율</label>
-                        </div>
-                    </div>
-                    <div className="form-group">
-                        <label className="form-check-label d-block">설정4</label>
-                        <div className="form-check form-check-inline">
-                            <input className="form-check-input" type="checkbox" />
-                            <label >설치 장비1</label>
-                        </div>
-                        <div className="form-check form-check-inline">
-                            <input className="form-check-input" type="checkbox" />
-                            <label>설치 장비2</label>
-                        </div>
-                        <div className="form-check form-check-inline">
-                            <input className="form-check-input" type="checkbox" />
-                            <label>설치 장비3</label>
-                        </div>
-                        <div className="form-check form-check-inline">
-                            <input className="form-check-input" type="checkbox" />
-                            <label >설치 장비4</label>
-                        </div>
-                    </div>
-                    <button type="submit" className="btn btn-primary">확인</button>
                 </form>
             );
         } else if (view === 'modelBackup') {
@@ -62,7 +85,7 @@ const About = () => {
                 <form>
                     <div className="form-group">
                         <label htmlFor="backupDate">초기화 기준 날짜 지정</label>
-                        <input type="date" className="form-control" id="backupDate"/>
+                        <input type="date" className="form-control" id="backupDate" />
                     </div>
                     <button type="submit" className="btn btn-primary">백업</button>
                 </form>
@@ -86,4 +109,4 @@ const About = () => {
     );
 }
 
-export default About;
+export default Modelling;
