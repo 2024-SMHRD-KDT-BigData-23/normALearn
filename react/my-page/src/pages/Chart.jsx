@@ -10,7 +10,7 @@ const Chart = ({ vsData }) => {
   return (
     <div className="chart-wrap">
       <div className="chart-row">
-        <div className='chart-area'>
+        <div className="chart-area">
           <div className='chart-result'>
             <DoughnutChart data={vsData} /> {/* 데이터 전달 */}
           </div>
