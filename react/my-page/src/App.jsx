@@ -91,7 +91,7 @@ function App() {
                         <Routes>
                             <Route path="/" element={<Search onStartChange={() => {}} />} />
                             <Route path="/input2" element={<Input2 moll={moll} />} />
-                            <Route path="/counter" element={<Counter />} />
+                            <Route path="/counter" element={<Counter moll={moll}/>} />
                         </Routes>
                     </div>
                 </>

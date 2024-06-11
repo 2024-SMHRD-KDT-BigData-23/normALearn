@@ -1,11 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Counter.css';
 import '../fonts.css';
 
-const Modelling = () => {
+const Modelling = ({ moll }) => {
     // Set initial view to 'techInput'
     const [view, setView] = useState('techInput');
+    const [localMoll, setLocalMoll] = useState(moll); // 가져온 moll을 저장할 상태
+
+    useEffect(() => {
+        console.log('전체데이터 모델설정페이지:', moll); // moll을 콘솔에 출력
+        setLocalMoll(moll); // 가져온 moll을 상태에 저장
+    }, [moll]);
 
     const keysToShow = [
         { key: 'tensileStrengthResult', name: '인장강도' },
