@@ -3,8 +3,17 @@
 <mapper namespace="com.projectA.Mapper.output_mapper">
 	<!-- output 정보 내림차로 가져오는 쿼리 -->
 	<select id="getListOutput" resultType="com.projectA.VO.Al_outputVO">
-		SELECT * FROM al_output
-		ORDER BY searchDate DESC
+		SELECT 
+    	al_output.*, 
+	    al_result.myPage 
+		FROM 
+	    al_output 
+		JOIN 
+	    al_result
+		ON 
+	    al_output.outputIdx = al_result.outputIdx 
+		ORDER BY 
+	    al_output.searchDate DESC
 	</select>
 
 </mapper>
