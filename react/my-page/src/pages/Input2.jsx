@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Input2.css';
-import '../fonts.css'; // Import the new CSS file with the font-face rule
-import InputModal from './InputModal'; // InputModal 컴포넌트를 import
+import '../fonts.css';
+import InputModal from './InputModal';
 
-const SvgButton = ({ rank, isFavorite, onClick }) => {
-  const [color, setColor] = useState(isFavorite ? '#f7e600' : '#4E5968');
+const SvgButton = ({ rank, isFavorite, onClick, outputIdx }) => {
+  const [color, setColor] = useState(isFavorite ? '#4E5968' : '#f7e600');
 
   const handleClick = (event) => {
     event.preventDefault();
     const newColor = color === '#f7e600' ? '#4E5968' : '#f7e600';
     setColor(newColor);
-    onClick(rank, newColor);
+    onClick(rank, newColor, outputIdx);
   };
 
   return (
@@ -41,24 +41,29 @@ const SvgButton = ({ rank, isFavorite, onClick }) => {
 };
 
 const Bookmark = ({ moll }) => {
-  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
-  const [showModal, setShowModal] = useState(false); // 모달 창의 표시 여부 상태
-  const [modalData, setModalData] = useState({}); // 모달 창에 표시할 데이터
-  const [isFetching, setIsFetching] = useState(false); // 데이터 가져오는 상태 표시
-  const [localMoll, setLocalMoll] = useState(moll); // 가져온 moll을 저장할 상태
+  const [currentPage, setCurrentPage] = useState(1);
+  const [showModal, setShowModal] = useState(false);
+  const [modalData, setModalData] = useState({});
+  const [isFetching, setIsFetching] = useState(false);
+  const [localMoll, setLocalMoll] = useState([]);
+  const [renderTrigger, setRenderTrigger] = useState(0);
 
-  const itemsPerPage = 10; // 한 페이지당 아이템 수
+  const itemsPerPage = 10;
 
   useEffect(() => {
-    console.log('전체데이터 북마크페이지:', moll); // moll을 콘솔에 출력
-    setLocalMoll(moll); // 가져온 moll을 상태에 저장
-  }, [moll]);
+    fetchMollData();
+  }, [moll, renderTrigger]);
 
-
+  const fetchMollData = () => {
+    console.log('전체데이터 북마크페이지:', moll);
+    const filteredMoll = moll.filter(item => item.myPage === 'Y');
+    setLocalMoll(filteredMoll);
+    console.log('필터데이터', filteredMoll);
+  };
 
   const handleDetailClick = (item) => {
-    setModalData(item); // 모달 창에 표시할 데이터를 설정
-    setShowModal(true); // 모달 창을 표시
+    setModalData(item);
+    setShowModal(true);
   };
 
   const handlePrevClick = (event) => {
@@ -98,10 +103,46 @@ const Bookmark = ({ moll }) => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = localMoll.slice(indexOfFirstItem, indexOfLastItem);
 
+  const postData = async (url, data) => {
+    try {
+      setIsFetching(true);
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const result = await response.json();
+      console.log('서버 응답:', result);
+      setRenderTrigger(prev => prev + 1); // 데이터 전송 후 화면 재렌더링
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsFetching(false);
+    }
+  };
+
+  const handleBookmarkClick = (rank, newColor, outputIdxValue) => {
+    if (outputIdxValue !== undefined) {
+      const updatedData = { outputIdx: outputIdxValue, work: 'ChangeMypage' };
+      console.log('북마크된 데이터:', updatedData);
+
+      postData('http://localhost:8080/NomAlearn/sendListResult', updatedData).then(() => {
+        // 항목 제거
+        setLocalMoll(prev => prev.filter(item => item.outputIdx !== outputIdxValue));
+      });
+    } else {
+      console.warn('outputIdx 값이 정의되어 있지 않습니다. 데이터 전송을 건너뜁니다.');
+    }
+  };
+
   return (
     <div className="bookmark-wrap">
       <div className="bookmark-area">
-       
         {isFetching ? <p>데이터를 가져오는 중...</p> : null}
         <table className="bookmark-group">
           <thead>
@@ -111,7 +152,7 @@ const Bookmark = ({ moll }) => {
               <th>항복강도</th>
               <th>경도</th>
               <th>연신율</th>
-              <th>조성</th>
+              <th>공법</th>
               <th>상세보기</th>
             </tr>
           </thead>
@@ -122,7 +163,8 @@ const Bookmark = ({ moll }) => {
                   <SvgButton
                     rank={item.rank}
                     isFavorite={item.favorite === 'Y'}
-                    onClick={() => console.log(`즐겨찾기 클릭: ${item.rank}`)}
+                    onClick={handleBookmarkClick}
+                    outputIdx={item.outputIdx}
                   />
                 </td>
                 <td>{item.tensileStrengthResult}</td>
@@ -156,9 +198,9 @@ const Bookmark = ({ moll }) => {
         </div>
       </div>
       <InputModal
-        show={showModal} // 모달 창의 표시 여부
-        onClose={() => setShowModal(false)} // 모달 창 닫기 함수
-        data={modalData} // 모달 창에 표시할 데이터
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        data={modalData}
       />
     </div>
   );
