@@ -1,0 +1,123 @@
+html {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    margin: 0;
+}
+
+.counter-wrap {
+    position: absolute;
+    margin-top: 80px;
+    width: calc(100% - 300px); /* Adjust width to account for margin-left */
+}
+
+.counter-area {
+    width: 80%;
+    margin: 0 auto; /* Center the element horizontally */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center content vertically */
+}
+
+.counter-area h1 {
+    width: 100%;
+    font-size: 28px;
+    margin-bottom: 20px; /* Add some space below the heading */
+    color: #191F28;
+}
+
+.counter-group {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    table-layout: fixed;
+}
+
+.counter-group button {
+    margin-bottom: 10px;
+}
+
+.counter-group button:nth-child(1) {
+    margin-right: 10px;
+}
+
+.form-control {
+    width: 100%; /* Ensure input fields take up the full width */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.option-select {
+    display: flex;
+    align-items: center; /* Center items vertically */
+    gap: 10px; /* Space between select and button */
+    margin-bottom: 20px;
+}
+
+.option-select button {
+    margin-left: 10px; /* Space between the select and button */
+    width: auto; /* Let button take its natural width */
+}
+
+.option-text {
+    display: flex;
+    justify-content: space-between; /* Space the tables out evenly */
+    gap: 20px; /* Add some space between the tables */
+    flex-wrap: wrap; /* Allow tables to wrap to the next line if needed */
+}
+
+.table-wrapper {
+    flex: 1 1 45%; /* Allow each table to take up to 45% of the row */
+    min-width: 300px; /* Ensure tables do not get too small */
+    margin-bottom: 20px; /* Space below each table */
+}
+
+.table-index {
+    width: 100%;
+    border: none; /* Remove all borders */
+    table-layout: fixed; /* Fix table layout */
+}
+
+.table-index th, .table-index td {
+    padding: 8px; /* Add padding */
+    text-align: left; /* Align text to the left */
+    vertical-align: middle; /* Vertically center text */
+}
+
+.table-index thead th {
+    background-color: #f8f9fa; /* Light background for table header */
+    font-weight: bold; /* Make the header text bold */
+}
+
+.table-index tbody td {
+    background-color: #ffffff; /* White background for table body */
+}
+
+.table-index label {
+    display: flex; /* Use flexbox for vertical alignment */
+    align-items: center; /* Center align items vertically */
+    width: 100%; /* Set a fixed width for labels */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+
+}
+
+.table-index input {
+    width: 100%; /* Take full width available */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.table-responsive{
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+
+.container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl{
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.table-value{
+    font-size: 36px;
+}
