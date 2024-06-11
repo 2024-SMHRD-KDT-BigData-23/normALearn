@@ -4,7 +4,6 @@ import './Input2.css';
 import '../fonts.css'; // Import the new CSS file with the font-face rule
 import InputModal from './InputModal'; // InputModal 컴포넌트를 import
 
-// 개별 항목을 위한 SVG 버튼 컴포넌트
 const SvgButton = ({ rank, isFavorite, onClick }) => {
   const [color, setColor] = useState(isFavorite ? '#f7e600' : '#4E5968');
 
@@ -41,25 +40,27 @@ const SvgButton = ({ rank, isFavorite, onClick }) => {
   );
 };
 
-// Bookmark 컴포넌트 정의
-const Bookmark = ({ startData }) => {
-  const itemsPerPage = 10; // 한 페이지당 아이템 수
+const Bookmark = ({ moll }) => {
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
   const [showModal, setShowModal] = useState(false); // 모달 창의 표시 여부 상태
   const [modalData, setModalData] = useState({}); // 모달 창에 표시할 데이터
+  const [isFetching, setIsFetching] = useState(false); // 데이터 가져오는 상태 표시
+  const [localMoll, setLocalMoll] = useState(moll); // 가져온 moll을 저장할 상태
 
-  // 데이터를 출력하는 useEffect 훅
+  const itemsPerPage = 10; // 한 페이지당 아이템 수
+
   useEffect(() => {
-    console.log('app에서  input으로 :', startData);
-  }, [startData]);
+    console.log('전체데이터 북마크페이지:', moll); // moll을 콘솔에 출력
+    setLocalMoll(moll); // 가져온 moll을 상태에 저장
+  }, [moll]);
 
-  // 상세보기 버튼 클릭 핸들러
+
+
   const handleDetailClick = (item) => {
     setModalData(item); // 모달 창에 표시할 데이터를 설정
     setShowModal(true); // 모달 창을 표시
   };
 
-  // 이전 페이지 클릭 핸들러
   const handlePrevClick = (event) => {
     event.preventDefault();
     if (currentPage > 1) {
@@ -67,41 +68,41 @@ const Bookmark = ({ startData }) => {
     }
   };
 
-  // 다음 페이지 클릭 핸들러
   const handleNextClick = (event) => {
     event.preventDefault();
-    if (currentPage < Math.ceil(startData.length / itemsPerPage)) {
+    if (currentPage < Math.ceil(localMoll.length / itemsPerPage)) {
       setCurrentPage(currentPage + 1);
     }
   };
 
-  // 페이지 번호 클릭 핸들러
   const handlePageClick = (event, pageNumber) => {
     event.preventDefault();
     setCurrentPage(pageNumber);
   };
 
-  // 페이지 번호 렌더링
   const renderPageNumbers = () => {
     const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(startData.length / itemsPerPage); i++) {
+    for (let i = 1; i <= Math.ceil(localMoll.length / itemsPerPage); i++) {
       pageNumbers.push(i);
     }
-    return pageNumbers.map(number => (
+    return pageNumbers.map((number) => (
       <li key={number} className={number === currentPage ? 'active' : ''}>
-        <a href="#" id={number} onClick={(event) => handlePageClick(event, number)}>{number}</a>
+        <a href="#" id={number} onClick={(event) => handlePageClick(event, number)}>
+          {number}
+        </a>
       </li>
     ));
   };
 
-  // 현재 페이지에 맞는 아이템 가져오기
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = startData.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = localMoll.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <div className="bookmark-wrap">
       <div className="bookmark-area">
+       
+        {isFetching ? <p>데이터를 가져오는 중...</p> : null}
         <table className="bookmark-group">
           <thead>
             <tr className="spaced-title">
@@ -111,24 +112,28 @@ const Bookmark = ({ startData }) => {
               <th>경도</th>
               <th>연신율</th>
               <th>조성</th>
+              <th>상세보기</th>
             </tr>
           </thead>
           <tbody>
             {currentItems.map((item) => (
               <tr key={item.rank}>
                 <td>
-                  <SvgButton 
-                    rank={item.rank} 
+                  <SvgButton
+                    rank={item.rank}
                     isFavorite={item.favorite === 'Y'}
-                    onClick={() => console.log(`즐겨찾기 클릭: ${item.rank}`)} 
+                    onClick={() => console.log(`즐겨찾기 클릭: ${item.rank}`)}
                   />
                 </td>
                 <td>{item.tensileStrengthResult}</td>
-                <td>{item.yieldStrengthResult }</td>
+                <td>{item.yieldStrengthResult}</td>
                 <td>{item.hardnessResult}</td>
-                <td>{item.elongationResult }</td>
+                <td>{item.elongationResult}</td>
+                <td>{item.composition}</td>
                 <td>
-                  <button className="btn btn-primary" onClick={() => handleDetailClick(item)}>상세보기</button>
+                  <button className="btn btn-primary" onClick={() => handleDetailClick(item)}>
+                    상세보기
+                  </button>
                 </td>
               </tr>
             ))}
@@ -137,16 +142,20 @@ const Bookmark = ({ startData }) => {
         <div className="pagination">
           <ul>
             <li className={currentPage === 1 ? 'disabled' : ''}>
-              <a href="#" onClick={handlePrevClick}>&laquo; Prev</a>
+              <a href="#" onClick={handlePrevClick}>
+                &laquo; Prev
+              </a>
             </li>
             {renderPageNumbers()}
-            <li className={currentPage === Math.ceil(startData.length / itemsPerPage) ? 'disabled' : ''}>
-              <a href="#" onClick={handleNextClick}>Next &raquo;</a>
+            <li className={currentPage === Math.ceil(localMoll.length / itemsPerPage) ? 'disabled' : ''}>
+              <a href="#" onClick={handleNextClick}>
+                Next &raquo;
+              </a>
             </li>
           </ul>
         </div>
       </div>
-      <InputModal 
+      <InputModal
         show={showModal} // 모달 창의 표시 여부
         onClose={() => setShowModal(false)} // 모달 창 닫기 함수
         data={modalData} // 모달 창에 표시할 데이터

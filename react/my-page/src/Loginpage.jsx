@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Loginpage.css';
 
-const Loginpage = ({ setIsLoggedIn }) => {
+const Loginpage = () => {
   const [userId, setUserId] = useState('');
   const [userPw, setUserPw] = useState('');
   const navigate = useNavigate();
@@ -15,17 +15,25 @@ const Loginpage = ({ setIsLoggedIn }) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ userId, userPw }),
-        credentials: 'include', // 필요에 따라 쿠키를 포함시킬 수 있습니다.
+        credentials: 'include',
       });
 
-      const result = await response.json();
-      if (response.ok && result.message === "로그인 성공") {
-        localStorage.setItem('isLoggedIn', true); // 로컬 스토리지에 로그인 상태 저장
-        localStorage.setItem('companyName', result.companyName); // 회사 이름 저장
-        setIsLoggedIn(true); // 로그인 상태 업데이트
-        navigate('/'); // 메인 페이지로 이동
+      const result = await response.json(); // result를 조건문 이전에 선언
+
+      if (response.ok && result.message === "로그인 성공") { // 로그인 성공
+        console.log('Response:', response); // 응답 확인
+        console.log('Result:', result); // 결과 확인
+
+        localStorage.setItem('isLoggedIn', true);
+        localStorage.setItem('userInfo', JSON.stringify({
+          userId,
+          companyName: result.companyName
+        }));
+
+        console.log('Navigating to /App'); // 네비게이트 확인
+        navigate('/App'); // 메인 페이지로 이동
       } else {
-        alert(result.message || '로그인 실패'); // 서버로부터 받은 메시지 혹은 기본 메시지 표시
+        alert(result.message || '로그인 실패');
       }
     } catch (error) {
       console.error('로그인 요청 중 오류 발생:', error);
