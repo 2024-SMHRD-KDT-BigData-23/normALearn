@@ -17,28 +17,28 @@ const SearchInfo = ({ infoData }) => {
                     <div className='serch-result'>
                         <span>인장강도</span>
                         <div className='search-figure'>
-                            <span>{infoData?.tensileStrength || 'N/A'}</span>
+                            <span>{infoData?.tensileStrength || '-'}</span>
                             <span>MPa</span>
                         </div>
                     </div>
                     <div className='serch-result'>
                         <span>항복강도</span>
                         <div className='search-figure'>
-                            <span>{infoData?.yieldStrength || 'N/A'}</span>
+                            <span>{infoData?.yieldStrength || '-'}</span>
                             <span>MPa</span>
                         </div>
                     </div>
                     <div className='serch-result'>
                         <span>경도</span>
                         <div className='search-figure'>
-                            <span>{infoData?.hardness || 'N/A'}</span>
+                            <span>{infoData?.hardness || '-'}</span>
                             <span>Hv</span>
                         </div>
                     </div>
                     <div className='serch-result'>
                         <span>연신율</span>
                         <div className='search-figure'>
-                            <span>{infoData?.elongation || 'N/A'}</span>
+                            <span>{infoData?.elongation || '-'}</span>
                             <span>%</span>
                         </div>
                     </div>

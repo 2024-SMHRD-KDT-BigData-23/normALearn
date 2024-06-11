@@ -42,7 +42,7 @@ body {
     font-size: 14px;
     text-align: left; /* 텍스트를 왼쪽 정렬 */
     flex: 1; /* 아이템의 크기를 동일하게 */
-    height: 350px;
+    height: 380px;
     display: flex;
     flex-direction: column; /* 세로로 나열 */
     align-items: center; /* 중앙 정렬 */
@@ -54,10 +54,9 @@ body {
     flex-direction: column;
     align-items: flex-start;
     padding: 10px;
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
+    background-color: #f2f5f8;
     border-radius: 5px;
-    max-width: 100%; /* max-width를 설정하여 컨테이너의 크기를 제한합니다. */
+    max-width: 130%; /* max-width를 설정하여 컨테이너의 크기를 제한합니다. */
     overflow-x: hidden; /* 수평 스크롤을 숨깁니다. */
     overflow-y: hidden; /* 수직 스크롤을 숨깁니다. */
   }
