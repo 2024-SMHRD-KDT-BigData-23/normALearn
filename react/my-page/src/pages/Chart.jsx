@@ -14,7 +14,7 @@ const Chart = ({ vsData }) => {
           <div className='chart-result'>
             <DoughnutChart data={vsData} /> {/* 데이터 전달 */}
           </div>
-          <div className='chart-result'>
+          <div className='chart-result-left'>
             차트박스2
           </div>
         </div>

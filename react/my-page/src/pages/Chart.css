@@ -54,7 +54,7 @@ body {
     margin: 5px;
     border: 1px solid var(--input-border);
     border-radius: 10px;
-    font-size: 30px;
+    font-size: 17px;
     text-align: left; /* 텍스트를 왼쪽 정렬 */
     flex: 1; /* 아이템의 크기를 동일하게 */
     height: 380px;

@@ -93,12 +93,20 @@ function App() {
             </nav>
             <div className="content-container">
                 <Routes>
-                    <Route path="/" element={<Search onStartChange={setStartData} />} />
-                    <Route path="/input2" element={<Input2 />} />
-                    <Route path="/counter" element={<Counter />} />
+                    <Route 
+                        path="/" 
+                        element={<Search onStartChange={setStartData} />} 
+                    />
+                    <Route 
+                        path="/input2" 
+                        element={<Input2 startData={startData} />} 
+                    />
+                    <Route 
+                        path="/counter" 
+                        element={<Counter />} 
+                    />
                 </Routes>
             </div>
-            
         </div>
     );
 }
