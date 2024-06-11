@@ -7,18 +7,15 @@ const SearchSub = ({ onResults, setStart, setInfoData }) => {
   const [yieldStrength, setYieldStrength] = useState(''); // 항복 강도 상태
   const [hardness, setHardness] = useState(''); // 경도 상태
   const [elongation, setElongation] = useState(''); // 연신율 상태
-  const [firstSolution, setFirstSolution] = useState(''); // 첫 번째 솔루션 상태
-  const [secondSolution, setSecondSolution] = useState(''); // 두 번째 솔루션 상태
-  const [aging, setAging] = useState(''); // 에이징 상태
 
-  // 검색 버튼 클릭 시 호출되는 함수
-  const handleSearch = async () => {
+  // 서버에 요청을 보내는 공통 함수
+  const sendRequest = async (url, expectsResponse = true) => {
     // 전송할 데이터 객체 생성
     const searchData = {
       tensileStrength, // 인장 강도 데이터
       yieldStrength, // 항복 강도 데이터
       hardness, // 경도 데이터
-      elongation // 연신율 데이터     
+      elongation // 연신율 데이터
     };
 
     // 콘솔에 사용자가 입력한 내용을 JSON 형식으로 출력
@@ -26,7 +23,7 @@ const SearchSub = ({ onResults, setStart, setInfoData }) => {
 
     try {
       // 서버에 검색 조건을 POST 요청으로 전송
-      const response = await fetch('http://127.0.0.1:5001/predict', {
+      const response = await fetch(url, {
         method: 'POST', // 요청 방법: POST
         headers: {
           'Content-Type': 'application/json', // 요청 헤더: JSON 데이터 전송
@@ -34,21 +31,38 @@ const SearchSub = ({ onResults, setStart, setInfoData }) => {
         body: JSON.stringify(searchData), // JSON 형식으로 데이터 전송
       });
 
-      // 서버로부터 받은 결과를 JSON 형식으로 변환
-      const results = await response.json();
-      // 서버 응답을 콘솔에 출력
-      console.log('spring에서 보낸:SearchResult데이터', results);
-      
-      // 검색 결과를 부모 컴포넌트에 전달
-      setStart(results);
-      onResults(results); // onResults를 호출하여 부모 컴포넌트에 결과 전달
-
-      // 처음 검색한 데이터를 설정
-      setInfoData(searchData);
-
+      if (expectsResponse) {
+        // 서버로부터 받은 결과를 JSON 형식으로 변환
+        const results = await response.json();
+        // 서버 응답을 콘솔에 출력
+        console.log('서버 응답:', JSON.stringify(results, null, 2));
+        return results;
+      }
     } catch (error) {
       // 오류 발생 시 콘솔에 에러 출력
       console.error('Error fetching search results:', error);
+    }
+    return null;
+  };
+
+  // 검색 버튼 클릭 시 호출되는 함수
+  const handleSearch = async () => {
+    // 첫 번째 요청 (predict)
+    await sendRequest('http://127.0.0.1:5001/predict', true);
+    // 두 번째 요청 (sendSearchData)
+    const results = await sendRequest('http://localhost:8080/NomAlearn/sendSearchData', true);
+    
+    if (results) {
+      // 검색 결과를 부모 컴포넌트에 전달
+      setStart(results);
+      onResults(results); // onResults를 호출하여 부모 컴포넌트에 결과 전달
+      // 처음 검색한 데이터를 설정
+      setInfoData({
+        tensileStrength,
+        yieldStrength,
+        hardness,
+        elongation
+      });
     }
   };
 
