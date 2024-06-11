@@ -6,7 +6,6 @@ import joblib
 from sklearn.preprocessing import StandardScaler
 import MySQLdb
 
-
 # MySQL 연결 정보 설정
 db = MySQLdb.connect(host="project-db-cgi.smhrd.com",    # MySQL 서버 호스트
                      user="normalearn",     # MySQL 사용자 이름
@@ -39,17 +38,17 @@ def predict():
         return jsonify({'error': 'Invalid input format'}), 400
 
     # 필수 입력 필드 확인
-    required_fields = ['tensileStrengthResult', 'yieldStrengthResult', 'elongationResult', 'hardnessResult']
-    for field in required_fields:
-        if field not in data:
-            return jsonify({'error': f'Missing required field: {field}'}), 400
+    required_fields = ['tensileStrength', 'yieldStrength', 'elongation', 'hardness']
+    missing_fields = [field for field in required_fields if field not in data]
+    if missing_fields:
+        return jsonify({'error': f'Missing required fields: {", ".join(missing_fields)}'}), 400
 
     # 데이터 형식 확인 및 입력 데이터 표준화
     try:
-        input_data = [float(data[field]) for field in required_fields]
+        input_data = [float(data[field]) for field in required_fields[:4]]
         input_data = np.array(input_data).reshape(1, -1)
         
-        input_data_df = pd.DataFrame(input_data, columns=required_fields)
+        input_data_df = pd.DataFrame(input_data, columns=required_fields[:4])
         input_data_scaled = scaler.transform(input_data_df)
     except ValueError as e:
         print(f"ValueError: {e}")  # ValueError 디버깅
@@ -80,20 +79,46 @@ def predict():
                 combined_result[key] = 0  # 음수 값을 0으로 설정
 
         results.append(combined_result)
+    
+    tensileStrength = float(data['tensileStrength'])
+    yieldStrength = float(data['yieldStrength'])
+    hardness = float(data['hardness'])
+    elongation = float(data['elongation'])
+    
 
+    print(f"Debug: tensileStrength={tensileStrength}, yieldStrength={yieldStrength}, hardness={hardness}, elongation={elongation}")
+
+    inputquery = """INSERT INTO al_input (userId, tensileStrength, yieldStrength, hardness, elongation) 
+                    VALUES (%s, %s, %s, %s, %s)"""
+            
+    cursor.execute(inputquery, (
+            'admin',
+            tensileStrength,
+            yieldStrength,
+            hardness,
+            elongation
+        ))
+    db.commit()
+    cursor.execute("SELECT LAST_INSERT_ID()")
+    input_insert_id = cursor.fetchone()[0]
+    print(input_insert_id)
+    
     # MySQL에 결과 삽입
     for result in results:
         try:
+
             # 결과를 삽입할 쿼리 작성
-            query = """INSERT INTO al_output (
+            outputquery = """INSERT INTO al_output (
                     userId, inputIdx, tensileStrengthResult, yieldStrengthResult, elongationResult, hardnessResult, 
                     firstTemperature, firstTime, cooling, secondTemperature, secondTime, agingTemperature, agingTime, 
                     al, si, cu, sc, fe, mn, mg, zr, sm, zn, ti, sr, ni, ce
                     ) VALUES (
-                        1, 1, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
+                        %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
                     )"""
             # 쿼리를 실행하여 결과 삽입
-            cursor.execute(query, (
+            cursor.execute(outputquery, (
+                'admin',
+                int(input_insert_id),
                 round(result['tensileStrengthResult'], 2),
                 round(result['yieldStrengthResult'], 2),
                 round(result['elongationResult'], 2),
@@ -120,6 +145,22 @@ def predict():
                 round(result['ni'], 2),
                 round(result['ce'], 2)
             ))
+            db.commit()
+            cursor.execute("SELECT LAST_INSERT_ID()")
+            output_insert_id = cursor.fetchone()[0]
+
+            resultquery = """INSERT INTO al_result 
+                        (userId, outputIdx, nickname, favorite, myPage) 
+                        VALUES (%s, %s, %s, %s, %s)"""
+            cursor.execute(resultquery,(                
+                'admin',
+                int(output_insert_id),
+                'empty',
+                'N',
+                'N'
+            ))
+            print("outputIdx",output_insert_id)    
+            
             db.commit()  # 변경사항을 저장
         except Exception as e:
             db.rollback()  # 롤백

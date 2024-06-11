@@ -7,7 +7,7 @@ import Sidedown, { RenderList } from "./pages/Sidedown";
 import Search from "./pages/Search";
 import { useUserInfoData, useLoginInfo } from "./pages/Log";
 import Input2 from "./pages/Input2";
-import Modelling from "./pages/Modelling";
+import Counter from "./pages/Counter";
 
 function App() {
     // Sidedown 관련 상태와 함수
@@ -80,7 +80,7 @@ function App() {
                             </Link>
                         </li>
                         <li className="darkerlishadow">
-                            <Link to="/Modelling">
+                            <Link to="/counter">
                                 <i className="fa fa-wrench"></i>
                                 <span className="nav-text">모델설정 페이지</span>
                             </Link>
@@ -93,7 +93,6 @@ function App() {
             </nav>
             <div className="content-container">
                 <Routes>
-<<<<<<< HEAD
                     <Route 
                         path="/" 
                         element={<Search onStartChange={setStartData} />} 
@@ -106,11 +105,6 @@ function App() {
                         path="/counter" 
                         element={<Counter />} 
                     />
-=======
-                    <Route path="/" element={<Search onStartChange={setStartData} />} />
-                    <Route path="/input2" element={<Input2 />} />
-                    <Route path="/Modelling" element={<Modelling />} />
->>>>>>> acf4a147e8cf8b501e272490ed813a38f2c161c9
                 </Routes>
             </div>
         </div>
