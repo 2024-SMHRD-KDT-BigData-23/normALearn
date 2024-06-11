@@ -7,6 +7,9 @@ const SearchSub = ({ onResults, setStart, setInfoData }) => {
   const [yieldStrength, setYieldStrength] = useState(''); // 항복 강도 상태
   const [hardness, setHardness] = useState(''); // 경도 상태
   const [elongation, setElongation] = useState(''); // 연신율 상태
+  const [firstSolution, setFirstSolution] = useState(''); // 첫 번째 솔루션 상태
+  const [secondSolution, setSecondSolution] = useState(''); // 두 번째 솔루션 상태
+  const [aging, setAging] = useState(''); // 에이징 상태
 
   // 검색 버튼 클릭 시 호출되는 함수
   const handleSearch = async () => {
@@ -15,7 +18,7 @@ const SearchSub = ({ onResults, setStart, setInfoData }) => {
       tensileStrength, // 인장 강도 데이터
       yieldStrength, // 항복 강도 데이터
       hardness, // 경도 데이터
-      elongation, // 연신율 데이터
+      elongation // 연신율 데이터     
     };
 
     // 콘솔에 사용자가 입력한 내용을 JSON 형식으로 출력
@@ -23,7 +26,7 @@ const SearchSub = ({ onResults, setStart, setInfoData }) => {
 
     try {
       // 서버에 검색 조건을 POST 요청으로 전송
-      const response = await fetch('http://localhost:8080/NomAlearn/sendSearchData', {
+      const response = await fetch('http://127.0.0.1:5001/predict', {
         method: 'POST', // 요청 방법: POST
         headers: {
           'Content-Type': 'application/json', // 요청 헤더: JSON 데이터 전송
@@ -87,6 +90,7 @@ const SearchSub = ({ onResults, setStart, setInfoData }) => {
         value={elongation}
         onChange={(e) => setElongation(e.target.value)}
       />
+    
       {/* 입력 버튼 */}
       <button className="input-button" onClick={handleSearch}>
         입력
