@@ -91,7 +91,7 @@ html {
   font-family: inherit;
   border-radius: 8px;
   border: none;
-  background: #3182f6;
+  background: #CACCCB;
   cursor: pointer;
   transition: border .3s ease, background .3s ease;
   height: 36px;
@@ -106,7 +106,7 @@ html {
 
 .input-text-group .input-button:hover {
   border-color: var(--input-border-focus);
-  background: #2272eb;
+  background: #acacac;
   color: var(--group-color-focus);
 }
 

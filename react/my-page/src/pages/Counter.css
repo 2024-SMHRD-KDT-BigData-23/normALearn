@@ -24,14 +24,12 @@ body {
 .counter-area h1 {
     width: 100%;
     font-size: 28px;
-    margin-bottom: 20px; /* Add some space below the heading */
     color: #191F28;
 }
 
 .counter-group {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 20px;
     table-layout: fixed;
 }
 
@@ -52,7 +50,7 @@ body {
     display: flex;
     align-items: center; /* Center items vertically */
     gap: 10px; /* Space between select and button */
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .option-select button {
@@ -99,7 +97,7 @@ body {
     align-items: center; /* Center align items vertically */
     width: 100%; /* Set a fixed width for labels */
     box-sizing: border-box; /* Include padding and border in the element's total width and height */
-
+    justify-content: center; /* Center content horizontally */
 }
 
 .table-index input {
@@ -107,17 +105,91 @@ body {
     box-sizing: border-box; /* Include padding and border in the element's total width and height */
 }
 
-.table-responsive{
+.table-responsive {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
     padding: 0 !important;
     margin: 0 !important;
 }
 
 
-.container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl{
-    padding: 0 !important;
-    margin: 0 !important;
+tbody, td, tfoot, th, thead, tr {
+    border: none !important;
 }
 
-.table-value{
-    font-size: 36px;
+
+
+
+.align-middle label {
+    display: inline-block; /* 레이블을 인라인 블록으로 설정 */
+    font-size: 18px;
+    justify-content: center; /* 레이블 텍스트를 가로로 중앙 정렬 */
+    text-align: center; /* 레이블 내부 텍스트를 중앙 정렬 */
+    background-color: #8b95a1;
+    border-radius: 20px;
+    padding: 0px 20px;
+    color: #fff;
+    width: 160px; /* 모든 레이블의 너비를 150px로 고정 */
+}
+
+
+
+
+
+.table-value {
+    font-size: 16px;
+    text-align: center; /* Center the text horizontally */
+    font-weight: 600;
+    margin: 2px 0px;
+    padding: 2px 16px;
+}
+
+
+
+.table-text-group {
+    display: block;
+    padding: 2px 14px;
+    line-height: 20px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 20px;
+    -webkit-appearance: none;
+    border: 1px solid var(--input-border);
+    background: var(--input-background);
+    transition: border .3s ease;
+    height: 26px;
+    box-sizing: border-box;
+    max-width: 160px;
+    text-align: center;
+    margin: 0 auto;
+
+    /* 필요시 우선순위 높이기 */
+    /* color: green !important; */
+}
+
+
+
+.table-btn-container {
+    display: flex;
+    justify-content: center; /* Center button horizontally */
+    margin-top: 20px; /* Space above the button */
+}
+
+.table-btn {
+    justify-content: center;
+    text-align: center;
+}
+
+
+.btn-primary{
+    background-color: #CACCCB;
+    border: #CACCCB;
+}
+
+.btn-primary:hover{
+    background-color: #acacac;
+    border: #acacac;
 }

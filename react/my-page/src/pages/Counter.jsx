@@ -6,11 +6,14 @@ import '../fonts.css';
 const Modelling = ({ moll }) => {
     // Set initial view to 'techInput'
     const [view, setView] = useState('techInput');
-    const [localMoll, setLocalMoll] = useState(moll); // 가져온 moll을 저장할 상태
+    const [localMoll, setLocalMoll] = useState([]); // 가져온 moll을 저장할 상태
+    const [selectedOption, setSelectedOption] = useState('');
+    const [selectedValues, setSelectedValues] = useState({});
 
     useEffect(() => {
         console.log('전체데이터 모델설정페이지:', moll); // moll을 콘솔에 출력
-        setLocalMoll(moll); // 가져온 moll을 상태에 저장
+        const filteredMoll = moll.filter(item => item.myPage === 'Y');
+        setLocalMoll(filteredMoll); // 가져온 moll 중 myPage가 Y인 것들만 상태에 저장
     }, [moll]);
 
     const keysToShow = [
@@ -44,6 +47,20 @@ const Modelling = ({ moll }) => {
         { key: 'ce', name: 'Ce' },
     ];
 
+    const handleOptionChange = (e) => {
+        const selectedIdx = parseInt(e.target.value);
+        const selectedItem = localMoll.find(item => item.outputIdx === selectedIdx);
+
+        if (selectedItem) {
+            const newValues = {};
+            [...keysToShow, ...keys].forEach(({ key }) => {
+                newValues[key] = selectedItem[key];
+            });
+            setSelectedValues(newValues);
+        }
+        setSelectedOption(selectedIdx);
+    };
+
     const renderTable = () => {
         const combinedKeys = [...keysToShow, ...keys];
         const rows = [];
@@ -57,12 +74,12 @@ const Modelling = ({ moll }) => {
                         <td key={index}>
                             <div className="align-middle">
                                 <label htmlFor={combinedKeys[index].key}>{combinedKeys[index].name}</label>
-                                <div className="table-value">125.1</div>
+                                <div className="table-value" value={selectedValues[combinedKeys[index].key] || ''}>{selectedValues[combinedKeys[index].key] || 'N/A'}</div>
                                 <input
                                     type="text"
-                                    id={combinedKeys[index].key}
+                                    name={combinedKeys[index].key}
                                     className="form-control"
-                                    placeholder={`${combinedKeys[index].name} 입력`}
+                                    placeholder={selectedValues[combinedKeys[index].key]}                                                                
                                 />
                             </div>
                         </td>
@@ -92,10 +109,11 @@ const Modelling = ({ moll }) => {
             <>
                 <form>
                     <div className="option-select">
-                        <select id="techSelect" className="form-control" placeholder="공법설정">
-                            <option>공법설정1</option>
-                            <option>공법설정2</option>
-                            <option>공법설정3</option>
+                        <select id="techSelect" className="form-control" onChange={handleOptionChange} value={selectedOption}>
+                            <option value="">공법설정 선택</option>
+                            {localMoll.map(item => (
+                                <option key={item.outputIdx} value={item.outputIdx}>인장강도 : {item.tensileStrengthResult} 항복강도 : {item.yieldStrengthResult} 경도 : {item.hardnessResult}    연신율 : {item.elongationResult}</option>
+                            ))}
                         </select>
                     </div>
                 </form>
@@ -145,3 +163,4 @@ const Modelling = ({ moll }) => {
 };
 
 export default Modelling;
+
