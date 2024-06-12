@@ -11,5 +11,7 @@ public interface user_mapper {
 	public int join(Al_userVO data);
 	// 로그인
 	public Al_userVO login(Al_userVO data);
+	// 비밀번호 변경
+	   public int ChangePw(Al_userVO data);
 
 }

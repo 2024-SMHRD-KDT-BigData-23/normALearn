@@ -12,4 +12,5 @@ public class Al_userVO {
     private String userPw;
     private String apiKey;
     private String companyName;
+    private String newPw;
 }

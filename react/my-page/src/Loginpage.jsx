@@ -28,6 +28,7 @@ const Loginpage = () => {
 
         // 쿠키에 userId 설정
         setCookie('userId', userId, { path: '/' });
+     
 
         localStorage.setItem('isLoggedIn', true);
         localStorage.setItem('userInfo', JSON.stringify({

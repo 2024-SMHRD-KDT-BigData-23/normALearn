@@ -8,21 +8,50 @@ import Input2 from "./pages/Input2";
 import Counter from "./pages/Counter";
 import Loginpage from "./Loginpage";
 import Sidedown, { RenderList } from "./pages/Sidedown";
+import { useCookies } from 'react-cookie';
+import Pwch from "./pages/Pwch";
+
 
 function App() {
-    // Sidedown 관련 상태와 함수
     const { orderedData, fixedList, handleCheckboxChange } = Sidedown();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [companyName, setCompanyName] = useState('');
-    const [moll, setMoll] = useState([]); // 서버에서 받아온 데이터를 저장할 상태
+    const [moll, setMoll] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태
+    const [cookies, setCookie, removeCookie] = useCookies(['userId']);
+    const [userId, setUserId] = useState(null); // userId 상태 추가
     const navigate = useNavigate();
 
     const handleLogout = () => {
         localStorage.removeItem('userInfo');
         localStorage.removeItem('isLoggedIn');
+        removeCookie('userId'); // 'userId' 쿠키 삭제
         setIsLoggedIn(false);
         navigate('/login');
+
+        
     };
+
+    const handleOpenModal = () => {
+        setIsModalOpen(true); // 모달 열기
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false); // 모달 닫기
+    };
+
+    useEffect(() => {
+        // 쿠키에서 userId 확인
+        const userId = cookies.userId;
+        console.log('쿠키에 있는 userId 확인:', userId);
+
+        if (!userId) {
+            console.error('쿠키에 userId가 없습니다.');
+            navigate('/login'); // 로그인 페이지로 이동
+        } else {
+            setUserId(userId); // userId 상태에 설정
+        }
+    }, [cookies, navigate]); // 종속성 배열에 cookies와 navigate 추가
 
     useEffect(() => {
         const savedUserInfo = JSON.parse(localStorage.getItem('userInfo'));
@@ -35,15 +64,14 @@ function App() {
     }, [navigate]);
 
     useEffect(() => {
-        // Fetch API를 사용하여 Java 서버로부터 데이터를 받아옴
         fetch("http://localhost:8080/NomAlearn/getListOutput")
             .then(response => response.json())
             .then(moll => {
-                console.log('전체데이터', moll); // 데이터를 콘솔에 출력
-                setMoll(moll); // 받아온 데이터를 상태에 저장
+                console.log('전체데이터', moll);
+                setMoll(moll);
             })
             .catch(error => console.error('Error fetching data:', error));
-    }, []); // 빈 배열을 두 번째 인자로 사용하여 컴포넌트 마운트 시 한 번만 실행
+    }, []);
 
     return (
         <div className="App">
@@ -57,7 +85,7 @@ function App() {
                                     <i className="fa fa-angle-right"></i>
                                 </li>
                                 <li className="user-actions">
-                                    <p>비밀번호 변경</p>
+                                    <p onClick={handleOpenModal}>비밀번호 변경</p>
                                     <p> | </p>
                                     <p onClick={handleLogout}>logout</p>
                                 </li>
@@ -91,9 +119,14 @@ function App() {
                         <Routes>
                             <Route path="/" element={<Search onStartChange={() => {}} />} />
                             <Route path="/input2" element={<Input2 moll={moll} />} />
-                            <Route path="/counter" element={<Counter moll={moll}/>} />
+                            <Route path="/counter" element={<Counter moll={moll} />} />
                         </Routes>
                     </div>
+                    <Pwch 
+                        isOpen={isModalOpen} 
+                        onClose={handleCloseModal} 
+                        userId={userId} // userId를 Pwch 컴포넌트에 전달
+                    />
                 </>
             ) : (
                 <Routes>

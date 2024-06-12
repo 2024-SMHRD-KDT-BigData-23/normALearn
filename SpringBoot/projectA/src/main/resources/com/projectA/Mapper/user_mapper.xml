@@ -13,6 +13,9 @@
 		SELECT * FROM al_user WHERE userId=#{userId} AND userPw= SHA2(#{userPw}, 256) 
 	</select>
 	
+	<update id="ChangePw" parameterType="com.projectA.VO.Al_userVO">
+      UPDATE al_user SET userPw = SHA2(#{newPw}, 256) WHERE userId=#{userId} AND userPw = SHA2(#{userPw},256)
+   </update>
 	
 
 </mapper>

@@ -138,6 +138,20 @@ public class BackController {
       }
 
    }
+   @PostMapping("/ChangePw") // 비밀번호 변경 userId, userPw, newPw 보내면됨
+   public ResponseEntity<Map<String, Object>> ChangePw(@RequestBody Al_userVO data){
+      Map<String,Object> responseBody = new HashMap<>();
+      int row = user.ChangePw(data);
+      if(row==1) {
+         responseBody.put("message", "비밀번호 변경완료");
+         return ResponseEntity.ok(responseBody);
+      }else {
+         responseBody.put("message", "비밀번호 변경실패");
+         return ResponseEntity.ok(responseBody);
+      }
+      
+      
+   }
 
    @PostMapping("/login")
    public ResponseEntity<Map<String, Object>> login(@RequestBody Al_userVO loginData, HttpSession session,
@@ -173,35 +187,6 @@ public class BackController {
       }
    }
 
-   @PostMapping("/logout")
-   public ResponseEntity<Map<String, Object>> logout(HttpSession session, HttpServletResponse response) {
-      Map<String, Object> responseBody = new HashMap<>();
+ 
 
-      // 세션 무효화
-      session.invalidate();
-
-      // 쿠키 삭제
-      Cookie cookie = new Cookie("AlSession", null);
-      cookie.setHttpOnly(true);
-      cookie.setPath("/");
-      cookie.setMaxAge(0); // 쿠키 삭제
-      response.addCookie(cookie);
-
-      responseBody.put("message", "로그아웃 성공");
-      return ResponseEntity.ok(responseBody);
-   }
-
-   @PostMapping("/submit")
-   public String submitData(@RequestBody Al_userVO profile) {
-      // 입력받은 데이터를 처리
-      // List<Al_userVO> data = user.findAll();
-      // System.out.println(data.get(0).getUserid());
-      // System.out.println(data.get(0).getCompanyname());
-      // System.out.println("일단은 처리해봐~");
-      // System.out.println(profile.getUserid());
-      // System.out.println(profile.getUserpw());
-      // System.out.println(profile.getCompanyname());
-      // System.out.println(profile.getApikey());
-      return "Received data: " + profile;
-   }
 }
