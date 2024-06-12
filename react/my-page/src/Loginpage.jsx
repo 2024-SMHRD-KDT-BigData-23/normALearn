@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 import './Loginpage.css';
 
 const Loginpage = () => {
   const [userId, setUserId] = useState('');
   const [userPw, setUserPw] = useState('');
+  const [cookies, setCookie] = useCookies(['userId']);
   const navigate = useNavigate();
 
   const handleLogin = async () => {
@@ -18,11 +20,14 @@ const Loginpage = () => {
         credentials: 'include',
       });
 
-      const result = await response.json(); // result를 조건문 이전에 선언
+      const result = await response.json();
 
-      if (response.ok && result.message === "로그인 성공") { // 로그인 성공
-        console.log('Response:', response); // 응답 확인
-        console.log('Result:', result); // 결과 확인
+      if (response.ok && result.message === "로그인 성공") {
+        console.log('Response:', response);
+        console.log('Result:', result);
+
+        // 쿠키에 userId 설정
+        setCookie('userId', userId, { path: '/' });
 
         localStorage.setItem('isLoggedIn', true);
         localStorage.setItem('userInfo', JSON.stringify({
@@ -30,7 +35,7 @@ const Loginpage = () => {
           companyName: result.companyName
         }));
 
-        console.log('Navigating to /App'); // 네비게이트 확인
+        console.log('Navigating to /App');
         navigate('/App'); // 메인 페이지로 이동
       } else {
         alert(result.message || '로그인 실패');
