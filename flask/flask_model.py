@@ -6,6 +6,20 @@ import joblib
 from sklearn.preprocessing import StandardScaler
 import MySQLdb
 
+app = Flask(__name__)
+
+# CORS 설정 - 보안상의 이유로 실제 배포시에는 특정 도메인만 허용하는 것이 좋습니다.
+CORS_ORIGINS = ['http://localhost:3000']
+CORS_METHODS = ['POST']
+CORS_HEADERS = ['Content-Type']
+
+@app.after_request
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Origin', ','.join(CORS_ORIGINS))
+    response.headers.add('Access-Control-Allow-Methods', ','.join(CORS_METHODS))
+    response.headers.add('Access-Control-Allow-Headers', ','.join(CORS_HEADERS))
+    return response
+
 # MySQL 연결 정보 설정
 db = MySQLdb.connect(host="project-db-cgi.smhrd.com",    # MySQL 서버 호스트
                      user="normalearn",     # MySQL 사용자 이름
@@ -14,8 +28,36 @@ db = MySQLdb.connect(host="project-db-cgi.smhrd.com",    # MySQL 서버 호스�
                      port=3307)  # 사용할 데이터베이스 이름
 cursor = db.cursor()
 
+# 가장 최근의 모델 파일을 찾는 함수
+def find_latest_model():
+    model_files = os.listdir('./models')
+    latest_model = None
+    latest_date = None
+    latest_index = -1
+
+    for filename in model_files:
+        if filename.startswith('materials_model_') and filename.endswith('.joblib'):
+            parts = filename.split('_')
+            try:
+                file_date = datetime.strptime(parts[2], '%Y%m%d').date()
+                file_index = int(parts[3].split('.')[0])
+
+                if latest_model is None or file_date > latest_date or (file_date == latest_date and file_index > latest_index):
+                    latest_model = filename
+                    latest_date = file_date
+                    latest_index = file_index
+            except (IndexError, ValueError):
+                continue
+
+    return latest_model
+
+# 최신 모델 파일 이름을 찾기
+latest_model_file = find_latest_model()
+if latest_model_file is None:
+    raise FileNotFoundError("No model file found")
+
 # 저장된 모델 로드
-model = joblib.load('./models/materials_model.joblib')
+model = joblib.load(os.path.join('./models', latest_model_file))
 
 # StandardScaler 객체 생성 및 모델 훈련에 사용된 데이터를 기반으로 학습
 training_data = np.load('./models/training_data.npy')  # 훈련 데이터 파일 경로에 맞게 수정
@@ -26,8 +68,7 @@ scaler.fit(training_data)
 feature_labels = ['firstTemperature', 'firstTime', 'cooling', 'secondTemperature', 'secondTime', 'agingTemperature',
                   'agingTime', 'al', 'si', 'cu', 'sc', 'fe', 'mn', 'mg', 'zr', 'sm', 'zn', 'ti', 'sr', 'ni', 'ce']
 
-app = Flask(__name__)
-CORS(app)  # CORS 허용
+
 
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -56,7 +97,7 @@ def predict():
 
     # 다양한 입력 데이터 변형하여 예측 결과 얻기
     results = []
-    for _ in range(5):
+    for _ in range(20):
         perturbed_input_data = input_data_scaled + np.random.normal(scale=0.1, size=input_data_scaled.shape)  # 입력 데이터를 약간 변형하여 다양한 결과 얻기
         prediction_scaled = model.predict(perturbed_input_data)
         prediction_dict = {feature_labels[i]: round(float(pred), 2) for i, pred in enumerate(prediction_scaled[0])}
@@ -79,7 +120,9 @@ def predict():
                 combined_result[key] = 0  # 음수 값을 0으로 설정
 
         results.append(combined_result)
-    
+        
+    userId = data['userId']
+    print(userId)
     tensileStrength = float(data['tensileStrength'])
     yieldStrength = float(data['yieldStrength'])
     hardness = float(data['hardness'])
@@ -92,7 +135,7 @@ def predict():
                     VALUES (%s, %s, %s, %s, %s)"""
             
     cursor.execute(inputquery, (
-            'admin',
+            userId,
             tensileStrength,
             yieldStrength,
             hardness,
@@ -117,7 +160,7 @@ def predict():
                     )"""
             # 쿼리를 실행하여 결과 삽입
             cursor.execute(outputquery, (
-                'admin',
+                userId,
                 int(input_insert_id),
                 round(result['tensileStrengthResult'], 2),
                 round(result['yieldStrengthResult'], 2),
@@ -153,7 +196,7 @@ def predict():
                         (userId, outputIdx, nickname, favorite, myPage) 
                         VALUES (%s, %s, %s, %s, %s)"""
             cursor.execute(resultquery,(                
-                'admin',
+                userId,
                 int(output_insert_id),
                 'empty',
                 'N',

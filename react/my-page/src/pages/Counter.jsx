@@ -4,17 +4,44 @@ import './Counter.css';
 import '../fonts.css';
 
 const Modelling = ({ moll }) => {
-    // Set initial view to 'techInput'
     const [view, setView] = useState('techInput');
-    const [localMoll, setLocalMoll] = useState([]); // 가져온 moll을 저장할 상태
+    const [localMoll, setLocalMoll] = useState([]);
     const [selectedOption, setSelectedOption] = useState('');
     const [selectedValues, setSelectedValues] = useState({});
 
     useEffect(() => {
-        console.log('전체데이터 모델설정페이지:', moll); // moll을 콘솔에 출력
         const filteredMoll = moll.filter(item => item.myPage === 'Y');
-        setLocalMoll(filteredMoll); // 가져온 moll 중 myPage가 Y인 것들만 상태에 저장
+        setLocalMoll(filteredMoll);
     }, [moll]);
+
+    // 상태 변수 선언
+    const [stateValues, setStateValues] = useState({
+        tensileStrengthResult: '',
+        yieldStrengthResult: '',
+        elongationResult: '',
+        hardnessResult: '',
+        firstTemperature: '',
+        firstTime: '',
+        cooling: '',
+        secondTemperature: '',
+        secondTime: '',
+        agingTemperature: '',
+        agingTime: '',
+        al: '',
+        si: '',
+        cu: '',
+        sc: '',
+        fe: '',
+        mn: '',
+        mg: '',
+        zr: '',
+        sm: '',
+        zn: '',
+        ti: '',
+        sr: '',
+        ni: '',
+        ce: ''
+    });
 
     const keysToShow = [
         { key: 'tensileStrengthResult', name: '인장강도' },
@@ -27,7 +54,7 @@ const Modelling = ({ moll }) => {
         { key: 'secondTemperature', name: '2차 용체화온도' },
         { key: 'secondTime', name: '2차 용체화 시간' },
         { key: 'agingTemperature', name: '시효온도' },
-        { key: 'agingTime', name: '시효시간' },
+        { key: 'agingTime', name: '시효시간' }
     ];
 
     const keys = [
@@ -44,8 +71,28 @@ const Modelling = ({ moll }) => {
         { key: 'ti', name: 'Ti' },
         { key: 'sr', name: 'Sr' },
         { key: 'ni', name: 'Ni' },
-        { key: 'ce', name: 'Ce' },
+        { key: 'ce', name: 'Ce' }
     ];
+
+    const handleModeling = async () => {
+        console.log('전송할 데이터:', JSON.stringify(stateValues, null, 2));
+
+        try {
+            const response = await fetch('http://127.0.0.1:5002/upflask', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(stateValues),
+            });
+
+            const results = await response.json();
+            console.log('spring에서 보낸:ModelingResult데이터', results);
+
+        } catch (error) {
+            console.error('Error fetching modeling results:', error);
+        }
+    };
 
     const handleOptionChange = (e) => {
         const selectedIdx = parseInt(e.target.value);
@@ -57,29 +104,42 @@ const Modelling = ({ moll }) => {
                 newValues[key] = selectedItem[key];
             });
             setSelectedValues(newValues);
+            setStateValues({ ...stateValues, ...newValues });
         }
         setSelectedOption(selectedIdx);
     };
 
     const renderTable = () => {
-        const combinedKeys = [...keysToShow, ...keys];
         const rows = [];
-
+    
         for (let i = 0; i < 5; i++) {
             const cells = [];
             for (let j = 0; j < 5; j++) {
                 const index = i * 5 + j;
-                if (index < combinedKeys.length) {
+                let keyItem;
+                if (index < keysToShow.length) {
+                    keyItem = keysToShow[index];
+                } else if (index - keysToShow.length < keys.length) {
+                    keyItem = keys[index - keysToShow.length];
+                }
+                if (keyItem) {
+                    const { key, name } = keyItem;
                     cells.push(
                         <td key={index}>
                             <div className="align-middle">
-                                <label htmlFor={combinedKeys[index].key}>{combinedKeys[index].name}</label>
-                                <div className="table-value" value={selectedValues[combinedKeys[index].key] || ''}>{selectedValues[combinedKeys[index].key] || 'N/A'}</div>
+                                <label htmlFor={key}>{name}</label>
+                                <div className="table-value" value={selectedValues[key] || ''}>
+                                    {selectedValues[key] || 'N/A'}
+                                </div>
                                 <input
                                     type="text"
-                                    name={combinedKeys[index].key}
-                                    className="form-control"
-                                    placeholder={selectedValues[combinedKeys[index].key]}                                                                
+                                    name={key}
+                                    className="table-text-group"
+                                    placeholder={selectedValues[key]}
+                                    value={stateValues[key] || ''}
+                                    onChange={({ target: { value } }) => {
+                                        setStateValues(prev => ({ ...prev, [key]: value }));
+                                    }}
                                 />
                             </div>
                         </td>
@@ -90,7 +150,7 @@ const Modelling = ({ moll }) => {
             }
             rows.push(<tr key={i}>{cells}</tr>);
         }
-
+    
         return (
             <div className="container">
                 <div className="table-responsive">
@@ -99,11 +159,14 @@ const Modelling = ({ moll }) => {
                             {rows}
                         </tbody>
                     </table>
+                    <div className="table-btn-container">
+                        <button type="submit" className="btn btn-select" onClick={handleModeling}>확인</button>
+                    </div>
                 </div>
             </div>
         );
     };
-
+    
     const renderTechInput = () => {
         return (
             <>
@@ -112,7 +175,7 @@ const Modelling = ({ moll }) => {
                         <select id="techSelect" className="form-control" onChange={handleOptionChange} value={selectedOption}>
                             <option value="">공법설정 선택</option>
                             {localMoll.map(item => (
-                                <option key={item.outputIdx} value={item.outputIdx}>인장강도 : {item.tensileStrengthResult} 항복강도 : {item.yieldStrengthResult} 경도 : {item.hardnessResult}    연신율 : {item.elongationResult}</option>
+                                <option key={item.outputIdx} value={item.outputIdx}>인장강도 : {item.tensileStrengthResult} 항복강도 : {item.yieldStrengthResult} 경도 : {item.hardnessResult} 연신율 : {item.elongationResult}</option>
                             ))}
                         </select>
                     </div>
@@ -122,26 +185,12 @@ const Modelling = ({ moll }) => {
         );
     };
 
-    const renderModelBackup = () => {
-        return (
-            <form>
-                <div className="form-group">
-                    <label htmlFor="backupDate">초기화 기준 날짜 지정</label>
-                    <input type="date" className="form-control" id="backupDate" />
-                </div>
-                <button type="submit" className="btn btn-primary">백업</button>
-            </form>
-        );
-    };
-
     const renderContent = () => {
         switch (view) {
             case 'techInput':
                 return renderTechInput();
             case 'modelBackup':
-                return renderModelBackup();
-            case 'default':
-                return renderTable();
+                return <div>모델 백업 기능 준비 중입니다.</div>;
             default:
                 return <div>Invalid view</div>;
         }
@@ -152,15 +201,13 @@ const Modelling = ({ moll }) => {
             <div className="counter-area">
                 <h1>모델 설정 페이지</h1>
                 <div className="counter-group">
-                    <button onClick={() => setView('techInput')} className="btn btn-secondary">공법 입력</button>
-                    <button onClick={() => setView('modelBackup')} className="btn btn-secondary">모델 백업</button>
+                    <button onClick={() => setView('techInput')} className="btn btn-select">공법 입력</button>
+                    <button onClick={() => setView('modelBackup')} className="btn btn-select">모델 백업</button>
                 </div>
                 {renderContent()}
-                <button type="submit" className="btn btn-primary">확인</button>
             </div>
         </div>
     );
 };
 
 export default Modelling;
-

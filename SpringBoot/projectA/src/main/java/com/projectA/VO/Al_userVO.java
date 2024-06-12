@@ -12,5 +12,6 @@ public class Al_userVO {
     private String userPw;
     private String apiKey;
     private String companyName;
+    // DB에 없는 자료
     private String newPw;
 }
