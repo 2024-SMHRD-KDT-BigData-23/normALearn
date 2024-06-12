@@ -11,7 +11,6 @@ import Sidedown, { RenderList } from "./pages/Sidedown";
 import { useCookies } from 'react-cookie';
 import Pwch from "./pages/Pwch";
 
-
 function App() {
     const { orderedData, fixedList, handleCheckboxChange } = Sidedown();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -28,8 +27,6 @@ function App() {
         removeCookie('userId'); // 'userId' 쿠키 삭제
         setIsLoggedIn(false);
         navigate('/login');
-
-        
     };
 
     const handleOpenModal = () => {
@@ -124,7 +121,7 @@ function App() {
                     </div>
                     <Pwch 
                         isOpen={isModalOpen} 
-                        onClose={handleCloseModal} 
+                        onRequestClose={handleCloseModal} // onRequestClose로 prop 전달
                         userId={userId} // userId를 Pwch 컴포넌트에 전달
                     />
                 </>
