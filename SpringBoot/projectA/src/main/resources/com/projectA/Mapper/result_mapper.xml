@@ -27,7 +27,7 @@
 	    CASE WHEN r.favorite = 'Y' THEN 0 ELSE 1 END,
 	    o.searchDate DESC, 
 	    r.number ASC
-		LIMIT 20
+		LIMIT 12
    </select>
 
    <!-- 드래그로 위치 변경시 기존 번호와 변경 번호를 활용하여 작동되는 순서변경 sql -->
