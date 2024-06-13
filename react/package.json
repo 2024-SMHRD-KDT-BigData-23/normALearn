@@ -33,10 +33,9 @@
     "web-vitals": "^4.0.1"
   },
   "scripts": {
-    "start": "concurrently \"npm run start-react\" \"npm run start-flask\" \"npm run start-spring\"",
+    "start": "concurrently \"npm run start-react\" \"npm run start-flask\"",
     "start-react": "cd react/my-page && npm start",
     "start-flask": "cd flask && python flask_model.py & python upflask.py",
-    "start-spring": "cd SpringBoot/projectA && ./mvnw spring-boot:run",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
