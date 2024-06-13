@@ -98,7 +98,7 @@ def predict():
 
     # 다양한 입력 데이터 변형하여 예측 결과 얻기
     results = []
-    for _ in range(20):
+    for _ in range(5):
         perturbed_input_data = input_data_scaled + np.random.normal(scale=0.1, size=input_data_scaled.shape)  # 입력 데이터를 약간 변형하여 다양한 결과 얻기
         prediction_scaled = model.predict(perturbed_input_data)
         prediction_dict = {feature_labels[i]: round(float(pred), 2) for i, pred in enumerate(prediction_scaled[0])}

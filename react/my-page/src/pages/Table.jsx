@@ -5,54 +5,17 @@ import '../fonts.css';
 
 const Table = ({ setSelectedItem, start }) => {
     const [list, setList] = useState([]);
-    const itemsPerPage = 10;
-    const [currentPage, setCurrentPage] = useState(1);
 
-    // start가 변경될 때마다 데이터를 업데이트하고 콘솔에 출력
+    // Update list whenever start changes
     useEffect(() => {
-        setList(start); // start 데이터를 list로 설정
-        console.log('search 전달한 start:', start); // 콘솔에 출력
+        setList(start); // Set list to start data
+        console.log('search 전달한 start:', start); // Log start data
     }, [start]);
 
-    const handleClick = (event) => {
-        event.preventDefault();
-        setCurrentPage(Number(event.target.id));
-    };
-
-    const handlePrevClick = (event) => {
-        event.preventDefault();
-        if (currentPage > 1) {
-            setCurrentPage(currentPage - 1);
-        }
-    };
-
     const handleViewDetails = (item) => {
-        setSelectedItem(item); // 선택된 항목의 데이터를 부모 컴포넌트로 전달
-        console.log('상세보기 클릭 시:', item); // 콘솔에 데이터 출력
+        setSelectedItem(item); // Send selected item data to parent component
+        console.log('상세보기 클릭 시:', item); // Log item data
     };
-
-    const handleNextClick = (event) => {
-        event.preventDefault();
-        if (currentPage < Math.ceil(list.length / itemsPerPage)) {
-            setCurrentPage(currentPage + 1);
-        }
-    };
-
-    const renderPageNumbers = () => {
-        const pageNumbers = [];
-        for (let i = 1; i <= Math.ceil(list.length / itemsPerPage); i++) {
-            pageNumbers.push(i);
-        }
-        return pageNumbers.map(number => (
-            <li key={number} className={number === currentPage ? 'active' : ''}>
-                <a href="#" id={number} onClick={handleClick}>{number}</a>
-            </li>
-        ));
-    };
-
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = list.slice(indexOfFirstItem, indexOfLastItem);
 
     return (
         <div className="table-wrap">
@@ -69,7 +32,7 @@ const Table = ({ setSelectedItem, start }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {currentItems.map((item, index) => (
+                        {list.map((item, index) => (
                             <tr key={index}>
                                 <td className="rank-column-td">{index + 1}</td>
                                 <td>{item.tensileStrengthResult}</td>
@@ -79,7 +42,7 @@ const Table = ({ setSelectedItem, start }) => {
                                 <td>
                                     <button
                                         className="btn btn-primary"
-                                        onClick={() => handleViewDetails(item)} // 클릭 핸들러 추가
+                                        onClick={() => handleViewDetails(item)} // Add click handler
                                     >
                                         상세보기
                                     </button>
@@ -88,17 +51,6 @@ const Table = ({ setSelectedItem, start }) => {
                         ))}
                     </tbody>
                 </table>
-                <div className="pagination">
-                    <ul>
-                        <li className={currentPage === 1 ? 'disabled' : ''}>
-                            <a href="#" onClick={handlePrevClick}>&laquo; Prev</a>
-                        </li>
-                        {renderPageNumbers()}
-                        <li className={currentPage === Math.ceil(list.length / itemsPerPage) ? 'disabled' : ''}>
-                            <a href="#" onClick={handleNextClick}>Next &raquo;</a>
-                        </li>
-                    </ul>
-                </div>
             </div>
         </div>
     );

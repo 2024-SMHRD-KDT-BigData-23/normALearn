@@ -1,105 +1,45 @@
-html {
-    padding: 0;
-    margin: 0;
-}
-
-body {
-    margin: 0;
-}
-
+/* Table.css */
 .table-wrap {
-    position: absolute;
-    margin-top: 550px;
-    width: 100%;
+    width: 100%; /* Ensure the table container takes up full width */
+    margin-top: 530px; /* Adjust the top margin if needed */
 
+    display: flex; /* Enable flexbox layout */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
 }
 
 .table-area {
-    width: 80%;
-
-    margin: 0 auto; /* Center the element horizontally */
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* Center content vertically */
+    max-height: 180px; /* Set the max height to control the scrollable area */
+    overflow-y: auto; /* Enable vertical scrolling */
+    border: 1px solid #ddd; /* Optional: Add a border for better visibility */
+    width: 79%; /* Set width as needed */
 }
 
 .table-group {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-    table-layout: fixed;
+    width: 100%; /* Ensure the table takes up full width of the container */
+    border-collapse: collapse; /* Collapse borders for better appearance */
 }
 
 .table-group th, .table-group td {
-    padding: 8px;
-    text-align: center;
-    vertical-align: middle; /* 행과 열을 중간 정렬 */
-    border: none; /* 모든 border 제거 */
+    padding: 6px !important; /* Add padding for cells */
+    text-align: center; /* Align text to the left */
+    border-bottom: 1px solid #ddd; /* Add a bottom border for rows */
+}
+
+.table-group th {
+    background-color: #f2f2f2; /* Add a background color to the header */
+    position: sticky; /* Make the header sticky */
+    top: 0; /* Position it at the top */
 }
 
 .rank-column {
-    width: 5%;
+    width: 10%;
 }
 
+.rank-column-td {
+    width: 10%;
+}
 
 .spaced-title th {
-    color: #6b7684;
-    background-color: #fff !important;
-    padding: 10px 0; /* th 아래 간격 추가 */
-    border-bottom: 1px solid #e2e5e9;
-    font-weight: 400;
-    font-size: 14px;
-}
-
-.table-group tbody tr td {
-    color: #6b7684;
-    font-size: 14px;
-}
-
-.rank-column-td{
-    color: #007bff !important;
-}
-
-
-.red {
-    color: red;
-}
-
-.green {
-    color: green;
-}
-
-.pagination {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-    color: ;
-}
-
-.pagination ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.pagination ul li {
-    display: inline;
-    margin: 0 5px;
-}
-
-.pagination ul li a {
-    text-decoration: none;
-    padding: 8px 16px;
-    color: #007bff;
-}
-
-.pagination ul li.active a,
-.pagination ul li a:hover {
-    background-color: #007bff;
-    color: white;
-    border-radius: 5px;
-}
-
-.pagination ul li.disabled a {
-    color: #ccc;
-    pointer-events: none;
+    padding: 12px;
 }
