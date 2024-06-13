@@ -7,7 +7,6 @@ from datetime import datetime
 
 app = Flask(__name__)
 
-# CORS 설정 - 보안상의 이유로 실제 배포시에는 특정 도메인만 허용하는 것이 좋습니다.
 CORS_ORIGINS = ['http://localhost:3000']
 CORS_METHODS = ['POST']
 CORS_HEADERS = ['Content-Type']
