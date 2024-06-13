@@ -59,8 +59,9 @@ const Sidedown = () => {
                     // 필요한 요청 데이터를 여기에 추가하세요.
                 })
             });
-    
+            
             const result = await response.json();
+            console.log('리절트리스트',result);
             setData(result); // 데이터를 상태 변수에 저장
             const initiallyFixed = result.filter(item => item.favorite === 'Y').map(item => item.nickname);
             setFixedList(initiallyFixed); // 초기 고정된 항목 설정
@@ -100,16 +101,16 @@ const Sidedown = () => {
         let checkList;
         let action;
         let updatedItem = { ...item }; // 항목의 복사본 생성
-
-        if (fixedList.includes(item.nickname)) {
-            checkList = fixedList.filter(i => i !== item.nickname);
+        console.log('아이템 outputIdx',item.outputIdx)
+        if (fixedList.includes(item.outputIdx)) {
+            checkList = fixedList.filter(i => i !== item.outputIdx);
             action = 'checkout';
             updatedItem.favorite = 'N'; // favorite 필드를 N으로 변경
             updatedItem.work = 'ChangeCheckBox';
             console.log("체크아웃:", updatedItem); // 체크 해제된 항목 콘솔에 출력
             console.log(`체크아웃 항목: ${JSON.stringify(updatedItem)}, 상태: 체크 해제됨`); // 상세 내용 출력
         } else {
-            checkList = [...fixedList, item.nickname];
+            checkList = [...fixedList, item.outputIdx];
             action = 'checkin';
             updatedItem.favorite = 'Y'; // favorite 필드를 Y으로 변경
             updatedItem.work = 'ChangeCheckBox';
@@ -117,10 +118,11 @@ const Sidedown = () => {
             console.log(`체크인 항목: ${JSON.stringify(updatedItem)}, 상태: 체크됨`); // 상세 내용 출력
         }
         setFixedList(checkList);
-
+ 
         // 업데이트된 항목을 데이터 리스트에 반영
-        setData(data.map(d => (d.nickname === item.nickname ? updatedItem : d)));
-
+        setData(data.map(d => (d.resultIdx === item.resultIdx ? updatedItem : d)));
+        updatedItem.outputIdx = item.outputIdx
+        console.log(updatedItem.outputIdx)
         // 체크 상태를 서버로 전송
         postData(`http://localhost:8080/NomAlearn/sendListResult`, updatedItem);
     };

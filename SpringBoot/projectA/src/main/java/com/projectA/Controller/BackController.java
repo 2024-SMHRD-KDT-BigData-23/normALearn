@@ -95,9 +95,7 @@ public class BackController {
 	@GetMapping("/getListOutput") // 전체 출력값 가져오기 현재 차트에 사용중.
 	public ResponseEntity<List<Al_outputVO>> getListOutput() {
 		List<Al_outputVO> list = output.getListOutput();
-		for (int i = 0; i < list.size(); i++) {
-			System.out.println(list.get(i).getTensileStrengthResult());
-		}
+		
 
 		return ResponseEntity.ok(list);
 	}

@@ -9,12 +9,13 @@
           o.yieldStrengthResult,
           o.hardnessResult,
           o.elongationResult,
-          r.resultIdx AS result_idx,
+          r.resultIdx AS resultIdx,
           r.userId,
-          r.outputIdx AS output_idx,
+          r.outputIdx AS outputIdx,
           r.nickname,
           r.favorite,
-          r.number
+          r.number,
+          r.myPage
       FROM 
           al_result r
       INNER JOIN 
@@ -39,8 +40,11 @@
    <!-- 체크 박스 선택시 선택 해제 하는 sql -->
    <update id="changeResultCheckBox" parameterType="com.projectA.VO.Al_resultVO">
       UPDATE al_result
-      SET favorite = #{favorite} 
-      WHERE number = #{number}
+      SET favorite = CASE 
+                WHEN favorite = 'Y' THEN 'N'
+                ELSE 'Y'
+             END
+      WHERE outputIdx = #{outputIdx}
    </update>
    <!-- 마이페이지에 뜨는 result 값 -->
    <update id="mypageCheck" parameterType="com.projectA.VO.Al_resultVO">
