@@ -16,17 +16,30 @@ const useScript = (src) => {
       script = document.createElement('script');
       script.src = src;
       script.async = true;
-      script.onload = () => setStatus('ready');
-      script.onerror = () => setStatus('error');
+      script.setAttribute('data-status', 'loading');
       document.body.appendChild(script);
+
+      const setAttributeFromEvent = (event) => {
+        script.setAttribute('data-status', event.type === 'load' ? 'ready' : 'error');
+      };
+
+      script.addEventListener('load', setAttributeFromEvent);
+      script.addEventListener('error', setAttributeFromEvent);
     } else {
-      setStatus('ready');
+      setStatus(script.getAttribute('data-status'));
     }
+
+    const setStateFromEvent = (event) => {
+      setStatus(event.type === 'load' ? 'ready' : 'error');
+    };
+
+    script.addEventListener('load', setStateFromEvent);
+    script.addEventListener('error', setStateFromEvent);
 
     return () => {
       if (script) {
-        script.onload = null;
-        script.onerror = null;
+        script.removeEventListener('load', setStateFromEvent);
+        script.removeEventListener('error', setStateFromEvent);
       }
     };
   }, [src]);

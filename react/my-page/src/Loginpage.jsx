@@ -1,4 +1,3 @@
-// src/Loginpage.jsx
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
@@ -15,7 +14,7 @@ const Loginpage = () => {
   const [cookies, setCookie] = useCookies(['userId']);
   const navigate = useNavigate();
   const siteLandingRef = useRef(null);
-  const scriptStatus = useScript('/polygonizr.min.js'); // 경로를 public 폴더 기준으로 업데이트
+  const scriptStatus = useScript('/polygonizr.min.js'); // Ensure the path is correct
 
   const handleLogin = async () => {
     try {
@@ -57,25 +56,25 @@ const Loginpage = () => {
   useEffect(() => {
     if (scriptStatus !== 'ready') return;
 
-    const $sitelading = $(siteLandingRef.current);
+    const $siteLanding = $(siteLandingRef.current);
 
-    if (typeof $sitelading.polygonizr === 'function') {
-      $sitelading.polygonizr();
+    if (typeof $siteLanding.polygonizr === 'function') {
+      $siteLanding.polygonizr();
 
       const handleResize = () => {
-        $sitelading.polygonizr("stop");
-        $sitelading.polygonizr({
+        $siteLanding.polygonizr("stop");
+        $siteLanding.polygonizr({
           canvasHeight: window.innerHeight,
           canvasWidth: window.innerWidth,
         });
-        $sitelading.polygonizr("refresh");
+        $siteLanding.polygonizr("refresh");
       };
 
       window.addEventListener('resize', handleResize);
 
       return () => {
         window.removeEventListener('resize', handleResize);
-        $sitelading.polygonizr("stop");
+        $siteLanding.polygonizr("stop");
       };
     } else {
       console.error('polygonizr is not available as a jQuery function.');
