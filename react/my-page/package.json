@@ -13,6 +13,7 @@
     "bootstrap": "^5.3.3",
     "boxicons": "^2.1.4",
     "chart.js": "^4.4.3",
+    "concurrently": "^7.6.0",
     "font-awesome": "^4.7.0",
     "jquery": "^3.7.1",
     "jquery-ui": "^1.13.3",
@@ -29,10 +30,10 @@
     "web-vitals": "^4.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "concurrently \"npm run start-react\" \"npm run start-flask\" \"npm run start-spring\"",
+    "start-react": "react-scripts start",
+    "start-flask": "cd ../../flask && concurrently \"python flask_model.py\" \"python upflask.py\"",
+    "start-spring": "cd ../../SpringBoot/projectA && concurrently \"mvnw spring-boot:run\""
   },
   "eslintConfig": {
     "extends": [
