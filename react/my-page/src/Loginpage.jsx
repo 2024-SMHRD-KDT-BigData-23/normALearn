@@ -63,7 +63,7 @@ const Loginpage = () => {
     return () => {
       document.removeEventListener('keydown', handleKeyPress);
     };
-  }, [userId, userPw]);  // userId와 userPw가 변경될 때마다 재구성됩니다
+  }, );  // userId와 userPw가 변경될 때마다 재구성됩니다
 
   useEffect(() => {
     if (scriptStatus !== 'ready') return;

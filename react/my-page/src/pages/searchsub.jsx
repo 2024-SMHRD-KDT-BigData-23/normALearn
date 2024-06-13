@@ -7,6 +7,21 @@ const SearchSub = ({ onResults, setStart, setInfoData }) => {
   const [yieldStrength, setYieldStrength] = useState(''); // 항복 강도 상태
   const [hardness, setHardness] = useState(''); // 경도 상태
   const [elongation, setElongation] = useState(''); // 연신율 상태
+  
+
+  useEffect(() => {
+    const handleKeyPress = (event) => {
+      if (event.key === 'Enter') {
+        handleSearch();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyPress);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyPress);
+    };
+  }, );  // 의존성에 관련된 상태 추가
 
   useEffect(() => {
     // 쿠키에서 userId 확인
