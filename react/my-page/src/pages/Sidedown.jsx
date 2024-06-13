@@ -11,7 +11,7 @@ const ListItem = ({ item, handleCheckboxChange }) => (
                 <i className="fa fa-circle-o"></i>
                 <span className="nav-text">
                     {
-                        ['tensileStrength', 'yieldStrength', 'hardness', 'elongation']
+                        ['tensileStrengthResult', 'yieldStrengthResult', 'hardnessResult', 'elongationResult']
                             .map(key => item[key])
                             .join(' - ')
                     }
@@ -93,16 +93,7 @@ const Sidedown = () => {
         fetchData();
     }, []);
 
-    // jQuery UI sortable 기능 활성화 및 순서 변경 이벤트 핸들러
-    useEffect(() => {
-        $("#checked-sortable").sortable({
-            items: "li:has(input:checked)", // 체크된 항목만 드래그 앤 드롭 가능
-            update: function () {
-                const newOrder = $("#checked-sortable").sortable('toArray', { attribute: 'data-nickname' });
-                handleOrderChange(newOrder);
-            }
-        });
-    }, [fixedList]);
+    
 
     // 체크박스 선택 변경 핸들러
     const handleCheckboxChange = (item) => {
@@ -132,12 +123,6 @@ const Sidedown = () => {
 
         // 체크 상태를 서버로 전송
         postData(`http://localhost:8080/NomAlearn/sendListResult`, updatedItem);
-    };
-
-    // 순서 변경을 서버로 전송하는 함수
-    const handleOrderChange = (newOrder) => {
-        const orderedItems = newOrder.map(nickname => data.find(item => item.nickname === nickname));
-        postData(`http://localhost:8080/NomAlearn/submitOrder`, orderedItems);
     };
 
     // 체크된 항목과 체크되지 않은 항목을 분리하여 고정된 항목이 상단에 나오도록 정렬

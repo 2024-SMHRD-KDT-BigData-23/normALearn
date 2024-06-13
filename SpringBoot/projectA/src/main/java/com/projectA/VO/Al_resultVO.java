@@ -18,10 +18,10 @@ public class Al_resultVO {
     // 아래부터 DB에 없는 값
     private int oldNumber;
     private int newNumber;
-    private int tensileStrength;
-    private int yieldStrength;
-    private int hardness;
-    private int elongation;
+    private int tensileStrengthResult;
+    private int yieldStrengthResult;
+    private int hardnessResult;
+    private int elongationResult;
     // 작업 식별자
     private String work;
 }
