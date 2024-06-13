@@ -9,8 +9,7 @@ import com.projectA.VO.Al_outputVO;
 
 @Mapper
 public interface input_mapper {
-	
+
 	public List<Al_outputVO> insertInputAndUseIdxSearchOutput(Al_inputVO inputData);
-	
 
 }

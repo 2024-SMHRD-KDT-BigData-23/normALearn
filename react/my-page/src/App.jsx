@@ -37,9 +37,11 @@ function App() {
         setIsModalOpen(false); // 모달 닫기
     };
 
+    const cookieId = cookies.userId;
+
     useEffect(() => {
         // 쿠키에서 userId 확인
-        const cookieId = cookies.userId;
+        
         console.log('쿠키에 있는 userId 확인:', cookieId);
 
         if (!cookieId) {
@@ -61,7 +63,8 @@ function App() {
     }, [navigate]);
 
     useEffect(() => {
-        fetch("http://localhost:8080/NomAlearn/getListOutput")
+        const url = `http://localhost:8080/NomAlearn/getListOutput?userId=${cookieId}`;
+        fetch(url)
             .then(response => response.json())
             .then(moll => {
                 console.log('전체데이터', moll);

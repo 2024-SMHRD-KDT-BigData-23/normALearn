@@ -38,17 +38,13 @@ public class BackController {
 	@Autowired
 	private user_mapper user;
 
-	@PostMapping("/getListResult") // 처음 리스트 불러오는 메소드 <- 좌측 리스트
+	@PostMapping("/getListResult") // 처음 리스트 불러오는 메소드 <- 좌측 리스트 work 필드에 값이 없을시 아이디를 통해 전체 불러오는 메소드 작동
 	public ResponseEntity<List<Al_resultVO>> getListResult(@RequestBody Al_resultVO ResultInfo) {
-
-		System.out.println("리절트했을때 아이디~" + ResultInfo.getUserId());
 		String work = "";
 		try {
-			// 무슨 작업할지 확인
 			if (ResultInfo.getWork() != null) {
 				work = ResultInfo.getWork();
 			}
-			System.out.println(work);
 		} catch (Exception e) {
 			System.out.println("work가 null값입니다.");
 		}
@@ -89,8 +85,8 @@ public class BackController {
 	}
 
 	@GetMapping("/getListOutput") // 전체 출력값 가져오기 현재 차트에 사용중.
-	public ResponseEntity<List<Al_outputVO>> getListOutput() {
-		List<Al_outputVO> list = output.getListOutput();
+	public ResponseEntity<List<Al_outputVO>> getListOutput(Al_outputVO data) {
+		List<Al_outputVO> list = output.getListOutput(data);
 		return ResponseEntity.ok(list);
 	}
 
