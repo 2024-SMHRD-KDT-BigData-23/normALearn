@@ -13,7 +13,6 @@
     "bootstrap": "^5.3.3",
     "boxicons": "^2.1.4",
     "chart.js": "^4.4.3",
-    "concurrently": "^7.6.0",
     "font-awesome": "^4.7.0",
     "jquery": "^3.7.1",
     "jquery-ui": "^1.13.3",
@@ -54,7 +53,8 @@
     ]
   },
   "devDependencies": {
-    "@mdi/font": "^7.4.47"
+    "@mdi/font": "^7.4.47",
+    "concurrently": "^8.2.2"
   },
   "proxyConfig": "./proxy.config.js"
 }
