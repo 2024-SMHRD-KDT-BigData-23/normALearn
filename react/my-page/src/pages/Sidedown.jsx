@@ -63,7 +63,7 @@ const Sidedown = () => {
             const result = await response.json();
             console.log('리절트리스트',result);
             setData(result); // 데이터를 상태 변수에 저장
-            const initiallyFixed = result.filter(item => item.favorite === 'Y').map(item => item.nickname);
+            const initiallyFixed = result.filter(item => item.favorite === 'Y').map(item => item.outputIdx);
             setFixedList(initiallyFixed); // 초기 고정된 항목 설정
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -122,13 +122,13 @@ const Sidedown = () => {
         // 업데이트된 항목을 데이터 리스트에 반영
         setData(data.map(d => (d.resultIdx === item.resultIdx ? updatedItem : d)));
         updatedItem.outputIdx = item.outputIdx
-        console.log(updatedItem.outputIdx)
+        
         // 체크 상태를 서버로 전송
         postData(`http://localhost:8080/NomAlearn/sendListResult`, updatedItem);
     };
 
     // 체크된 항목과 체크되지 않은 항목을 분리하여 고정된 항목이 상단에 나오도록 정렬
-    const orderedData = [...data.filter(item => fixedList.includes(item.nickname)), ...data.filter(item => !fixedList.includes(item.nickname))];
+    const orderedData = [...data.filter(item => fixedList.includes(item.outputIdx)), ...data.filter(item => !fixedList.includes(item.outputIdx))];
 
     return {
         orderedData,
