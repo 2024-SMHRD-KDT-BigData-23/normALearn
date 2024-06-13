@@ -1,49 +1,53 @@
+/* 차트 컨테이너의 스타일 설정 */
 .chart-wrap {
-    position: absolute;
-    margin-top: 100px;
-    width: 100%;
+    position: absolute; /* 위치를 절대적으로 설정 */
+    margin-top: 100px; /* 상단 마진 100px */
+    width: 100%; /* 너비를 100%로 설정 */
 }
 
+/* 차트 행 스타일 설정 */
 .chart-row {
-    width: 80%;
-    margin: 0 auto; /* Center align */
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Center align */
-    justify-content: center; /* Vertical center align */
+    width: 80%; /* 너비를 80%로 설정 */
+    margin: 0 auto; /* 수평 가운데 정렬 */
+    display: flex; /* Flexbox 레이아웃 사용 */
+    flex-direction: column; /* 세로 방향으로 정렬 */
+    align-items: center; /* 가로 중앙 정렬 */
+    justify-content: center; /* 세로 중앙 정렬 */
 }
 
+/* 차트 영역 스타일 설정 */
 .chart-area {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: row; /* Horizontal layout */
-    width: 100%;
-    justify-content: center; /* Center align */
-    align-items: flex-start; /* Align items to the top */
+    margin-top: 20px; /* 상단 마진 20px */
+    display: flex; /* Flexbox 레이아웃 사용 */
+    flex-direction: row; /* 가로 방향으로 정렬 */
+    width: 100%; /* 너비를 100%로 설정 */
+    justify-content: center; /* 가로 중앙 정렬 */
 }
 
+/* 개별 차트 결과 영역 스타일 설정 */
 .chart-result {
-    background-color: #f2f5f8;
-    padding: 10px;
-    margin: 5px;
-    border: 1px solid var(--input-border);
-    border-radius: 10px;
-    font-size: 14px;
-    text-align: left; /* Left-align text */
-    flex: 1; /* Ensure equal size of items */
-    display: flex;
-    flex-direction: column; /* Vertical layout */
-    align-items: center; /* Center align */
-    justify-content: center; /* Center align */
-    box-sizing: border-box; /* Include padding and border in width and height */
+    background-color: #f2f5f8; /* 배경 색상 */
+    padding: 10px; /* 내부 여백 10px */
+    margin: 5px; /* 외부 여백 5px */
+    border: 1px solid var(--input-border); /* 테두리 색상 */
+    border-radius: 10px; /* 테두리 둥글게 10px */
+    font-size: 14px; /* 글꼴 크기 14px */
+    text-align: left; /* 텍스트를 왼쪽 정렬 */
+    flex: 1; /* Flexbox 항목의 크기를 동일하게 설정 */
+    display: flex; /* Flexbox 레이아웃 사용 */
+    flex-direction: column; /* 세로 방향으로 정렬 */
+    align-items: center; /* 가로 중앙 정렬 */
+    justify-content: center; /* 세로 중앙 정렬 */
+    box-sizing: border-box; /* 패딩과 테두리를 너비와 높이에 포함 */
 }
 
+/* 데이터 정보 표시 영역 스타일 설정 */
 .data-info {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 10px;
-    background-color: #f2f5f8;
-    border-radius: 5px;
-    max-width: 100%; /* Ensure the info box width does not exceed the container */
+    display: flex; /* Flexbox 레이아웃 사용 */
+    flex-direction: column; /* 세로 방향으로 정렬 */
+    align-items: flex-start; /* 가로 왼쪽 정렬 */
+    padding: 10px; /* 내부 여백 10px */
+    background-color: #f2f5f8; /* 배경 색상 */
+    border-radius: 5px; /* 테두리 둥글게 5px */
+    max-width: 100%; /* 최대 너비를 100%로 설정하여 정보 상자의 너비가 컨테이너를 초과하지 않도록 설정 */
 }

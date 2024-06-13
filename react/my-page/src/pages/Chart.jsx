@@ -2,6 +2,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Chart.css';
 import DoughnutChart from './DoughnutChart';
+import BarChart from './BarChart';
 
 const Chart = ({ vsData }) => {
   // 데이터를 수신하고 콘솔에 출력
@@ -15,7 +16,7 @@ const Chart = ({ vsData }) => {
             <DoughnutChart data={vsData} /> {/* 데이터 전달 */}
           </div>
           <div className='chart-result'>
-            차트박스2
+            <BarChart data={vsData}/>
           </div>
         </div>
       </div>
