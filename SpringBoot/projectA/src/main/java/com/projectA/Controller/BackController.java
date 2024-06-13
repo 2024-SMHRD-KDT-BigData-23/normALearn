@@ -116,12 +116,19 @@ public class BackController {
 	@PostMapping("/ChangePw") // 비밀번호 변경 userId, userPw, newPw 보내면됨
 	public ResponseEntity<Map<String, Object>> ChangePw(@RequestBody Al_userVO data) {
 		Map<String, Object> responseBody = new HashMap<>();
+		try {
+			System.out.println(data.getUserId());
+			System.out.println(data.getNewPw());
+			System.out.println(data.getUserPw());
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		int row = user.ChangePw(data);
 		if (row == 1) {
-			responseBody.put("message", "비밀번호 변경완료");
+			responseBody.put("message", "ok");
 			return ResponseEntity.ok(responseBody);
 		} else {
-			responseBody.put("message", "비밀번호 변경실패");
+			responseBody.put("message", "fail");
 			return ResponseEntity.ok(responseBody);
 		}
 
