@@ -129,7 +129,7 @@ const Modelling = ({ moll }) => {
                             <div className="align-middle">
                                 <label htmlFor={key}>{name}</label>
                                 <div className="table-value" value={selectedValues[key] || ''}>
-                                    {selectedValues[key] || 'N/A'}
+                                    {selectedValues[key] || '-'}
                                 </div>
                                 <input
                                     type="text"
@@ -160,7 +160,7 @@ const Modelling = ({ moll }) => {
                         </tbody>
                     </table>
                     <div className="table-btn-container">
-                        <button type="submit" className="btn btn-select" onClick={handleModeling}>확인</button>
+                        <button type="submit" className="btn btn-primary" onClick={handleModeling}>확인</button>
                     </div>
                 </div>
             </div>
@@ -201,8 +201,8 @@ const Modelling = ({ moll }) => {
             <div className="counter-area">
                 <h1>모델 설정 페이지</h1>
                 <div className="counter-group">
-                    <button onClick={() => setView('techInput')} className="btn btn-select">공법 입력</button>
-                    <button onClick={() => setView('modelBackup')} className="btn btn-select">모델 백업</button>
+                    <button onClick={() => setView('techInput')} className="btn btn-primary">공법 입력</button>
+                    <button onClick={() => setView('modelBackup')} className="btn btn-primary">모델 백업</button>
                 </div>
                 {renderContent()}
             </div>
