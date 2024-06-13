@@ -39,14 +39,14 @@ function App() {
 
     useEffect(() => {
         // 쿠키에서 userId 확인
-        const userId = cookies.userId;
-        console.log('쿠키에 있는 userId 확인:', userId);
+        const cookieId = cookies.userId;
+        console.log('쿠키에 있는 userId 확인:', cookieId);
 
-        if (!userId) {
+        if (!cookieId) {
             console.error('쿠키에 userId가 없습니다.');
             navigate('/login'); // 로그인 페이지로 이동
         } else {
-            setUserId(userId); // userId 상태에 설정
+            setUserId(cookieId); // userId 상태에 설정
         }
     }, [cookies, navigate]); // 종속성 배열에 cookies와 navigate 추가
 

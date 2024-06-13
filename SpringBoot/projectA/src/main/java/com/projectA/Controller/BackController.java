@@ -163,13 +163,13 @@ public class BackController {
 			Al_userVO user = new Al_userVO();
 			user.setCompanyName(result.getCompanyName());
 			user.setUserId(result.getUserId());
-			session.setAttribute("user", user);
+			session.setAttribute("userId", user);
 
 			// 쿠키 설정
-			Cookie cookie = new Cookie("userId", session.getId());
+			Cookie cookie = new Cookie("Alsession", session.getId());
 			cookie.setHttpOnly(true);
 			cookie.setPath("/");
-			cookie.setMaxAge(43200);
+			cookie.setMaxAge(30);
 			response.addCookie(cookie);
 
 			// 응답에 최소한의 사용자 정보 포함 + 회사이름

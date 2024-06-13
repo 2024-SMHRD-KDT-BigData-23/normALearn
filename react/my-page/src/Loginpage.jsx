@@ -28,14 +28,12 @@ const Loginpage = () => {
       });
 
       const result = await response.json();
-
+      
       if (response.ok && result.message === "로그인 성공") {
-        console.log('Response:', response);
-        console.log('Result:', result);
-        
+        console.log('로그인성공');      
         // 쿠키에 userId 설정
-        setCookie('userId', userId, { path: '/' });
-
+        setCookie('userId', result['userId'], { path: '/' });
+        console.log('처음설정되는 쿠키', result['userId']);
         localStorage.setItem('isLoggedIn', true);
         localStorage.setItem('userInfo', JSON.stringify({
           userId,
