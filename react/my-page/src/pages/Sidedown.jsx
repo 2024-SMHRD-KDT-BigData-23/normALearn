@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import $ from 'jquery';
 import 'jquery-ui/ui/widgets/sortable';
+import { useCookies } from 'react-cookie';
 import './Sidedown.css';
 
 // 리스트 아이템 컴포넌트
@@ -46,7 +47,9 @@ export const RenderList = ({ data, handleCheckboxChange }) => (
 const Sidedown = () => {
     const [data, setData] = useState([]);
     const [fixedList, setFixedList] = useState([]); // 선택된 항목 상태 변수
-
+    const [cookie] = useCookies(['userId']);
+    const userId = cookie.userId;
+    console.log('보내기전유저아이디',userId)
     // 데이터 가져오기 함수
     const fetchData = async () => {
         try {
@@ -55,7 +58,7 @@ const Sidedown = () => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
+                body: JSON.stringify({ userId
                     // 필요한 요청 데이터를 여기에 추가하세요.
                 })
             });

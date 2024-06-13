@@ -3,31 +3,33 @@
 <mapper namespace="com.projectA.Mapper.result_mapper">
 
    <!-- 처음 DB에 저장된 -->
-   <select id="getResultList" resultType="com.projectA.VO.Al_resultVO">
-      SELECT 
-	    o.tensileStrengthResult,
-	    o.yieldStrengthResult,
-	    o.hardnessResult,
-	    o.elongationResult,
-	    o.searchDate,
-	    r.resultIdx AS resultIdx,
-	    r.userId,
-	    r.outputIdx AS outputIdx,
-	    r.nickname,
-	    r.favorite,
-	    r.number,
-	    r.myPage
-		FROM 
-	    al_result r
-		INNER JOIN 
-	    al_output o ON r.outputIdx = o.outputIdx
-		INNER JOIN
-	    al_input i ON o.inputIdx = i.inputIdx
-		ORDER BY 
-	    CASE WHEN r.favorite = 'Y' THEN 0 ELSE 1 END,
-	    o.searchDate DESC, 
-	    r.number ASC
-		LIMIT 12
+   <select id="getResultList" parameterType="com.projectA.VO.Al_resultVO" resultType="com.projectA.VO.Al_resultVO">
+		    SELECT 
+		    o.tensileStrengthResult,
+		    o.yieldStrengthResult,
+		    o.hardnessResult,
+		    o.elongationResult,
+		    o.searchDate,
+		    r.resultIdx AS resultIdx,
+		    r.userId,
+		    r.outputIdx AS outputIdx,
+		    r.nickname,
+		    r.favorite,
+		    r.number,
+    		r.myPage
+			FROM 
+		    al_result r
+			INNER JOIN 
+		    al_output o ON r.outputIdx = o.outputIdx
+			INNER JOIN
+		    al_input i ON o.inputIdx = i.inputIdx
+			WHERE 
+		    r.userId = #{userId}
+			ORDER BY 
+		    CASE WHEN r.favorite = 'Y' THEN 0 ELSE 1 END,
+		    o.searchDate DESC, 
+		    r.number ASC
+			LIMIT 12
    </select>
 
    <!-- 드래그로 위치 변경시 기존 번호와 변경 번호를 활용하여 작동되는 순서변경 sql -->
@@ -65,6 +67,7 @@
       SELECT * 
       FROM al_result
       WHERE myPage = 'Y'
+      AND userId= #{userId}
    </select>
    
    

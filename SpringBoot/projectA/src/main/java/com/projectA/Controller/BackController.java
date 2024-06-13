@@ -41,11 +41,8 @@ public class BackController {
 	@PostMapping("/getListResult") // 처음 리스트 불러오는 메소드 <- 좌측 리스트
 	public ResponseEntity<List<Al_resultVO>> getListResult(@RequestBody Al_resultVO ResultInfo) {
 
-		///////////////
-		///// 전체값 가져와서 리액트에서 컨트롤하는 방향으로 변경 나중에 로그인 추가하면 아이디 값으로 가져오게끔 변경해야함
-		/////////////// !!!!!!!!!!!!!!!!!!!!!
-		////////////////
-		String work = "noting";
+		System.out.println("리절트했을때 아이디~" + ResultInfo.getUserId());
+		String work = "";
 		try {
 			// 무슨 작업할지 확인
 			if (ResultInfo.getWork() != null) {
@@ -53,16 +50,16 @@ public class BackController {
 			}
 			System.out.println(work);
 		} catch (Exception e) {
-			System.out.println("null 값 입니다~");
+			System.out.println("work가 null값입니다.");
 		}
 
-		if (work.equals("myPage")) { // 프론트에서 work 파라미터에 myPage 라고 보내면 마이페이지 리스트만 불러온다.
-			List<Al_resultVO> data = result.getMypageList();
+		if (work.equals("myPage")) { // 프론트에서 work 파라미터에 myPage 라고 보내면 유저아이디에 맞는 자료 마이페이지 리스트만 불러온다.
+			List<Al_resultVO> data = result.getMypageList(ResultInfo);
 			System.out.println("BookMark출력");
 			return ResponseEntity.ok(data);
 		} else {
 			// DB의 al_result 에서 가져온 값들을 리스트 data 에 담아서 리엑트로 보낸다.
-			List<Al_resultVO> data = result.getResultList();
+			List<Al_resultVO> data = result.getResultList(ResultInfo);
 			System.out.println("전챗값 출력");
 			return ResponseEntity.ok(data);
 		}
@@ -73,7 +70,6 @@ public class BackController {
 	public void sendListResult(@RequestBody Al_resultVO ResultInfo) {
 		String work = ResultInfo.getWork();
 		// 무슨 작업을 하는지 확인 프린트
-		System.out.println("무야호1");
 		System.out.println(ResultInfo.getOutputIdx());
 		System.out.println(work);
 		// if 문 사용 무슨 작업하는지 캐치
@@ -95,8 +91,6 @@ public class BackController {
 	@GetMapping("/getListOutput") // 전체 출력값 가져오기 현재 차트에 사용중.
 	public ResponseEntity<List<Al_outputVO>> getListOutput() {
 		List<Al_outputVO> list = output.getListOutput();
-		
-
 		return ResponseEntity.ok(list);
 	}
 
@@ -117,22 +111,6 @@ public class BackController {
 		// 일단 DB에서 가져와서 바로 출력하는 기능임 -> 머신러닝 구현해서 코드 추가할것
 		System.out.println(SearchResult.get(0).getInputIdx());
 		return ResponseEntity.ok(SearchResult);
-	}
-
-	@PostMapping("/join") // 회원가입 -> 폐기
-	public String join(@RequestBody Al_userVO joinData) {
-		// 회원가입 메소드 작동 성공시 1을 반환한다.
-		int result = user.join(joinData);
-		if (result == 1) {
-			System.out.println("회원가입 성공");
-			String id = joinData.getUserId();
-			// id 를 리액트로 보내서 "## 님 환영합니다 출력"
-			return id;
-		} else {
-			System.out.println("회원가입 실패");
-			return "회원가입이 실패하였습니다.";
-		}
-
 	}
 
 	@PostMapping("/ChangePw") // 비밀번호 변경 userId, userPw, newPw 보내면됨
