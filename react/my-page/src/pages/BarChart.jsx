@@ -21,28 +21,11 @@ ChartJS.register(
 );
 
 const BarChart = ({ data }) => {
+  const [mollData, setMollData] = useState([]); // 누적된 데이터를 저장할 공간
   const [selectedKey, setSelectedKey] = useState(''); // 현재 선택된 키
   const [chartData, setChartData] = useState({
     labels: [],
-    datasets: [
-      {
-        label: 'Values',
-        data: [],
-        backgroundColor: [
-          'rgba(75, 192, 192, 0.6)',
-          'rgba(255, 99, 132, 0.6)',
-          'rgba(54, 162, 235, 0.6)',
-          'rgba(255, 206, 86, 0.6)',
-        ],
-        borderColor: [
-          'rgba(75, 192, 192, 1)',
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-        ],
-        borderWidth: 1,
-      },
-    ],
+    datasets: [],
   });
 
   const keys = ['tensileStrengthResult', 'yieldStrengthResult', 'hardnessResult', 'elongationResult'];
@@ -53,36 +36,52 @@ const BarChart = ({ data }) => {
     elongationResult: 'Elongation',
   };
 
+  const colors = [
+    'rgba(75, 192, 192, 0.6)',
+    'rgba(255, 99, 132, 0.6)',
+    'rgba(54, 162, 235, 0.6)',
+    'rgba(255, 206, 86, 0.6)',
+    'rgba(153, 102, 255, 0.6)',
+  ];
+
+  const borderColors = [
+    'rgba(75, 192, 192, 1)',
+    'rgba(255, 99, 132, 1)',
+    'rgba(54, 162, 235, 1)',
+    'rgba(255, 206, 86, 1)',
+    'rgba(153, 102, 255, 1)',
+  ];
+
   useEffect(() => {
-    console.log('BarChart received data:', data);
-
     if (data) {
-      const selectedData = keys.map(key => (key === selectedKey ? data[key] || 0 : 0));
-
-      setChartData({
-        labels: keys.map(key => keyLabels[key]),
-        datasets: [
-          {
-            label: 'Values',
-            data: selectedData,
-            backgroundColor: [
-              'rgba(75, 192, 192, 0.6)',
-              'rgba(255, 99, 132, 0.6)',
-              'rgba(54, 162, 235, 0.6)',
-              'rgba(255, 206, 86, 0.6)',
-            ],
-            borderColor: [
-              'rgba(75, 192, 192, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-              'rgba(255, 206, 86, 1)',
-            ],
-            borderWidth: 1,
-          },
-        ],
+      setMollData((prevData) => {
+        const newData = [...prevData, data];
+        if (newData.length > 5) {
+          newData.shift(); // 첫 번째 데이터를 제거하여 최대 5개로 유지
+        }
+        console.log('바차트 데이터 누적:', newData); // 누적된 데이터를 콘솔에 출력
+        return newData;
       });
     }
-  }, [data, selectedKey]);
+  }, [data]);
+
+  useEffect(() => {
+    if (selectedKey) {
+      const labels = mollData.map((_, index) => `Data ${index + 1}`);
+      const dataset = {
+        label: keyLabels[selectedKey],
+        data: mollData.map(entry => entry[selectedKey] || 0),
+        backgroundColor: mollData.map((_, index) => colors[index % colors.length]),
+        borderColor: mollData.map((_, index) => borderColors[index % borderColors.length]),
+        borderWidth: 1,
+      };
+
+      setChartData({
+        labels,
+        datasets: [dataset],
+      });
+    }
+  }, [mollData, selectedKey]);
 
   const handleButtonClick = (key) => {
     setSelectedKey(key);
@@ -105,7 +104,7 @@ const BarChart = ({ data }) => {
       x: {
         title: {
           display: true,
-          text: 'Properties', // X축 제목
+          text: 'Data Points', // X축 제목
         },
       },
       y: {
