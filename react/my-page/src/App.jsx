@@ -106,7 +106,7 @@ function App() {
                                 <li className="darkerlishadow">
                                     <Link to="/App/counter">
                                         <i className="fa fa-wrench"></i>
-                                        <span className="nav-text">모델설정 페이지</span>
+                                        <span className="nav-text">모델관리 페이지</span>
                                     </Link>
                                 </li>
                             </ul>

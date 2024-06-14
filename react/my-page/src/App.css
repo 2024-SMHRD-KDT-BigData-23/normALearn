@@ -144,24 +144,34 @@ h1 {
 
 /* 모달 창 스타일 */
 .modal-overlay {
+  margin-left: 300px;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .modal-content {
-  background-color: #fff;
-  padding: 20px;
+  background-color: #f4f4f4; /* 모달 창 배경색을 밝은 회색으로 설정 */
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
-  width: 25%; /* 너비를 3분의 1로 설정 */
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px; /* 내부 패딩을 추가하여 여백 생성 */
+}
+
+.modal-content h2{
+  padding: 10px;
+  font-size: 24px;
 }
 
 .modal-content input {
@@ -169,13 +179,50 @@ h1 {
   padding: 10px;
   margin: 10px 0;
   font-size: 14px;
+  border-radius: 10px;
+  border: none;
+  background-color: #efefef;
+  border: 1px solid rgba(155, 170, 190, 0.164)
+  
 }
 
-.modal-content button {
-  padding: 10px 20px;
-  font-size: 14px;
-  cursor: pointer;
+.modal-content input::placeholder {
+  color: var(--input-placeholder);
+  border-color: var(--input-background);
 }
+
+.modal-content input:focus {
+  outline: none;
+  border-color: var(--input-background);
+  border: 1px solid rgba(119, 131, 146, 0.717)
+}
+
+
+
+.modal-content .btn-primary{
+  background-color: #CACCCB;
+  border: #CACCCB;
+}
+
+.modal-content .btn-primary:hover{
+  background-color: #acacac;
+  border: #acacac;
+}
+
+.modal-content .button-container {
+  display: flex;
+  justify-content: space-around; /* This will space the buttons evenly */
+  width: 100%; /* Take up the full width of the modal content */
+  margin-top: 20px; /* Optional: Adds some space above the button container */
+}
+
+.btn-primary {
+  flex-grow: 1; /* Each button will grow to fill the container */
+  margin: 0 5px; /* Adds space between the buttons */
+}
+
+
+
 
 .fa {
   display: flex;          /* Use flexbox for layout */

@@ -20,24 +20,24 @@ function Pwch({ isOpen, onRequestClose }) { // 함수 이름 수정
                 },
                 body: JSON.stringify({ 'userId': userId, 'userPw': userPw, 'newPw': newPw })
             })
-            .then(response => response.json())
-            .then(result => {
-                if (result.message === 'ok') {
-                    alert('비밀번호가 성공적으로 변경되었습니다.');
-                    onRequestClose();
-                } else {
-                    alert('비밀번호 변경 실패. 쿠키 삭제 후 다시 시도하세요.');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('비밀번호 변경 중 오류가 발생했습니다.');
-            });
+                .then(response => response.json())
+                .then(result => {
+                    if (result.message === 'ok') {
+                        alert('비밀번호가 성공적으로 변경되었습니다.');
+                        onRequestClose();
+                    } else {
+                        alert('비밀번호 변경 실패. 쿠키 삭제 후 다시 시도하세요.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('비밀번호 변경 중 오류가 발생했습니다.');
+                });
         } else {
             alert('새 비밀번호가 일치하지 않습니다.');
         }
     };
-    
+
 
     return (
         <Modal
@@ -65,8 +65,11 @@ function Pwch({ isOpen, onRequestClose }) { // 함수 이름 수정
                 value={conPw}
                 onChange={(e) => setConPw(e.target.value)}
             />
-            <button onClick={handleSubmit}>변경</button>
-            <button onClick={onRequestClose}>취소</button>
+            <div className="button-container">
+                <button className='btn btn-primary' onClick={handleSubmit}>변경</button>
+                <button className='btn btn-primary' onClick={onRequestClose}>취소</button>
+            </div>
+
         </Modal>
     );
 }
