@@ -1,2 +1,0 @@
-# normALearn
-normALearn
