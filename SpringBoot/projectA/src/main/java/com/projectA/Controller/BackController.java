@@ -135,36 +135,35 @@ public class BackController {
 	}
 	
 	@PostMapping("/board")
-	public ResponseEntity<Map<String, Object>> board(@RequestBody Al_boardVO data){
+	public ResponseEntity<List<Al_boardVO>> board(@RequestBody Al_boardVO data){
 		String work = "없음";
-		Map<String, Object> responseBody = new HashMap<>();
 		try {
 			work = data.getWork();
 			System.out.println("작업내용 = "+work);
 		} catch (Exception e) {}
 		if(work.equals("write")) {
 			board.writeBoard(data);
-			responseBody.put("message", "작성완료");
+			System.out.println("작성완료");			
 		}else if(work.equals("edit")) {
 			// 게시물 수정시 제목 수정안해도 같이 보내야 합니다. 밸류값 가져오는 방식으로. sql update 문 한번에 바꾸는 거라..
 			board.editBoard(data);
-			responseBody.put("message", "수정완료");
+			System.out.println("수정완료");
 		}else if(work.equals("Status")) {
 			board.editProgress(data);
-			responseBody.put("message", "상태변경");
+			System.out.println("상태변경");
 		}else if(work.equals("delete")) {
 			board.deleteBoard(data);
-			responseBody.put("message", "삭제완료");
+			System.out.println("삭제완료");
 		}else {
-			if(data.getUserId().equals("admin")) {
-				board.getAllBoardList(data);
+			if(data.getUserId().equals("admin")) { // 만약 로그인한 계정이 "admin" 이라면 아이디 상관없이 전부 가져옴 
+				List<Al_boardVO> responseBody =board.getAllBoardList(data);
+				return ResponseEntity.ok(responseBody);
 			}else {
-				board.getBoardList(data);
+				List<Al_boardVO> responseBody =board.getBoardList(data);
+				return ResponseEntity.ok(responseBody);
 			}
 		}
-		
-		
-		return ResponseEntity.ok(responseBody);
+		return null;
 	}
 
 	@PostMapping("/login")
