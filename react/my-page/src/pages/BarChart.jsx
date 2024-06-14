@@ -30,10 +30,10 @@ const BarChart = ({ data }) => {
 
   const keys = ['tensileStrengthResult', 'yieldStrengthResult', 'hardnessResult', 'elongationResult'];
   const keyLabels = {
-    tensileStrengthResult: 'Tensile Strength',
-    yieldStrengthResult: 'Yield Strength',
-    hardnessResult: 'Hardness',
-    elongationResult: 'Elongation',
+    tensileStrengthResult: '인장강도',
+    yieldStrengthResult: '항복강도',
+    hardnessResult: '경도',
+    elongationResult: '연신율',
   };
 
   const colors = [
@@ -83,6 +83,16 @@ const BarChart = ({ data }) => {
     }
   }, [mollData, selectedKey]);
 
+  useEffect(() => {
+    // 데이터의 길이가 0에서 2 사이일 때 인장강도 버튼 클릭
+    if (mollData.length >= 0 && mollData.length <= 2) {
+      const tensileStrengthButton = document.querySelector('.btn-tensileStrengthResult');
+      if (tensileStrengthButton) {
+        tensileStrengthButton.click(); // 인장강도 버튼 클릭
+      }
+    }
+  }, [mollData]); // mollData가 변경될 때마다 이 useEffect가 실행됩니다.
+
   const handleButtonClick = (key) => {
     setSelectedKey(key);
   };
@@ -94,27 +104,56 @@ const BarChart = ({ data }) => {
       legend: {
         display: true,
         position: 'top', // 범례 위치
+        labels: {
+          boxWidth: 0, // 범례의 색상 박스 너비를 0으로 설정
+          font: {
+            size: 15, // 폰트 크기
+            weight: 'bold', // 폰트 굵기
+          },
+        },
       },
       title: {
         display: true,
-        text: 'Mechanical Properties', // 차트 제목
+        text: '비교차트', // 차트 제목
+        font: {
+          size: 20, // 폰트 크기
+          weight: 'bold', // 폰트 굵기
+        },
       },
     },
     scales: {
       x: {
         title: {
           display: true,
-          text: 'Data Points', // X축 제목
+          text: '데이터 비교', // X축 제목
+          font: {
+            size: 15, // 폰트 크기
+            weight: 'bold', // 폰트 굵기
+          },
+        },
+        ticks: {
+          font: {
+            size: 15, // 폰트 크기
+            weight: 'bold', // 폰트 굵기
+          },
         },
       },
       y: {
         title: {
           display: true,
-          text: 'Values', // Y축 제목
+          text: '값', // Y축 제목 추가
+          font: {
+            size: 15, // 폰트 크기
+            weight: 'bold', // 폰트 굵기
+          },
         },
         beginAtZero: true, // Y축 0부터 시작
         ticks: {
           stepSize: 10, // y축 단위를 10단위로 설정
+          font: {
+            size: 15, // 폰트 크기
+            weight: 'bold', // 폰트 굵기
+          },
         },
       },
     },
@@ -125,8 +164,11 @@ const BarChart = ({ data }) => {
       <div className="chart-result">
         <Bar data={chartData} options={options} />
       </div>
-      <div className="chart-result">
-        <button onClick={() => handleButtonClick('tensileStrengthResult')}>인장강도</button>
+      
+      <div className="canvas">
+        <button className="btn-tensileStrengthResult" onClick={() => handleButtonClick('tensileStrengthResult')}>
+          인장강도
+        </button>
         <button onClick={() => handleButtonClick('yieldStrengthResult')}>항복강도</button>
         <button onClick={() => handleButtonClick('hardnessResult')}>경도</button>
         <button onClick={() => handleButtonClick('elongationResult')}>연신율</button>

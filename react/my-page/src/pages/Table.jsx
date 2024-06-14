@@ -6,15 +6,30 @@ import '../fonts.css';
 const Table = ({ setSelectedItem, start }) => {
     const [list, setList] = useState([]);
 
-    // Update list whenever start changes
+    // start가 변경될 때마다 리스트를 업데이트합니다.
     useEffect(() => {
-        setList(start); // Set list to start data
-        console.log('search 전달한 start:', start); // Log start data
-    }, [start]);
+        setList(start); // 리스트를 start 데이터로 설정합니다.
+        console.log('search 전달한 start:', start); // start 데이터를 로그에 출력합니다.
 
+        // 데이터가 변경될 때마다 다음 렌더링 후에 버튼을 클릭합니다.
+        setTimeout(() => {
+            // 모든 "상세보기" 버튼을 선택합니다.
+            const detailButtons = document.querySelectorAll('.btn.btn-primary');
+            // 버튼이 두 개 이상 있는지 확인합니다.
+            if (detailButtons.length > 1) {
+                // 두 번째 버튼을 먼저 클릭하고, 0.5초 후 첫 번째 버튼을 클릭합니다.
+                detailButtons[1].click(); // 두 번째 버튼 클릭
+                setTimeout(() => {
+                    detailButtons[0].click(); // 첫 번째 버튼 클릭
+                }, 500); // 500 밀리초 후에 첫 번째 버튼 클릭
+            }
+        }, 100); // DOM 업데이트를 위해 100밀리초 지연시킵니다.
+    }, [start]); // start가 변경될 때마다 이 useEffect가 실행됩니다.
+
+    // 상세보기 버튼 클릭 핸들러
     const handleViewDetails = (item) => {
-        setSelectedItem(item); // Send selected item data to parent component
-        console.log('상세보기 클릭 시:', item); // Log item data
+        setSelectedItem(item); // 선택된 항목 데이터를 상위 컴포넌트로 전달합니다.
+        console.log('상세보기 클릭 시:', item); // 선택된 항목 데이터를 로그에 출력합니다.
     };
 
     return (
@@ -42,7 +57,7 @@ const Table = ({ setSelectedItem, start }) => {
                                 <td>
                                     <button
                                         className="btn btn-primary"
-                                        onClick={() => handleViewDetails(item)} // Add click handler
+                                        onClick={() => handleViewDetails(item)} // 클릭 핸들러 추가
                                     >
                                         상세보기
                                     </button>

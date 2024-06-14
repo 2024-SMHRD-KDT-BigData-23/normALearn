@@ -51,3 +51,19 @@
     border-radius: 5px; /* 테두리 둥글게 5px */
     max-width: 100%; /* 최대 너비를 100%로 설정하여 정보 상자의 너비가 컨테이너를 초과하지 않도록 설정 */
 }
+/* 버튼을 세로로 나열하는 스타일 */
+.canvas {
+    display: flex;
+    flex-direction: column; /* 버튼을 세로로 나열 */
+    align-items: center; /* 가운데 정렬 */
+    gap: 10px; /* 버튼 사이의 간격을 10px로 설정 */
+}
+
+.canvas button {
+    width: 130px; /* 버튼 너비 설정 */
+    padding: 10px; /* 버튼 내부 여백 설정 */
+    font-size: 15px; /* 버튼 글꼴 크기 설정 */
+    margin-bottom: 8px; /* 버튼 하단 여백 설정 */
+    cursor: pointer; /* 커서 스타일을 포인터로 설정 */
+    border-radius: 20px; /* 테두리 둥글게 20px */
+}
