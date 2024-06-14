@@ -10,7 +10,6 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 
-// 필요한 차트 구성 요소 등록
 ChartJS.register(
   BarElement,
   CategoryScale,
@@ -21,8 +20,8 @@ ChartJS.register(
 );
 
 const BarChart = ({ data }) => {
-  const [mollData, setMollData] = useState([]); // 누적된 데이터를 저장할 공간
-  const [selectedKey, setSelectedKey] = useState(''); // 현재 선택된 키
+  const [mollData, setMollData] = useState([]);
+  const [selectedKey, setSelectedKey] = useState('');
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: [],
@@ -55,11 +54,20 @@ const BarChart = ({ data }) => {
   useEffect(() => {
     if (data) {
       setMollData((prevData) => {
-        const newData = [...prevData, data];
-        if (newData.length > 5) {
-          newData.shift(); // 첫 번째 데이터를 제거하여 최대 5개로 유지
+        let newData;
+
+        if (data.new) {
+          // 새로운 데이터로 교체
+          newData = [data];
+        } else {
+          // 기존 데이터 유지하고 새 데이터 추가
+          newData = [...prevData, data];
+          if (newData.length > 5) {
+            newData = newData.slice(0, 1).concat(newData.slice(-4));
+          }
         }
-        console.log('바차트 데이터 누적:', newData); // 누적된 데이터를 콘솔에 출력
+
+        console.log('바차트 데이터 누적:', newData);
         return newData;
       });
     }
@@ -84,40 +92,38 @@ const BarChart = ({ data }) => {
   }, [mollData, selectedKey]);
 
   useEffect(() => {
-    // 데이터의 길이가 0에서 2 사이일 때 인장강도 버튼 클릭
     if (mollData.length >= 0 && mollData.length <= 2) {
       const tensileStrengthButton = document.querySelector('.btn-tensileStrengthResult');
       if (tensileStrengthButton) {
-        tensileStrengthButton.click(); // 인장강도 버튼 클릭
+        tensileStrengthButton.click();
       }
     }
-  }, [mollData]); // mollData가 변경될 때마다 이 useEffect가 실행됩니다.
+  }, [mollData]);
 
   const handleButtonClick = (key) => {
     setSelectedKey(key);
   };
 
-  // 차트 옵션 설정
   const options = {
     responsive: true,
     plugins: {
       legend: {
         display: true,
-        position: 'top', // 범례 위치
+        position: 'top',
         labels: {
-          boxWidth: 0, // 범례의 색상 박스 너비를 0으로 설정
+          boxWidth: 0,
           font: {
-            size: 15, // 폰트 크기
-            weight: 'bold', // 폰트 굵기
+            size: 15,
+            weight: 'bold',
           },
         },
       },
       title: {
         display: true,
-        text: '비교차트', // 차트 제목
+        text: '비교차트',
         font: {
-          size: 20, // 폰트 크기
-          weight: 'bold', // 폰트 굵기
+          size: 20,
+          weight: 'bold',
         },
       },
     },
@@ -125,34 +131,34 @@ const BarChart = ({ data }) => {
       x: {
         title: {
           display: true,
-          text: '데이터 비교', // X축 제목
+          text: '데이터 비교',
           font: {
-            size: 15, // 폰트 크기
-            weight: 'bold', // 폰트 굵기
+            size: 15,
+            weight: 'bold',
           },
         },
         ticks: {
           font: {
-            size: 15, // 폰트 크기
-            weight: 'bold', // 폰트 굵기
+            size: 15,
+            weight: 'bold',
           },
         },
       },
       y: {
         title: {
           display: true,
-          text: '값', // Y축 제목 추가
+          text: '값',
           font: {
-            size: 15, // 폰트 크기
-            weight: 'bold', // 폰트 굵기
+            size: 15,
+            weight: 'bold',
           },
         },
-        beginAtZero: true, // Y축 0부터 시작
+        beginAtZero: true,
         ticks: {
-          stepSize: 10, // y축 단위를 10단위로 설정
+          stepSize: 10,
           font: {
-            size: 15, // 폰트 크기
-            weight: 'bold', // 폰트 굵기
+            size: 15,
+            weight: 'bold',
           },
         },
       },

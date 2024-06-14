@@ -7,7 +7,6 @@ const SearchSub = ({ onResults, setStart, setInfoData }) => {
   const [yieldStrength, setYieldStrength] = useState(''); // 항복 강도 상태
   const [hardness, setHardness] = useState(''); // 경도 상태
   const [elongation, setElongation] = useState(''); // 연신율 상태
-  
 
   useEffect(() => {
     const handleKeyPress = (event) => {
@@ -21,7 +20,7 @@ const SearchSub = ({ onResults, setStart, setInfoData }) => {
     return () => {
       document.removeEventListener('keydown', handleKeyPress);
     };
-  }, );  // 의존성에 관련된 상태 추가
+  }, []);  // 의존성에 관련된 상태 추가
 
   useEffect(() => {
     // 쿠키에서 userId 확인
@@ -75,8 +74,10 @@ const SearchSub = ({ onResults, setStart, setInfoData }) => {
   const handleSearch = async () => {
     await sendRequest('http://127.0.0.1:5001/predict', true);
     const results = await sendRequest('http://localhost:8080/NomAlearn/sendSearchData', true);
-    
+
     if (results) {
+      // 0번 인덱스 객체에 new: 'kw' 키값 추가
+      results[0] = { ...results[0], new: 'kw' };
       setStart(results);
       onResults(results);
       setInfoData({

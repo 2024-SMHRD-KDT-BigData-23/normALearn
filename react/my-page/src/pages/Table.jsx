@@ -13,15 +13,11 @@ const Table = ({ setSelectedItem, start }) => {
 
         // 데이터가 변경될 때마다 다음 렌더링 후에 버튼을 클릭합니다.
         setTimeout(() => {
-            // 모든 "상세보기" 버튼을 선택합니다.
-            const detailButtons = document.querySelectorAll('.btn.btn-primary');
-            // 버튼이 두 개 이상 있는지 확인합니다.
-            if (detailButtons.length > 1) {
-                // 두 번째 버튼을 먼저 클릭하고, 0.5초 후 첫 번째 버튼을 클릭합니다.
-                detailButtons[1].click(); // 두 번째 버튼 클릭
-                setTimeout(() => {
-                    detailButtons[0].click(); // 첫 번째 버튼 클릭
-                }, 500); // 500 밀리초 후에 첫 번째 버튼 클릭
+            // 첫 번째 "상세보기" 버튼을 선택합니다.
+            const detailButton = document.querySelector('.btn.btn-primary');
+            // 버튼이 있는지 확인합니다.
+            if (detailButton) {
+                detailButton.click(); // 첫 번째 버튼 클릭
             }
         }, 100); // DOM 업데이트를 위해 100밀리초 지연시킵니다.
     }, [start]); // start가 변경될 때마다 이 useEffect가 실행됩니다.
