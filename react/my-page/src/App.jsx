@@ -17,7 +17,7 @@ function App() {
     const [companyName, setCompanyName] = useState('');
     const [moll, setMoll] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태
-    const [cookies, setCookie, removeCookie] = useCookies(['userId']);
+    const [cookies, removeCookie] = useCookies(['userId']);
     const [userId, setUserId] = useState(null); // userId 상태 추가
     const navigate = useNavigate();
 
@@ -106,7 +106,7 @@ function App() {
                                 <li className="darkerlishadow">
                                     <Link to="/App/counter">
                                         <i className="fa fa-wrench"></i>
-                                        <span className="nav-text">모델관리 페이지</span>
+                                        <span className="nav-text">모델설정 페이지</span>
                                     </Link>
                                 </li>
                             </ul>

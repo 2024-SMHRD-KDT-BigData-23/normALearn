@@ -1,12 +1,61 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useCookies } from 'react-cookie';
 
 const SearchSub = ({ onResults, setStart, setInfoData }) => {
-  const [cookies, setCookie] = useCookies(['userId']);
+  const [cookies] = useCookies(['userId']);
   const [tensileStrength, setTensileStrength] = useState(''); // 인장 강도 상태
   const [yieldStrength, setYieldStrength] = useState(''); // 항복 강도 상태
   const [hardness, setHardness] = useState(''); // 경도 상태
   const [elongation, setElongation] = useState(''); // 연신율 상태
+
+  const handleSearch = useCallback(async () => {
+    const userId = cookies.userId; // 쿠키에서 userId 읽어오기
+    const searchData = {
+      tensileStrength,
+      yieldStrength,
+      hardness,
+      elongation,
+      userId
+    };
+    console.log('전송할 데이터:', JSON.stringify(searchData, null, 2));
+    try {
+      // 첫 번째 요청
+      await fetch('http://127.0.0.1:5001/predict', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(searchData)
+      });
+
+      // 두 번째 요청
+      const response = await fetch('http://localhost:8080/NomAlearn/sendSearchData', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(searchData)
+      });
+
+      const results = await response.json();
+      console.log('서버 응답:', JSON.stringify(results, null, 2));
+
+      if (results) {
+        // 0번 인덱스 객체에 new: 'kw' 키값 추가
+        results[0] = { ...results[0], new: 'kw' };
+        setStart(results);
+        onResults(results);
+        setInfoData({
+          tensileStrength,
+          yieldStrength,
+          hardness,
+          elongation
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching search results:', error);
+    }
+  }, [cookies.userId, tensileStrength, yieldStrength, hardness, elongation, setStart, onResults, setInfoData]);
 
   useEffect(() => {
     const handleKeyPress = (event) => {
@@ -20,74 +69,7 @@ const SearchSub = ({ onResults, setStart, setInfoData }) => {
     return () => {
       document.removeEventListener('keydown', handleKeyPress);
     };
-  }, []);  // 의존성에 관련된 상태 추가
-
-  useEffect(() => {
-    // 쿠키에서 userId 확인
-    const userId = cookies.userId;
-    console.log('쿠키에 있는 userId 확인:', userId);
-
-    if (!userId) {
-      console.error('쿠키에 userId가 없습니다.');
-      // navigate('/login'); // 로그인 페이지로 이동하는 코드를 추가하세요.
-    }
-  }, [cookies]);
-
-  const sendRequest = async (url, expectsResponse = true) => {
-    const userId = cookies.userId; // 쿠키에서 userId 읽어오기
-
-    if (!userId) {
-      console.error('쿠키에 userId가 없습니다.');
-      return;
-    }
-
-    const searchData = {
-      tensileStrength,
-      yieldStrength,
-      hardness,
-      elongation,
-      userId
-    };
-
-    console.log('전송할 데이터:', JSON.stringify(searchData, null, 2));
-
-    try {
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(searchData),
-      });
-
-      if (expectsResponse) {
-        const results = await response.json();
-        console.log('서버 응답:', JSON.stringify(results, null, 2));
-        return results;
-      }
-    } catch (error) {
-      console.error('Error fetching search results:', error);
-    }
-    return null;
-  };
-
-  const handleSearch = async () => {
-    await sendRequest('http://127.0.0.1:5001/predict', true);
-    const results = await sendRequest('http://localhost:8080/NomAlearn/sendSearchData', true);
-
-    if (results) {
-      // 0번 인덱스 객체에 new: 'kw' 키값 추가
-      results[0] = { ...results[0], new: 'kw' };
-      setStart(results);
-      onResults(results);
-      setInfoData({
-        tensileStrength,
-        yieldStrength,
-        hardness,
-        elongation
-      });
-    }
-  };
+  }, [handleSearch]);
 
   return (
     <div className="input-text-group">
