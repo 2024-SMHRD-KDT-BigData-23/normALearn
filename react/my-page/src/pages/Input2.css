@@ -1,0 +1,114 @@
+html {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    margin: 0;
+}
+
+.bookmark-wrap {
+    position: absolute;
+    margin-top: 80px;
+    width: calc(100% - 300px); /* Adjust width to account for margin-left */
+}
+
+.bookmark-area {
+    width: 80%;
+
+    margin: 0 auto; /* Center the element horizontally */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center content vertically */
+}
+
+.bookmark-group {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    table-layout: fixed;
+}
+
+.bookmark-group th, .bookmark-group td {
+    padding: 8px;
+    text-align: center;
+    vertical-align: middle; /* 행과 열을 중간 정렬 */
+    border: none; /* 모든 border 제거 */
+}
+
+.rank-column {
+    width: 5%;
+}
+
+
+.spaced-title th {
+    color: #6b7684;
+    background-color: #fff !important;
+    padding: 10px 0; /* th 아래 간격 추가 */
+    border-bottom: 1px solid #e2e5e9;
+    font-weight: 400;
+    font-size: 14px;
+}
+
+.bookmark-group tbody tr td {
+    color: #6b7684;
+    font-size: 14px;
+}
+
+.rank-column-td{
+    color: #007bff !important;
+}
+
+
+.red {
+    color: red;
+}
+
+.green {
+    color: green;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    color: ;
+}
+
+.pagination ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.pagination ul li {
+    display: inline;
+    margin: 0 5px;
+}
+
+.pagination ul li a {
+    text-decoration: none;
+    padding: 8px 16px;
+    color: #007bff;
+}
+
+.pagination ul li.active a,
+.pagination ul li a:hover {
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+}
+
+.pagination ul li.disabled a {
+    color: #ccc;
+    pointer-events: none;
+}
+
+
+
+.bookmark-group tbody tr td svg{
+    cursor: pointer;
+}
+
+
+
+

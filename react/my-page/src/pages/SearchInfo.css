@@ -1,0 +1,96 @@
+html {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    margin: 0;
+}
+
+.search-info {
+    position: absolute;
+    margin-top: 15px;
+    width: 100%;
+
+}
+
+.search-row {
+    width: 80%;
+    margin: 0 auto; /* Center the element horizontally */
+    display: flex;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align items to the start of the container */
+    justify-content: center; /* Center content vertically */
+    border-top: 1px solid #e2e5e9;
+
+    
+}
+
+.search-area {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row; /* Arrange children in a row */
+    flex-wrap: wrap; /* Allow children to wrap to the next line if needed */
+    width: 80%;
+    justify-content: space-around; /* Distribute space around items */
+    align-items: center; /* Center items vertically */
+    margin-left: 0;
+    padding-left: 0;
+}
+
+:root {
+    --input-color: #6b7684; /* font color */
+    --input-border: #f2f4f6;
+    --input-background: #f2f4f6;
+    --input-placeholder: #6b7684;
+    --input-border-focus: #6b7684;
+    --group-color-focus: #fff;
+    --group-border-focus: var(--input-border-focus);
+    --group-background-focus: #678EFE;
+}
+
+.serch-result {
+    background-color: #f2f5f8;
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid var(--input-border);
+    flex: 1 1 20%; /* Flex-grow, flex-shrink, and flex-basis to control item size */
+    text-align: center;
+    border-radius: 10px;
+    font-size: 14px;
+    display: flex;
+    align-items: flex-end;
+    flex-direction: row; /* Ensure children are arranged in a row */
+    justify-content: space-between; /* Distribute space between items */
+    align-items: center; /* Center items vertically */
+}
+
+.serch-result span:nth-child(1) {
+    justify-content: flex-start;
+    align-self: flex-start; /* Align the first span to the top */
+    margin-top: 0;
+    color: #6b7684;
+}
+
+.search-figure span:nth-child(1){
+    font-size: 40px;
+    color: #191F28 !important;
+    justify-content: flex-start;
+    font-weight: 700;
+}
+
+.search-figure span:nth-child(2) {
+    font-size: 14px;
+    color: #6b7684 !important;
+    margin-top: 30px; /* 필요에 따라 값을 조정하여 아래로 내립니다 */
+    text-align: start;
+    margin-left: 10px;
+
+}
+
+.serch-result:hover {
+  background: #e5e8eb;
+  cursor: pointer;
+  border: #e5e8eb;
+}
