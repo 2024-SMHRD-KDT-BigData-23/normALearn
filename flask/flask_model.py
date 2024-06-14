@@ -194,18 +194,19 @@ def predict():
             output_insert_id = cursor.fetchone()[0]
 
             resultquery = """INSERT INTO al_result 
-                        (userId, outputIdx, nickname, favorite, myPage) 
-                        VALUES (%s, %s, %s, %s, %s)"""
-            cursor.execute(resultquery,(                
+                        (resultIdx, userId, outputIdx, nickname, favorite, myPage) 
+                        VALUES (%s ,%s, %s, %s, %s, %s)"""
+            cursor.execute(resultquery,(
+                int(output_insert_id),                
                 userId,
                 int(output_insert_id),
                 'empty',
                 'N',
                 'N'
             ))
-            print("outputIdx",output_insert_id)    
+            db.commit()
             
-            db.commit()  # 변경사항을 저장
+
         except Exception as e:
             db.rollback()  # 롤백
             print(f"Error db inserting prediction result: {e}")
