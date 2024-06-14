@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.projectA.Mapper.board_mapper;
 import com.projectA.Mapper.input_mapper;
 import com.projectA.Mapper.output_mapper;
 import com.projectA.Mapper.result_mapper;
 import com.projectA.Mapper.user_mapper;
+import com.projectA.VO.Al_boardVO;
 import com.projectA.VO.Al_inputVO;
 import com.projectA.VO.Al_outputVO;
 import com.projectA.VO.Al_resultVO;
@@ -37,6 +39,8 @@ public class BackController {
 	private result_mapper result;
 	@Autowired
 	private user_mapper user;
+	@Autowired
+	private board_mapper board;
 
 	@PostMapping("/getListResult") // 처음 리스트 불러오는 메소드 <- 좌측 리스트 work 필드에 값이 없을시 아이디를 통해 전체 불러오는 메소드 작동
 	public ResponseEntity<List<Al_resultVO>> getListResult(@RequestBody Al_resultVO ResultInfo) {
@@ -128,6 +132,39 @@ public class BackController {
 			return ResponseEntity.ok(responseBody);
 		}
 
+	}
+	
+	@PostMapping("/board")
+	public ResponseEntity<Map<String, Object>> board(@RequestBody Al_boardVO data){
+		String work = "없음";
+		Map<String, Object> responseBody = new HashMap<>();
+		try {
+			work = data.getWork();
+			System.out.println("작업내용 = "+work);
+		} catch (Exception e) {}
+		if(work.equals("write")) {
+			board.writeBoard(data);
+			responseBody.put("message", "작성완료");
+		}else if(work.equals("edit")) {
+			// 게시물 수정시 제목 수정안해도 같이 보내야 합니다. 밸류값 가져오는 방식으로. sql update 문 한번에 바꾸는 거라..
+			board.editBoard(data);
+			responseBody.put("message", "수정완료");
+		}else if(work.equals("Status")) {
+			board.editProgress(data);
+			responseBody.put("message", "상태변경");
+		}else if(work.equals("delete")) {
+			board.deleteBoard(data);
+			responseBody.put("message", "삭제완료");
+		}else {
+			if(data.getUserId().equals("admin")) {
+				board.getAllBoardList(data);
+			}else {
+				board.getBoardList(data);
+			}
+		}
+		
+		
+		return ResponseEntity.ok(responseBody);
 	}
 
 	@PostMapping("/login")
