@@ -130,11 +130,13 @@ tbody, td, tfoot, th, thead, tr {
     text-align: center; /* 레이블 내부 텍스트를 중앙 정렬 */
     background-color: #8b95a1;
     border-radius: 20px;
-    padding: 0px 20px;
+    padding: 0px 10px;
     color: #fff;
-    width: 160px; /* 모든 레이블의 너비를 150px로 고정 */
+    width: 160px; /* Increase width to accommodate longer text */
+    white-space: nowrap; /* Prevent text from breaking into multiple lines */
+    overflow: hidden; /* Hide overflow text */
+    text-overflow: ellipsis; /* Display ellipsis for overflow text */
 }
-
 
 
 

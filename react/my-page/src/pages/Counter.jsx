@@ -3,18 +3,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './Counter.css';
 import '../fonts.css';
 
+
+import FixedBottomNavigation from '../components/FixedBottomNavigation'; // Ensure this path is correct
+import FormPropsTextFields from '../components/FormPropsTextFields';
+
 const Modelling = ({ moll }) => {
     const [view, setView] = useState('techInput');
     const [localMoll, setLocalMoll] = useState([]);
     const [selectedOption, setSelectedOption] = useState('');
     const [selectedValues, setSelectedValues] = useState({});
-
-    useEffect(() => {
-        const filteredMoll = moll.filter(item => item.myPage === 'Y');
-        setLocalMoll(filteredMoll);
-    }, [moll]);
-
-    // 상태 변수 선언
     const [stateValues, setStateValues] = useState({
         tensileStrengthResult: '',
         yieldStrengthResult: '',
@@ -42,6 +39,11 @@ const Modelling = ({ moll }) => {
         ni: '',
         ce: ''
     });
+
+    useEffect(() => {
+        const filteredMoll = moll.filter(item => item.myPage === 'Y');
+        setLocalMoll(filteredMoll);
+    }, [moll]);
 
     const keysToShow = [
         { key: 'tensileStrengthResult', name: '인장강도' },
@@ -111,7 +113,7 @@ const Modelling = ({ moll }) => {
 
     const renderTable = () => {
         const rows = [];
-    
+
         for (let i = 0; i < 5; i++) {
             const cells = [];
             for (let j = 0; j < 5; j++) {
@@ -128,7 +130,7 @@ const Modelling = ({ moll }) => {
                         <td key={index}>
                             <div className="align-middle">
                                 <label htmlFor={key}>{name}</label>
-                                <div className="table-value" value={selectedValues[key] || ''}>
+                                <div className="table-value">
                                     {selectedValues[key] || '-'}
                                 </div>
                                 <input
@@ -150,7 +152,7 @@ const Modelling = ({ moll }) => {
             }
             rows.push(<tr key={i}>{cells}</tr>);
         }
-    
+
         return (
             <div className="container">
                 <div className="table-responsive">
@@ -166,7 +168,7 @@ const Modelling = ({ moll }) => {
             </div>
         );
     };
-    
+
     const renderTechInput = () => {
         return (
             <>
@@ -190,7 +192,13 @@ const Modelling = ({ moll }) => {
             case 'techInput':
                 return renderTechInput();
             case 'modelBackup':
-                return <div>모델 백업 기능 준비 중입니다.</div>;
+                return (
+                    <>
+                        <FormPropsTextFields /> {/* Apply the inline style here */}
+
+                        <FixedBottomNavigation />
+                    </>
+                );
             default:
                 return <div>Invalid view</div>;
         }
