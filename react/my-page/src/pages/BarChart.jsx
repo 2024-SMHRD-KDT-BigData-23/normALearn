@@ -57,8 +57,10 @@ const BarChart = ({ data }) => {
         let newData;
 
         if (data.new) {
+          // 새로운 데이터로 교체
           newData = [data];
         } else {
+          // 기존 데이터 유지하고 새 데이터 추가
           newData = [...prevData, data];
           if (newData.length > 5) {
             newData = newData.slice(0, 1).concat(newData.slice(-4));
@@ -73,7 +75,7 @@ const BarChart = ({ data }) => {
 
   useEffect(() => {
     if (selectedKey) {
-      const labels = mollData.map((item) => item[selectedKey]?.toString() || `No ${selectedKey}`);
+      const labels = mollData.map((_, index) => `Data ${index + 1}`);
       const dataset = {
         label: keyLabels[selectedKey],
         data: mollData.map(entry => entry[selectedKey] || 0),
@@ -145,7 +147,7 @@ const BarChart = ({ data }) => {
       y: {
         title: {
           display: true,
-          
+          text: '값',
           font: {
             size: 15,
             weight: 'bold',

@@ -1,20 +1,19 @@
 import * as React from 'react';
-import '../App.css';
-import '../fonts.css';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import CssBaseline from '@mui/material/CssBaseline';
 
-// 전역 폰트 설정을 위한 테마 생성
 const theme = createTheme({
   typography: {
-    fontFamily: 'Noto Sans KR, Arial, sans-serif', // 원하는 폰트로 설정
+    fontFamily: 'Pretendard, Arial, sans-serif',
   },
 });
 
 export default function FormPropsTextFields() {
   return (
-    <ThemeProvider theme={theme}>  // ThemeProvider를 사용하여 폰트 테마 적용
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
       <Box
         component="form"
         sx={{
@@ -23,18 +22,16 @@ export default function FormPropsTextFields() {
         noValidate
         autoComplete="off"
       >
-        <div>
-          <TextField
-            required
-            id="filled-required"
-            label="로그인한회사명"
-            defaultValue="내용입력"
-            variant="filled"
-            InputProps={{
-              style: { height: '150px' }
-            }}
-          />
-        </div>
+        <TextField
+          required
+          id="filled-required"
+          label="로그인한회사명"
+          defaultValue="내용입력"
+          variant="filled"
+          InputProps={{
+            style: { height: '150px' }
+          }}
+        />
       </Box>
     </ThemeProvider>
   );

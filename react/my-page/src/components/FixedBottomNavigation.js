@@ -1,6 +1,4 @@
 import * as React from 'react';
-import '../App.css';
-import '../fonts.css';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import List from '@mui/material/List';
@@ -10,10 +8,20 @@ import ListItemText from '@mui/material/ListItemText';
 import Avatar from '@mui/material/Avatar';
 import Pagination from '@mui/material/Pagination';
 import { Container } from '@mui/material';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+
+const theme = createTheme({
+  typography: {
+    fontFamily: 'Pretendard, Arial, sans-serif',
+  },
+});
+
+const messageExamples = [
+  // 여기에 메시지 예제를 추가하세요
+];
 
 function refreshMessages() {
     const getRandomInt = (max) => Math.floor(Math.random() * Math.floor(max));
-    // 항상 배열을 반환하도록 보장합니다. from(new Array(1)) 숫자를 변경하면 그만큼
     return Array.from(new Array(1)).map(() => {
         const randomIndex = getRandomInt(messageExamples.length);
         return messageExamples[randomIndex] || {}; // 또는 적절한 기본값
@@ -34,34 +42,32 @@ export default function FixedBottomNavigation() {
         : [];
 
     return (
-        <Box sx={{ pb: 7 }}>
+        <ThemeProvider theme={theme}>
             <CssBaseline />
-            <List>
-                {paginatedMessages.map((message, index) => (
-                    <ListItemButton key={index}>
-                        <ListItemAvatar>
-                            <Avatar alt="Profile Picture" src={message.person || '/static/images/avatar/default.jpg'} />
-                        </ListItemAvatar>
-                        <ListItemText primary={message.primary || 'No title'} secondary={message.secondary || 'No content'} />
-                    </ListItemButton>
-                ))}
-            </List>
-            {messages.length > itemsPerPage && (
-                <Container maxWidth="sm">
-                    <Box sx={{ display: 'flex', justifyContent: 'center', pt: 2 }}>
-                        <Pagination
-                            count={Math.ceil(messages.length / itemsPerPage)}
-                            page={page}
-                            onChange={handleChangePage}
-                            color="primary"
-                        />
-                    </Box>
-                </Container>
-            )}
-        </Box>
+            <Box sx={{ pb: 7 }}>
+                <List>
+                    {paginatedMessages.map((message, index) => (
+                        <ListItemButton key={index}>
+                            <ListItemAvatar>
+                                <Avatar alt="Profile Picture" src={message.person || '/static/images/avatar/default.jpg'} />
+                            </ListItemAvatar>
+                            <ListItemText primary={message.primary || 'No title'} secondary={message.secondary || 'No content'} />
+                        </ListItemButton>
+                    ))}
+                </List>
+                {messages.length > itemsPerPage && (
+                    <Container maxWidth="sm">
+                        <Box sx={{ display: 'flex', justifyContent: 'center', pt: 2 }}>
+                            <Pagination
+                                count={Math.ceil(messages.length / itemsPerPage)}
+                                page={page}
+                                onChange={handleChangePage}
+                                color="primary"
+                            />
+                        </Box>
+                    </Container>
+                )}
+            </Box>
+        </ThemeProvider>
     );
 }
-
-const messageExamples = [
-    // 예제 메시지들...
-];
