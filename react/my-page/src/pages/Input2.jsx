@@ -151,7 +151,7 @@ const Bookmark = ({ moll }) => {
     const handleEditModalClose = async () => {
         // 변경된 데이터를 반영하여 localMoll 상태를 업데이트합니다.
         setLocalMoll(prev => prev.map(item => (item.outputIdx === editData.outputIdx ? editData : item)));
-
+        editData.work = 'updateProductName';
         // 전송할 데이터는 수정된 데이터입니다.
         const postData = { ...editData };
 
@@ -159,7 +159,7 @@ const Bookmark = ({ moll }) => {
         console.log('전송할 데이터:', postData);
 
         try {
-            const response = await fetch('http://localhost:8080/NomAlearn/board', {
+            const response = await fetch('http://localhost:8080/NomAlearn/sendListOutput', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

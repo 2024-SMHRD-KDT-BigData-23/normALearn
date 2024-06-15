@@ -15,5 +15,11 @@
 		ORDER BY 
 	    al_output.searchDate DESC
 	</select>
+	
+	<update id="updateProductName" parameterType="com.projectA.VO.Al_outputVO">
+		UPDATE al_output 
+		SET productName = #{productName}
+		WHERE outputIdx= #{outputIdx}
+	</update>
 
 </mapper>

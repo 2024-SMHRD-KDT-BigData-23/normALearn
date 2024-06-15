@@ -12,4 +12,6 @@ public interface output_mapper {
 
 	public List<Al_outputVO> getListOutput(Al_outputVO data);
 
+	public void updateProductName(Al_outputVO outputInfo);
+
 }

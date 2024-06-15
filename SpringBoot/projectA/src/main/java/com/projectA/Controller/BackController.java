@@ -96,9 +96,19 @@ public class BackController {
 
 	@PostMapping("/sendListOutput") //
 	public void sendListOutput(@RequestBody Al_outputVO OutputInfo) {
-		String work = OutputInfo.getWork();
-		// 무슨 작업을 하는지 확인 프린트
-		System.out.println(work);
+		
+		String work = "없음";
+		try {
+			work = OutputInfo.getWork();
+			System.out.println("작업내용 : "+work);
+			// 무슨 작업을 하는지 확인 프린트
+		} catch (Exception e) {}
+		if(work.equals("updateProductName")) {
+			output.updateProductName(OutputInfo);
+		}
+		
+		
+		
 
 	}
 
