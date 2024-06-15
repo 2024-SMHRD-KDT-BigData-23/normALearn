@@ -97,7 +97,7 @@ const DoughnutChart = ({ data }) => {
     }
 
     const keys = ['si', 'cu', 'sc', 'fe', 'mn', 'mg', 'zr', 'sm', 'zn', 'ti', 'sr', 'ni', 'ce'];
-    const alValue = data?.['al'] ?? '우건짱'; // 'al' 값을 사용하거나 기본 값 'Default'를 사용
+    const alValue = data?.['al'] ?? '-'; // 'al' 값을 사용하거나 기본 값 'Default'를 사용
     console.log('alValue:', alValue);
 
     const labels = [];
@@ -158,8 +158,8 @@ const DoughnutChart = ({ data }) => {
 
   const renderObjectInfo = () => {
     const defaultInfo = {
-      elongationResult: '준범이형 바보',
-      hardnessResult: '준범이형 멍청이',
+      elongationResult: '-',
+      hardnessResult: '-',
       tensileStrengthResult: '-',
       yieldStrengthResult: '-',
       firstTemperature: '-',
