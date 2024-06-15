@@ -44,4 +44,5 @@ public class Al_outputVO {
     private String userId;
     // 추가 된것
     private String work;
+    private String productName;
 }

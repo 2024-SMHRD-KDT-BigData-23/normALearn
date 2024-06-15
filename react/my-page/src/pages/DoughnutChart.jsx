@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import StarIcon from './StarIcon';
 import {
   Chart as ChartJS,
   ArcElement,
@@ -202,15 +203,13 @@ const DoughnutChart = ({ data }) => {
       <div className="chart-result">
         {renderObjectInfo()}
       </div>
-      <div className="checkbox-container">
-        <label>
-          <input
-            type="checkbox"
-            checked={isChecked}
-            onChange={chartbookmark}
-          />
-          북마크
-        </label>
+      <div className="checkbox-container"  onClick={chartbookmark} style={{ cursor: 'pointer' }}>
+        {/* 별모양 아이콘으로 교체한 부분 */}
+        <StarIcon
+          checked={isChecked} // isChecked 상태를 props로 전달
+          onClick={chartbookmark} // 클릭 이벤트 핸들러 연결
+        />
+        북마크
       </div>
     </div>
   );

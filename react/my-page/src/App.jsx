@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Routes, Route, Link, useNavigate } from "react-router-dom";
+import { Routes, Route, Link, useNavigate, useLocation } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import './fonts.css';
@@ -16,41 +16,40 @@ function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [companyName, setCompanyName] = useState('');
     const [moll, setMoll] = useState([]);
-    const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [cookies, removeCookie] = useCookies(['userId']);
-    const [userId, setUserId] = useState(null); // userId 상태 추가
+    const [userId, setUserId] = useState(null);
     const navigate = useNavigate();
+    const location = useLocation(); // useLocation 훅 사용
 
     const handleLogout = () => {
         localStorage.removeItem('userInfo');
         localStorage.removeItem('isLoggedIn');
-        removeCookie('userId'); // 'userId' 쿠키 삭제
+        removeCookie('userId');
         setIsLoggedIn(false);
         navigate('/login');
     };
 
     const handleOpenModal = () => {
-        setIsModalOpen(true); // 모달 열기
+        setIsModalOpen(true);
     };
 
     const handleCloseModal = () => {
-        setIsModalOpen(false); // 모달 닫기
+        setIsModalOpen(false);
     };
 
     const cookieId = cookies.userId;
 
     useEffect(() => {
-        // 쿠키에서 userId 확인
-        
         console.log('쿠키에 있는 userId 확인:', cookieId);
 
         if (!cookieId) {
             console.error('쿠키에 userId가 없습니다.');
-            navigate('/login'); // 로그인 페이지로 이동
+            navigate('/login');
         } else {
-            setUserId(cookieId); // userId 상태에 설정
+            setUserId(cookieId);
         }
-    }, [cookies, navigate]); // 종속성 배열에 cookies와 navigate 추가
+    }, [cookies, navigate]);
 
     useEffect(() => {
         const savedUserInfo = JSON.parse(localStorage.getItem('userInfo'));
@@ -62,7 +61,7 @@ function App() {
         }
     }, [navigate]);
 
-    useEffect(() => {
+    const fetchData = () => {
         const url = `http://localhost:8080/NomAlearn/getListOutput?userId=${cookieId}`;
         fetch(url)
             .then(response => response.json())
@@ -71,7 +70,17 @@ function App() {
                 setMoll(moll);
             })
             .catch(error => console.error('Error fetching data:', error));
+    };
+
+    useEffect(() => {
+        fetchData();
     }, []);
+
+    useEffect(() => {
+        if (location.pathname === '/App/input2') {
+            fetchData();
+        }
+    }, [location.pathname]);
 
     return (
         <div className="App">
@@ -124,8 +133,8 @@ function App() {
                     </div>
                     <Pwch 
                         isOpen={isModalOpen} 
-                        onRequestClose={handleCloseModal} // onRequestClose로 prop 전달
-                        userId={userId} // userId를 Pwch 컴포넌트에 전달
+                        onRequestClose={handleCloseModal} 
+                        userId={userId} 
                     />
                 </>
             ) : (
