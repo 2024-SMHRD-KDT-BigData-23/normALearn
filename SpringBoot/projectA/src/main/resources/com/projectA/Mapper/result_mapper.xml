@@ -71,14 +71,21 @@
    </select>
 
    <select id="ClickListSerch" parameterType="com.projectA.VO.Al_resultVO" resultType="com.projectA.VO.Al_outputVO">
-        SELECT *
-        FROM al_output
-        WHERE inputIdx = (
-          SELECT inputIdx
-          FROM al_output
-          WHERE outputIdx = #{outputIdx}
-            )
-        ORDER BY outputIdx = #{outputIdx} DESC
+       SELECT 
+	    ao.*,
+	    ar.myPage
+		FROM 
+		    al_output ao
+		JOIN 
+		    al_result ar ON ao.inputIdx = ar.outputIdx
+		WHERE 
+		    ao.inputIdx = (
+		        SELECT inputIdx
+		        FROM al_output
+		        WHERE outputIdx = #{outputIdx}
+		    )
+		ORDER BY 
+		    ao.outputIdx = #{outputIdx} DESC
     </select>
    
    

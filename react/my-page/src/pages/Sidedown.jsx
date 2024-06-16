@@ -1,6 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import $ from 'jquery';
-import 'jquery-ui/ui/widgets/sortable';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useCookies } from 'react-cookie';
 import './Sidedown.css';
 
@@ -42,12 +40,11 @@ const RenderList = ({ data, handleCheckboxChange, handleClick }) => (
     </ul>
 );
 
-const Sidedown = ({ setSelectedItem, setStart, onResults }) => {
+const Sidedown = ({ setSelectedItem, setStart, onResults}) => {
     const [data, setData] = useState([]);
     const [fixedList, setFixedList] = useState([]);
     const [cookies] = useCookies(['userId']);
     const userId = cookies.userId;
-    console.log('보내기전유저아이디', userId);
 
     const fetchData = async () => {
         try {
@@ -60,7 +57,6 @@ const Sidedown = ({ setSelectedItem, setStart, onResults }) => {
             });
 
             const result = await response.json();
-            console.log('리절트리스트', result);
             setData(result);
             const initiallyFixed = result.filter(item => item.favorite === 'Y').map(item => item.outputIdx);
             setFixedList(initiallyFixed);
@@ -68,6 +64,10 @@ const Sidedown = ({ setSelectedItem, setStart, onResults }) => {
             console.error('Error fetching data:', error);
         }
     };
+
+    useEffect(() => {
+        fetchData();
+    }, []); // 빈 배열은 컴포넌트가 처음 마운트될 때만 실행됨
 
     const postData = async (url, data) => {
         try {
@@ -87,42 +87,27 @@ const Sidedown = ({ setSelectedItem, setStart, onResults }) => {
         }
     };
 
-    useEffect(() => {
-        fetchData();
-    }, []);
-
     const handleCheckboxChange = (item) => {
         let checkList;
-        let action;
         let updatedItem = { ...item };
-        console.log('아이템 outputIdx', item.outputIdx);
         if (fixedList.includes(item.outputIdx)) {
             checkList = fixedList.filter(i => i !== item.outputIdx);
-            action = 'checkout';
             updatedItem.favorite = 'N';
-            updatedItem.work = 'ChangeCheckBox';
-            console.log("체크아웃:", updatedItem);
-            console.log(`체크아웃 항목: ${JSON.stringify(updatedItem)}, 상태: 체크 해제됨`);
         } else {
             checkList = [...fixedList, item.outputIdx];
-            action = 'checkin';
             updatedItem.favorite = 'Y';
-            updatedItem.work = 'ChangeCheckBox';
-            console.log("체크인:", updatedItem);
-            console.log(`체크인 항목: ${JSON.stringify(updatedItem)}, 상태: 체크됨`);
         }
+        updatedItem.work = 'ChangeCheckBox';
         setFixedList(checkList);
         setData(data.map(d => (d.resultIdx === item.resultIdx ? updatedItem : d)));
-        updatedItem.outputIdx = item.outputIdx;
-        postData(`http://localhost:8080/NomAlearn/sendListResult`, updatedItem);
+        postData('http://localhost:8080/NomAlearn/sendListResult', updatedItem);
     };
 
-    const handleClick = async (item) => {
+    const handleClick = useCallback(async (item) => {
         const ClickData = {
             outputIdx: item.outputIdx,
             userId: userId,
         };
-        console.log('Clicked item data:', ClickData);
 
         try {
             const response = await fetch('http://localhost:8080/NomAlearn/clickListData', {
@@ -136,16 +121,19 @@ const Sidedown = ({ setSelectedItem, setStart, onResults }) => {
                 throw new Error('클릭했는데 아무것도 못가져옴');
             }
             const clickData = await response.json();
-            console.log('클릭해서 받아온 데이터:', clickData);
             setSelectedItem(clickData); // 선택된 항목 설정
-            setStart(clickData); // 테이블에 데이터를 전달
-            onResults(clickData); // 검색 결과를 전달
+            setStart(clickData);
+            onResults(clickData);
+            
         } catch (error) {
             console.error('Error fetching click list data:', error);
         }
-    };
+    }, [userId, setSelectedItem, setStart, onResults]);
 
-    const orderedData = [...data.filter(item => fixedList.includes(item.outputIdx)), ...data.filter(item => !fixedList.includes(item.outputIdx))];
+    const orderedData = [
+        ...data.filter(item => fixedList.includes(item.outputIdx)),
+        ...data.filter(item => !fixedList.includes(item.outputIdx))
+    ];
 
     return (
         <div>
