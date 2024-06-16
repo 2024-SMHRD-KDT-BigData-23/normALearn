@@ -3,13 +3,13 @@ import { useCookies } from 'react-cookie';
 
 const SearchSub = ({ onResults, setStart, setInfoData }) => {
   const [cookies] = useCookies(['userId']);
-  const [tensileStrength, setTensileStrength] = useState(''); // 인장 강도 상태
-  const [yieldStrength, setYieldStrength] = useState(''); // 항복 강도 상태
-  const [hardness, setHardness] = useState(''); // 경도 상태
-  const [elongation, setElongation] = useState(''); // 연신율 상태
+  const [tensileStrength, setTensileStrength] = useState('');
+  const [yieldStrength, setYieldStrength] = useState('');
+  const [hardness, setHardness] = useState('');
+  const [elongation, setElongation] = useState('');
 
   const handleSearch = useCallback(async () => {
-    const userId = cookies.userId; // 쿠키에서 userId 읽어오기
+    const userId = cookies.userId;
     const searchData = {
       tensileStrength,
       yieldStrength,
@@ -19,7 +19,6 @@ const SearchSub = ({ onResults, setStart, setInfoData }) => {
     };
     console.log('전송할 데이터:', JSON.stringify(searchData, null, 2));
     try {
-      // 첫 번째 요청
       await fetch('http://127.0.0.1:5001/predict', {
         method: 'POST',
         headers: {
@@ -28,7 +27,6 @@ const SearchSub = ({ onResults, setStart, setInfoData }) => {
         body: JSON.stringify(searchData)
       });
 
-      // 두 번째 요청
       const response = await fetch('http://localhost:8080/NomAlearn/sendSearchData', {
         method: 'POST',
         headers: {
@@ -41,7 +39,6 @@ const SearchSub = ({ onResults, setStart, setInfoData }) => {
       console.log('서버 응답:', JSON.stringify(results, null, 2));
 
       if (results) {
-        // 0번 인덱스 객체에 new: 'kw' 키값 추가
         results[0] = { ...results[0], new: 'kw' };
         setStart(results);
         onResults(results);
@@ -105,7 +102,6 @@ const SearchSub = ({ onResults, setStart, setInfoData }) => {
         value={elongation}
         onChange={(e) => setElongation(e.target.value)}
       />
-    
       <button className="input-button" onClick={handleSearch}>
         입력
       </button>

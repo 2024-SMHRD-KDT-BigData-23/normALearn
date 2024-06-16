@@ -8,7 +8,6 @@ import Input2 from "./pages/Input2";
 import Counter from "./pages/Counter";
 import Loginpage from "./Loginpage";
 import Sidedown from "./pages/Sidedown";
-import Table from "./pages/Table"; // Table 컴포넌트가 있는 경로를 올바르게 설정하세요.
 import { useCookies } from 'react-cookie';
 import Pwch from "./pages/Pwch";
 
@@ -86,6 +85,10 @@ function App() {
         }
     }, [location.pathname]);
 
+    const handleResults = (results) => {
+        setResults(results);
+    };
+
     return (
         <div className="App">
             {isLoggedIn ? (
@@ -128,17 +131,30 @@ function App() {
                             <Sidedown 
                                 setSelectedItem={setSelectedItem} 
                                 setStart={setStart} 
-                                onResults={setResults}
+                                onResults={handleResults}
                             />
                         </div>
                     </nav>
                     <div className="content-container">
                         <Routes>
-                            <Route path="/" element={<Search onStartChange={() => {}} />} />
+                            <Route 
+                                path="/" 
+                                element={
+                                    <Search 
+                                        onStartChange={() => {}} 
+                                        selectedItem={selectedItem}
+                                        setSelectedItem={setSelectedItem}
+                                        start={start}
+                                        setStart={setStart}
+                                        results={results}
+                                        setResults={setResults}
+                                    />
+                                } 
+                            />
                             <Route path="/input2" element={<Input2 moll={moll} />} />
                             <Route path="/counter" element={<Counter moll={moll} />} />
                         </Routes>
-                        {start.length > 0 && <Table setSelectedItem={setSelectedItem} start={start} />}
+                        
                     </div>
                     <Pwch 
                         isOpen={isModalOpen} 

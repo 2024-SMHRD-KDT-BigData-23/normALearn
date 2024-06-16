@@ -40,7 +40,7 @@ const RenderList = ({ data, handleCheckboxChange, handleClick }) => (
     </ul>
 );
 
-const Sidedown = ({ setSelectedItem, setStart, onResults}) => {
+const Sidedown = ({ setSelectedItem, setStart, onResults }) => {
     const [data, setData] = useState([]);
     const [fixedList, setFixedList] = useState([]);
     const [cookies] = useCookies(['userId']);
@@ -67,7 +67,7 @@ const Sidedown = ({ setSelectedItem, setStart, onResults}) => {
 
     useEffect(() => {
         fetchData();
-    }, []); // 빈 배열은 컴포넌트가 처음 마운트될 때만 실행됨
+    }, []);
 
     const postData = async (url, data) => {
         try {
@@ -121,10 +121,9 @@ const Sidedown = ({ setSelectedItem, setStart, onResults}) => {
                 throw new Error('클릭했는데 아무것도 못가져옴');
             }
             const clickData = await response.json();
-            setSelectedItem(clickData); // 선택된 항목 설정
             setStart(clickData);
             onResults(clickData);
-            
+            setSelectedItem(clickData[0]);
         } catch (error) {
             console.error('Error fetching click list data:', error);
         }
