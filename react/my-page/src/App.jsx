@@ -7,20 +7,24 @@ import Search from "./pages/Search";
 import Input2 from "./pages/Input2";
 import Counter from "./pages/Counter";
 import Loginpage from "./Loginpage";
-import Sidedown, { RenderList } from "./pages/Sidedown";
+import Sidedown from "./pages/Sidedown";
+import Table from "./pages/Table"; // Table 컴포넌트가 있는 경로를 올바르게 설정하세요.
 import { useCookies } from 'react-cookie';
 import Pwch from "./pages/Pwch";
 
 function App() {
-    const { orderedData, fixedList, handleCheckboxChange } = Sidedown();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [companyName, setCompanyName] = useState('');
     const [moll, setMoll] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [cookies, removeCookie] = useCookies(['userId']);
     const [userId, setUserId] = useState(null);
+    const [selectedItem, setSelectedItem] = useState(null); // 선택된 항목을 저장하는 상태
+    const [start, setStart] = useState([]); // 테이블의 데이터를 저장하는 상태
+    const [results, setResults] = useState([]); // 검색 결과를 저장하는 상태
+
     const navigate = useNavigate();
-    const location = useLocation(); // useLocation 훅 사용
+    const location = useLocation();
 
     const handleLogout = () => {
         localStorage.removeItem('userInfo');
@@ -121,7 +125,11 @@ function App() {
                             </ul>
                         </div>
                         <div className="scrollbar" id="style-1">
-                            <RenderList data={orderedData} fixedList={fixedList} handleCheckboxChange={handleCheckboxChange} />
+                            <Sidedown 
+                                setSelectedItem={setSelectedItem} 
+                                setStart={setStart} 
+                                onResults={setResults}
+                            />
                         </div>
                     </nav>
                     <div className="content-container">
@@ -130,6 +138,7 @@ function App() {
                             <Route path="/input2" element={<Input2 moll={moll} />} />
                             <Route path="/counter" element={<Counter moll={moll} />} />
                         </Routes>
+                        {start.length > 0 && <Table setSelectedItem={setSelectedItem} start={start} />}
                     </div>
                     <Pwch 
                         isOpen={isModalOpen} 

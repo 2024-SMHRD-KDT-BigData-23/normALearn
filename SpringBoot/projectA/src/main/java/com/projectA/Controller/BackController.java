@@ -123,6 +123,19 @@ public class BackController {
 		return ResponseEntity.ok(SearchResult);
 	}
 
+	@PostMapping("/clickListData")
+    public ResponseEntity<List<Al_outputVO>> clickListData(@RequestBody Al_resultVO data){
+        System.out.println(data.getOutputIdx());
+        System.out.println(data.getUserId());
+        List<Al_outputVO> ClickData = result.ClickListSerch(data);
+        try {
+            System.out.println(ClickData.get(0));
+        } catch (Exception e) {
+            System.out.println("DataMissing");
+        } 
+        return ResponseEntity.ok(ClickData);
+    }
+
 	@PostMapping("/ChangePw") // 비밀번호 변경 userId, userPw, newPw 보내면됨
 	public ResponseEntity<Map<String, Object>> ChangePw(@RequestBody Al_userVO data) {
 		Map<String, Object> responseBody = new HashMap<>();

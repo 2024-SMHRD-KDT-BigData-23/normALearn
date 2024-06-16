@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.projectA.VO.Al_outputVO;
 import com.projectA.VO.Al_resultVO;
 
 @Mapper
@@ -22,5 +23,8 @@ public interface result_mapper {
 
 	// 북마크된 결과 가져오기
 	public List<Al_resultVO> getMypageList(Al_resultVO resultInfo);
+
+	// 클릭시 결과 가져오기
+    public List<Al_outputVO> ClickListSerch(Al_resultVO data);
 
 }

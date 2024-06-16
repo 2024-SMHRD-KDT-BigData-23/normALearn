@@ -69,6 +69,17 @@
       WHERE myPage = 'Y'
       AND userId= #{userId}
    </select>
+
+   <select id="ClickListSerch" parameterType="com.projectA.VO.Al_resultVO" resultType="com.projectA.VO.Al_outputVO">
+        SELECT *
+        FROM al_output
+        WHERE inputIdx = (
+          SELECT inputIdx
+          FROM al_output
+          WHERE outputIdx = #{outputIdx}
+            )
+        ORDER BY outputIdx = #{outputIdx} DESC
+    </select>
    
    
 
