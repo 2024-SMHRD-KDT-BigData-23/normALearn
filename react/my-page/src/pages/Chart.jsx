@@ -5,9 +5,6 @@ import DoughnutChart from './DoughnutChart';
 import BarChart from './BarChart';
 
 const Chart = ({ vsData }) => {
-  // 데이터를 수신하고 콘솔에 출력
-  console.log('chart.jsx확인:', vsData);
-
   return (
     <div className="chart-wrap">
       <div className="chart-row">

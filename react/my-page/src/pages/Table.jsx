@@ -5,27 +5,21 @@ import '../fonts.css';
 
 const Table = ({ setSelectedItem, start }) => {
     const [list, setList] = useState([]);
-
-    // start가 변경될 때마다 리스트를 업데이트합니다.
+    
     useEffect(() => {
-        setList(start); // 리스트를 start 데이터로 설정합니다.
-        console.log('search 전달한 start:', start); // start 데이터를 로그에 출력합니다.
-
-        // 데이터가 변경될 때마다 다음 렌더링 후에 버튼을 클릭합니다.
-        setTimeout(() => {
-            // 첫 번째 "상세보기" 버튼을 선택합니다.
-            const detailButton = document.querySelector('.btn.btn-primary');
-            // 버튼이 있는지 확인합니다.
+        setList(start); 
+        console.log('search 전달한 start:', start);    
+        setTimeout(() => {           
+            const detailButton = document.querySelector('.btn.btn-primary');            
             if (detailButton) {
-                detailButton.click(); // 첫 번째 버튼 클릭
+                detailButton.click(); 
             }
-        }, 100); // DOM 업데이트를 위해 100밀리초 지연시킵니다.
-    }, [start]); // start가 변경될 때마다 이 useEffect가 실행됩니다.
+        }, 100);
+    }, [start]);
 
     // 상세보기 버튼 클릭 핸들러
     const handleViewDetails = (item) => {
-        setSelectedItem(item); // 선택된 항목 데이터를 상위 컴포넌트로 전달합니다.
-        console.log('상세보기 클릭 시:', item); // 선택된 항목 데이터를 로그에 출력합니다.
+        setSelectedItem(item); 
     };
 
     return (

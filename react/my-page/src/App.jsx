@@ -44,10 +44,8 @@ function App() {
     const cookieId = cookies.userId;
 
     useEffect(() => {
-        console.log('쿠키에 있는 userId 확인:', cookieId);
-
         if (!cookieId) {
-            console.error('쿠키에 userId가 없습니다.');
+            console.error('자동로그아웃 작동 다시 로그인하세요.');
             navigate('/login');
         } else {
             setUserId(cookieId);
@@ -69,10 +67,9 @@ function App() {
         fetch(url)
             .then(response => response.json())
             .then(moll => {
-                console.log('전체데이터', moll);
                 setMoll(moll);
             })
-            .catch(error => console.error('Error fetching data:', error));
+            .catch(error => console.error('ERROR:', error));
     };
 
     useEffect(() => {
