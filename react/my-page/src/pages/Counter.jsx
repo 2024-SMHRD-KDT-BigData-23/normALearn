@@ -136,14 +136,14 @@ const Modelling = ({ moll }) => {
               <div className="align-middle">
                 <label htmlFor={key}>{name}</label>
                 <div className="table-value">
-                  {selectedValues[key] || '-'}
+                  {selectedValues[key] || '0'}
                 </div>
                 <input
                   type="text"
                   name={key}
                   className="table-text-group"
                   placeholder={selectedValues[key]}
-                  value={stateValues[key] || ''}
+                  value={stateValues[key] || '0'}
                   onChange={({ target: { value } }) => {
                     setStateValues(prev => ({ ...prev, [key]: value }));
                   }}
@@ -216,7 +216,7 @@ const Modelling = ({ moll }) => {
         <h1>모델 설정 페이지</h1>
         <div className="counter-group">
           <button onClick={() => setView('techInput')} className="btn btn-primary">공법 입력</button>
-          <button onClick={() => setView('modelBackup')} className="btn btn-primary">모델 백업</button>
+          <button onClick={() => setView('modelBackup')} className="btn btn-primary">게시판</button>
         </div>
         {renderContent()}
       </div>
