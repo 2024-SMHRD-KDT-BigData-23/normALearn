@@ -22,16 +22,11 @@ def after_request(response):
     return response
 
 # MySQL 연결 정보 설정
-def get_db_connection():
-    return MySQLdb.connect(
-        host="project-db-cgi.smhrd.com", 
-        user="normalearn", 
-        passwd="woogun12345", 
-        db="normalearn", 
-        port=3307
-    )
-
-db = get_db_connection()
+db = MySQLdb.connect(host="project-db-cgi.smhrd.com",    # MySQL 서버 호스트
+                     user="normalearn",     # MySQL 사용자 이름
+                     passwd="woogun12345",   # MySQL 비밀번호
+                     db="normalearn",
+                     port=3307)  # 사용할 데이터베이스 이름
 cursor = db.cursor()
 
 # 가장 최근의 모델 파일을 찾는 함수
@@ -73,6 +68,7 @@ scaler.fit(training_data)
 # 특성 라벨
 feature_labels = ['firstTemperature', 'firstTime', 'cooling', 'secondTemperature', 'secondTime', 'agingTemperature',
                   'agingTime', 'al', 'si', 'cu', 'sc', 'fe', 'mn', 'mg', 'zr', 'sm', 'zn', 'ti', 'sr', 'ni', 'ce']
+
 
 
 @app.route('/predict', methods=['POST'])
@@ -125,7 +121,7 @@ def predict():
                 combined_result[key] = 0  # 음수 값을 0으로 설정
 
         results.append(combined_result)
-    
+        
     userId = data['userId']
     print(userId)
     tensileStrength = float(data['tensileStrength'])
@@ -133,93 +129,87 @@ def predict():
     hardness = float(data['hardness'])
     elongation = float(data['elongation'])
     
+
     print(f"Debug: tensileStrength={tensileStrength}, yieldStrength={yieldStrength}, hardness={hardness}, elongation={elongation}")
 
-    try:
-        # MySQL 연결이 유지되지 않은 경우 재연결
-        if db.open == 0:
-            db = get_db_connection()
-            cursor = db.cursor()
+    inputquery = """INSERT INTO al_input (userId, tensileStrength, yieldStrength, hardness, elongation) 
+                    VALUES (%s, %s, %s, %s, %s)"""
+            
+    cursor.execute(inputquery, (
+            userId,
+            tensileStrength,
+            yieldStrength,
+            hardness,
+            elongation
+        ))
+    db.commit()
+    cursor.execute("SELECT LAST_INSERT_ID()")
+    input_insert_id = cursor.fetchone()[0]
+    print(input_insert_id)
+    
+    # MySQL에 결과 삽입
+    for result in results:
+        try:
 
-        inputquery = """INSERT INTO al_input (userId, tensileStrength, yieldStrength, hardness, elongation) 
-                        VALUES (%s, %s, %s, %s, %s)"""
-                
-        cursor.execute(inputquery, (
+            # 결과를 삽입할 쿼리 작성
+            outputquery = """INSERT INTO al_output (
+                    userId, inputIdx, tensileStrengthResult, yieldStrengthResult, elongationResult, hardnessResult, 
+                    firstTemperature, firstTime, cooling, secondTemperature, secondTime, agingTemperature, agingTime, 
+                    al, si, cu, sc, fe, mn, mg, zr, sm, zn, ti, sr, ni, ce
+                    ) VALUES (
+                        %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
+                    )"""
+            # 쿼리를 실행하여 결과 삽입
+            cursor.execute(outputquery, (
                 userId,
-                tensileStrength,
-                yieldStrength,
-                hardness,
-                elongation
+                int(input_insert_id),
+                round(result['tensileStrengthResult'], 2),
+                round(result['yieldStrengthResult'], 2),
+                round(result['elongationResult'], 2),
+                round(result['hardnessResult'], 2),
+                int(round(result['firstTemperature'], 0)),
+                round(result['firstTime'], 1),
+                int(round(result['cooling'], 0)),
+                int(round(result['secondTemperature'], 0)),
+                round(result['secondTime'], 1),
+                int(round(result['agingTemperature'], 0)),
+                round(result['agingTime'], 1),
+                round(result['al'], 2),
+                round(result['si'], 2),
+                round(result['cu'], 2),
+                round(result['sc'], 2),
+                round(result['fe'], 2),
+                round(result['mn'], 2),
+                round(result['mg'], 2),
+                round(result['zr'], 2),
+                round(result['sm'], 2),
+                round(result['zn'], 2),
+                round(result['ti'], 2),
+                round(result['sr'], 2),
+                round(result['ni'], 2),
+                round(result['ce'], 2)
             ))
-        db.commit()
-        cursor.execute("SELECT LAST_INSERT_ID()")
-        input_insert_id = cursor.fetchone()[0]
-        print(input_insert_id)
+            db.commit()
+            cursor.execute("SELECT LAST_INSERT_ID()")
+            output_insert_id = cursor.fetchone()[0]
 
-        # MySQL에 결과 삽입
-        for result in results:
-            try:
-                # 결과를 삽입할 쿼리 작성
-                outputquery = """INSERT INTO al_output (
-                        userId, inputIdx, tensileStrengthResult, yieldStrengthResult, elongationResult, hardnessResult, 
-                        firstTemperature, firstTime, cooling, secondTemperature, secondTime, agingTemperature, agingTime, 
-                        al, si, cu, sc, fe, mn, mg, zr, sm, zn, ti, sr, ni, ce
-                        ) VALUES (
-                            %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
-                        )"""
-                # 쿼리를 실행하여 결과 삽입
-                cursor.execute(outputquery, (
-                    userId,
-                    int(input_insert_id),
-                    round(result['tensileStrengthResult'], 2),
-                    round(result['yieldStrengthResult'], 2),
-                    round(result['elongationResult'], 2),
-                    round(result['hardnessResult'], 2),
-                    int(round(result['firstTemperature'], 0)),
-                    round(result['firstTime'], 1),
-                    int(round(result['cooling'], 0)),
-                    int(round(result['secondTemperature'], 0)),
-                    round(result['secondTime'], 1),
-                    int(round(result['agingTemperature'], 0)),
-                    round(result['agingTime'], 1),
-                    round(result['al'], 2),
-                    round(result['si'], 2),
-                    round(result['cu'], 2),
-                    round(result['sc'], 2),
-                    round(result['fe'], 2),
-                    round(result['mn'], 2),
-                    round(result['mg'], 2),
-                    round(result['zr'], 2),
-                    round(result['sm'], 2),
-                    round(result['zn'], 2),
-                    round(result['ti'], 2),
-                    round(result['sr'], 2),
-                    round(result['ni'], 2),
-                    round(result['ce'], 2)
-                ))
-                db.commit()
-                cursor.execute("SELECT LAST_INSERT_ID()")
-                output_insert_id = cursor.fetchone()[0]
+            resultquery = """INSERT INTO al_result 
+                        (resultIdx, userId, outputIdx, nickname, favorite, myPage) 
+                        VALUES (%s ,%s, %s, %s, %s, %s)"""
+            cursor.execute(resultquery,(
+                int(output_insert_id),                
+                userId,
+                int(output_insert_id),
+                'empty',
+                'N',
+                'N'
+            ))
+            db.commit()
+            
 
-                resultquery = """INSERT INTO al_result 
-                            (resultIdx, userId, outputIdx, nickname, favorite, myPage) 
-                            VALUES (%s ,%s, %s, %s, %s, %s)"""
-                cursor.execute(resultquery,(
-                    int(output_insert_id),                
-                    userId,
-                    int(output_insert_id),
-                    'empty',
-                    'N',
-                    'N'
-                ))
-                db.commit()
-                
-            except Exception as e:
-                db.rollback()  # 롤백
-                print(f"Error db inserting prediction result: {e}")
-    except MySQLdb.Error as db_err:
-        print(f"MySQLdb Error: {db_err}")
-        return jsonify({'error': 'Database error'}), 500
+        except Exception as e:
+            db.rollback()  # 롤백
+            print(f"Error db inserting prediction result: {e}")
 
     return jsonify({'results': results}), 200
 

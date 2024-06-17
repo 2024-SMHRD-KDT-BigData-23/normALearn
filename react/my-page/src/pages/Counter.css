@@ -173,25 +173,43 @@ tbody, td, tfoot, th, thead, tr {
 }
 
 
+.table-responsive {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
 
 .table-btn-container {
     display: flex;
-    justify-content: center; /* Center button horizontally */
+    justify-content: center; /* Center the button horizontally */
     margin-top: 20px; /* Space above the button */
 }
 
-.table-btn {
-    justify-content: center;
-    text-align: center;
+
+/* 확인 버튼 크기 수정 */ 
+.table-btn-container {
+    width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center the button horizontally */
+    margin-top: 20px; /* Space above the button */
+}
+
+.table-btn-container .btn-primary {
+    width: 100px !important; /* Set the button width to 100px */
+    align-self: center; /* Center the button vertically within its container */
 }
 
 
 .btn-primary{
-    background-color: #CACCCB;
-    border: #CACCCB;
+    background-color: #CACCCB !important;
+    border: #CACCCB !important;
 }
 
 .btn-primary:hover{
-    background-color: #acacac;
-    border: #acacac;
+    background-color: #acacac !important;
+    border: #acacac !important;
 }
+

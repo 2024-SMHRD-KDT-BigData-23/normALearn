@@ -208,7 +208,9 @@ const Bookmark = ({ moll }) => {
                                 <td>{item.hardnessResult}</td>
                                 <td>{item.elongationResult}</td>
                                 <td>
+                                    <div className='pro-name'>
                                     {item.productName}
+                                    </div>
                                     <button className="btn btn-secondary ml-2" onClick={() => handleEditClick(item)}>
                                         수정
                                     </button>

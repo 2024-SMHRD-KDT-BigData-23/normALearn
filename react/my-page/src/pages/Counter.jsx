@@ -167,7 +167,7 @@ const Modelling = ({ moll }) => {
             </tbody>
           </table>
           <div className="table-btn-container">
-            <button type="submit" className="btn btn-primary" onClick={handleModeling}>확인</button>
+            <button type="submit" className="btn btn-primary">확인</button>
           </div>
         </div>
       </div>

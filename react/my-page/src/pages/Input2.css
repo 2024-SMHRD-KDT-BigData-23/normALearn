@@ -72,7 +72,7 @@ body {
     display: flex;
     justify-content: center;
     margin-top: 20px;
-    color: ;
+   
 }
 
 .pagination ul {
@@ -112,3 +112,14 @@ body {
 
 
 
+
+
+.flex-container {
+    display: flex;
+    align-items: center;
+}
+
+.flex-container .pro-name {
+    margin-right: 10px; /* Adjust margin as needed */
+    width: 100px;
+}
