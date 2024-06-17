@@ -72,14 +72,17 @@ const DoughnutChart = ({ data }) => {
     }
   };
 
-  const chartbookmark = () => {
+  const chartbookmark = (event) => {
+    event.stopPropagation(); // 이벤트 전파 중지
+
     const newCheckedState = !isChecked;
     setIsChecked(newCheckedState);
 
     const outputIdxValue = data?.outputIdx;
+    const myPageValue = data?.myPage;
 
     if (outputIdxValue !== undefined) {
-      const updatedData = { outputIdx: outputIdxValue, work: 'ChangeMypage' };
+      const updatedData = { outputIdx: outputIdxValue, work: 'ChangeMypage', myPage : myPageValue };
       console.log('북마크된 데이터:', updatedData);
 
       postData('http://localhost:8080/NomAlearn/sendListResult', updatedData);
@@ -203,11 +206,10 @@ const DoughnutChart = ({ data }) => {
       <div className="chart-result">
         {renderObjectInfo()}
       </div>
-      <div className="checkbox-container"  onClick={chartbookmark} style={{ cursor: 'pointer' }}>
+      <div className="checkbox-container" onClick={chartbookmark} style={{ cursor: 'pointer' }}>
         {/* 별모양 아이콘으로 교체한 부분 */}
         <StarIcon
           checked={isChecked} // isChecked 상태를 props로 전달
-          onClick={chartbookmark} // 클릭 이벤트 핸들러 연결
         />
         북마크
       </div>

@@ -5,7 +5,6 @@ import '../fonts.css';
 import InputModal from './InputModal';
 import '../App.css'; // app.css를 불러옵니다.
 
-// 즐겨찾기 버튼을 정의하는 SvgButton 컴포넌트입니다.
 const SvgButton = ({ rank, isFavorite, onClick, outputIdx }) => {
     const [color, setColor] = useState(isFavorite ? '#f7e600' : '#f7e600');
 
@@ -208,12 +207,14 @@ const Bookmark = ({ moll }) => {
                                 <td>{item.hardnessResult}</td>
                                 <td>{item.elongationResult}</td>
                                 <td>
-                                    <div className='pro-name'>
-                                    {item.productName}
+                                    <div className="flex-container">
+                                        <div className='pro-name'>
+                                            {item.productName}
+                                        </div>
+                                        <button className="btn btn-secondary ml-2" onClick={() => handleEditClick(item)}>
+                                            수정
+                                        </button>
                                     </div>
-                                    <button className="btn btn-secondary ml-2" onClick={() => handleEditClick(item)}>
-                                        수정
-                                    </button>
                                 </td>
                                 <td>
                                     <button className="btn btn-primary" onClick={() => handleDetailClick(item)}>
