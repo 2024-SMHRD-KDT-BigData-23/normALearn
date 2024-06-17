@@ -34,19 +34,20 @@ const Loginpage = () => {
         const time = 3600; //1시간
         const expiration = new Date(Date.now() + time * 1000);
         setCookie('userId', result['userId'], { path: '/' , expires: expiration});
-        const id = cookies.userId
+        
         localStorage.setItem('isLoggedIn', true);
         localStorage.setItem('userInfo', JSON.stringify({
           userId,
           companyName: result.companyName
         }));
-        alert(`환영합니다 ${id}님!`)
+        
         navigate('/App');
       } else {
         alert(result.message || '로그인 실패');
       }
     } catch (error) {
       console.error('로그인 요청 중 오류 발생:');
+      console.log(cookies)
       alert('네트워크 오류가 발생했습니다. 다시 시도해주세요.');
     }
   };
