@@ -77,7 +77,7 @@ function App() {
     }, []);
 
     useEffect(() => {
-        if (location.pathname === '/App/input2') {
+        if (location.pathname === '/App/input2','./APP/counter') {
             fetchData();
         }
     }, [location.pathname]);

@@ -129,11 +129,13 @@ const Bookmark = ({ moll }) => {
         }
     };
 
-    const handleBookmarkClick = (rank, newColor, outputIdxValue) => {
+    const handleBookmarkClick = (rank, newColor, outputIdxValue, isFavoriteValue) => {
         if (outputIdxValue !== undefined) {
             const updatedData = { outputIdx: outputIdxValue, work: 'ChangeMypage' };
+            isFavoriteValue = 'N';
             postData('http://localhost:8080/NomAlearn/sendListResult', updatedData).then(() => {
                 setLocalMoll(prev => prev.filter(item => item.outputIdx !== outputIdxValue));
+               
             });
         } else {
             console.warn('outputIdx 값이 정의되어 있지 않습니다. 데이터 전송을 건너뜁니다.');
@@ -197,7 +199,7 @@ const Bookmark = ({ moll }) => {
                                 <td>
                                     <SvgButton
                                         rank={item.rank}
-                                        isFavorite={item.favorite === 'Y'}
+                                        isFavorite={item.myPage === 'Y'}
                                         onClick={handleBookmarkClick}
                                         outputIdx={item.outputIdx}
                                     />

@@ -21,7 +21,7 @@ const theme = createTheme({
 export default function FixedBottomNavigation({ refreshList }) {
   const [page, setPage] = useState(1); // 현재 페이지 번호를 상태로 관리합니다.
   const [messages, setMessages] = useState([]); // 메시지 데이터를 상태로 관리합니다.
-  const itemsPerPage = 7; // 페이지당 표시할 항목 수입니다.
+  const itemsPerPage = 6; // 페이지당 표시할 항목 수입니다.
 
   // 데이터를 서버로부터 가져오는 비동기 함수입니다.
   const fetchData = async () => {
