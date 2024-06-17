@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useCookies } from 'react-cookie';
+import { RotatingSquare } from 'react-loader-spinner'; // 로딩 아이콘 추가
+import './searchsub.css'; // 스타일 파일 추가
 
 const SearchSub = ({ onResults, setStart, setInfoData }) => {
   const [cookies] = useCookies(['userId']);
@@ -7,8 +9,10 @@ const SearchSub = ({ onResults, setStart, setInfoData }) => {
   const [yieldStrength, setYieldStrength] = useState('');
   const [hardness, setHardness] = useState('');
   const [elongation, setElongation] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSearch = useCallback(async () => {
+    setIsLoading(true);
     const userId = cookies.userId;
     const searchData = {
       tensileStrength,
@@ -26,7 +30,7 @@ const SearchSub = ({ onResults, setStart, setInfoData }) => {
         },
         body: JSON.stringify(searchData)
       });
-
+      
       const response = await fetch('http://localhost:8080/NomAlearn/sendSearchData', {
         method: 'POST',
         headers: {
@@ -51,6 +55,8 @@ const SearchSub = ({ onResults, setStart, setInfoData }) => {
       }
     } catch (error) {
       console.error('Error fetching search results:', error);
+    } finally {
+      setIsLoading(false);
     }
   }, [cookies.userId, tensileStrength, yieldStrength, hardness, elongation, setStart, onResults, setInfoData]);
 
@@ -77,6 +83,7 @@ const SearchSub = ({ onResults, setStart, setInfoData }) => {
         placeholder="인장 강도"
         value={tensileStrength}
         onChange={(e) => setTensileStrength(e.target.value)}
+        disabled={isLoading}
       />
       <input
         className="form-field"
@@ -85,6 +92,7 @@ const SearchSub = ({ onResults, setStart, setInfoData }) => {
         placeholder="항복 강도"
         value={yieldStrength}
         onChange={(e) => setYieldStrength(e.target.value)}
+        disabled={isLoading}
       />
       <input
         className="form-field"
@@ -93,6 +101,7 @@ const SearchSub = ({ onResults, setStart, setInfoData }) => {
         placeholder="경도"
         value={hardness}
         onChange={(e) => setHardness(e.target.value)}
+        disabled={isLoading}
       />
       <input
         className="form-field"
@@ -101,10 +110,23 @@ const SearchSub = ({ onResults, setStart, setInfoData }) => {
         placeholder="연신율"
         value={elongation}
         onChange={(e) => setElongation(e.target.value)}
+        disabled={isLoading}
       />
-      <button className="input-button" onClick={handleSearch}>
-        입력
-      </button>
+      {!isLoading && (
+        <button className="input-button" onClick={handleSearch} disabled={isLoading}>
+          입력
+        </button>
+      )}
+      {isLoading && (
+        <div className="loader-container">
+          <RotatingSquare
+            height="36"
+            width="36"
+            color="#151515"
+          />
+          <span className="loading-text">검색 중..</span>
+        </div>
+      )}
     </div>
   );
 };
