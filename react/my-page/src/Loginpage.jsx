@@ -30,16 +30,17 @@ const Loginpage = () => {
       const result = await response.json();
       
       if (response.ok && result.message === "로그인 성공") {    
-        // 쿠키에 userId 설정
+        // 쿠키에 userId 설정        
         const time = 3600; //1시간
         const expiration = new Date(Date.now() + time * 1000);
         setCookie('userId', result['userId'], { path: '/' , expires: expiration});
+        const id = cookies.userId
         localStorage.setItem('isLoggedIn', true);
         localStorage.setItem('userInfo', JSON.stringify({
           userId,
           companyName: result.companyName
         }));
-        alert(cookies.userId, '님 환영합니다!.');
+        alert(`환영합니다 ${id}님!`)
         navigate('/App');
       } else {
         alert(result.message || '로그인 실패');
