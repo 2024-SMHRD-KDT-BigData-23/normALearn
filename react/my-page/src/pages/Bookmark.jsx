@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Bookmark.css';
 import '../fonts.css';
@@ -6,11 +6,15 @@ import InputModal from './InputModal';
 import '../App.css';
 
 const SvgButton = ({ rank, isFavorite, onClick, outputIdx }) => {
-    const [color, setColor] = useState(isFavorite ? '#f7e600' : '#f7e600');
+    const [color, setColor] = useState(isFavorite ? '#f7e600' : '#ddd');
+
+    useEffect(() => {
+        setColor(isFavorite ? '#f7e600' : '#ddd');
+    }, [isFavorite]);
 
     const handleClick = (event) => {
         event.preventDefault();
-        const newColor = color === '#f7e600' ? '#f7e600' : '#f7e600';
+        const newColor = color === '#f7e600' ? '#ddd' : '#f7e600';
         setColor(newColor);
         onClick(rank, newColor, outputIdx);
     };
@@ -41,7 +45,6 @@ const SvgButton = ({ rank, isFavorite, onClick, outputIdx }) => {
     );
 };
 
-
 const Bookmark = ({ moll }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [showModal, setShowModal] = useState(false);
@@ -54,14 +57,14 @@ const Bookmark = ({ moll }) => {
 
     const itemsPerPage = 10;
 
-    useEffect(() => {
-        fetchMollData();
-    }, [moll, renderTrigger]);
-
-    const fetchMollData = () => {
+    const fetchMollData = useCallback(() => {
         const filteredMoll = moll.filter(item => item.myPage === 'Y');
         setLocalMoll(filteredMoll);
-    };
+    }, [moll]);
+
+    useEffect(() => {
+        fetchMollData();
+    }, [moll, renderTrigger, fetchMollData]);
 
     const handleDetailClick = (item) => {
         setModalData(item);
@@ -94,9 +97,9 @@ const Bookmark = ({ moll }) => {
         }
         return pageNumbers.map((number) => (
             <li key={number} className={number === currentPage ? 'active' : ''}>
-                <a href="#" id={number} onClick={(event) => handlePageClick(event, number)}>
+                <button id={number} onClick={(event) => handlePageClick(event, number)}>
                     {number}
-                </a>
+                </button>
             </li>
         ));
     };
@@ -118,7 +121,6 @@ const Bookmark = ({ moll }) => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-            const result = await response.json();
             setRenderTrigger(prev => prev + 1);
         } catch (error) {
             console.error(error);
@@ -127,19 +129,18 @@ const Bookmark = ({ moll }) => {
         }
     };
 
-    const handleBookmarkClick = (rank, newColor, outputIdxValue, isFavoriteValue) => {
+    const handleBookmarkClick = (rank, newColor, outputIdxValue) => {
         if (outputIdxValue !== undefined) {
             const updatedData = { outputIdx: outputIdxValue, work: 'ChangeMypage' };
-            isFavoriteValue = 'N';
             postData('http://localhost:8080/NomAlearn/sendListResult', updatedData).then(() => {
                 setLocalMoll(prev => prev.filter(item => item.outputIdx !== outputIdxValue));
-               
+                fetchMollData(); // Fetch updated list after removing bookmark
             });
         } else {
             console.warn('outputIdx 값이 정의되어 있지 않습니다. 데이터 전송을 건너뜁니다.');
         }
     };
-   
+
     const handleEditClick = (item) => {
         setEditData(item);
         setShowEditModal(true);
@@ -147,7 +148,7 @@ const Bookmark = ({ moll }) => {
 
     const handleEditModalClose = async () => {
         setLocalMoll(prev => prev.map(item => (item.outputIdx === editData.outputIdx ? editData : item)));
-        editData.work = 'updateProductName';      
+        editData.work = 'updateProductName';
         const postData = { ...editData };
 
         try {
@@ -218,18 +219,21 @@ const Bookmark = ({ moll }) => {
                         ))}
                     </tbody>
                 </table>
+                {localMoll.length === 0 && (
+                    <div className="empty-message">즐겨찾기 항목이 없습니다.</div>
+                )}
                 <div className="pagination">
                     <ul>
                         <li className={currentPage === 1 ? 'disabled' : ''}>
-                            <a href="#" onClick={handlePrevClick}>
+                            <button onClick={handlePrevClick}>
                                 &laquo; Prev
-                            </a>
+                            </button>
                         </li>
                         {renderPageNumbers()}
                         <li className={currentPage === Math.ceil(localMoll.length / itemsPerPage) ? 'disabled' : ''}>
-                            <a href="#" onClick={handleNextClick}>
+                            <button onClick={handleNextClick}>
                                 Next &raquo;
-                            </a>
+                            </button>
                         </li>
                     </ul>
                 </div>

@@ -1,25 +1,20 @@
-html {
+html, body {
     padding: 0;
-    margin: 0;
-}
-
-body {
     margin: 0;
 }
 
 .bookmark-wrap {
     position: absolute;
     margin-top: 80px;
-    width: calc(100% - 300px); /* Adjust width to account for margin-left */
+    width: calc(100% - 300px); /* 좌측 여백을 감안하여 너비 조정 */
 }
 
 .bookmark-area {
     width: 80%;
-
-    margin: 0 auto; /* Center the element horizontally */
+    margin: 0 auto; /* 가로 중앙 정렬 */
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Center content vertically */
+    justify-content: center; /* 세로 중앙 정렬 */
 }
 
 .bookmark-group {
@@ -40,7 +35,6 @@ body {
     width: 5%;
 }
 
-
 .spaced-title th {
     color: #6b7684;
     background-color: #fff !important;
@@ -55,10 +49,9 @@ body {
     font-size: 14px;
 }
 
-.rank-column-td{
+.rank-column-td {
     color: #007bff !important;
 }
-
 
 .red {
     color: red;
@@ -72,12 +65,12 @@ body {
     display: flex;
     justify-content: center;
     margin-top: 20px;
-   
 }
 
 .pagination ul {
     list-style-type: none;
     padding: 0;
+    margin: 0; /* 기본 마진 제거 */
 }
 
 .pagination ul li {
@@ -85,34 +78,31 @@ body {
     margin: 0 5px;
 }
 
-.pagination ul li a {
+.pagination ul li button {
     text-decoration: none;
-    padding: 8px 16px;
+    padding: 6px 14px;
     color: #007bff;
+    background: none;
+    border: none; /* 테두리 제거 */
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s; /* 애니메이션 추가 */
 }
 
-.pagination ul li.active a,
-.pagination ul li a:hover {
+.pagination ul li.active button,
+.pagination ul li button:hover {
     background-color: #007bff;
     color: white;
-    border-radius: 5px;
 }
 
-.pagination ul li.disabled a {
+.pagination ul li.disabled button {
     color: #ccc;
     pointer-events: none;
 }
 
-
-
-.bookmark-group tbody tr td svg{
+.bookmark-group tbody tr td svg {
     cursor: pointer;
 }
-
-
-
-
-
 
 .flex-container {
     display: flex;
@@ -120,6 +110,6 @@ body {
 }
 
 .flex-container .pro-name {
-    margin-right: 10px; /* Adjust margin as needed */
+    margin-right: 10px; /* 필요에 따라 마진 조정 */
     width: 100px;
 }
