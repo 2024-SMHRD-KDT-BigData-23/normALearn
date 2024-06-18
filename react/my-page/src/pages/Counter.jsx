@@ -141,7 +141,7 @@ const Modelling = ({ moll }) => {
                   name={key}
                   className="table-text-group"
                   placeholder={selectedValues[key]}
-                  value={stateValues[key] || '0'}
+                  value={stateValues[key] || ''}
                   onChange={({ target: { value } }) => {
                     setStateValues(prev => ({ ...prev, [key]: value }));
                   }}
