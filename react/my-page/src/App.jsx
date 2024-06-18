@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import './fonts.css';
 import Search from "./pages/Search";
-import Input2 from "./pages/Input2";
+import Input2 from "./pages/Bookmark";
 import Counter from "./pages/Counter";
 import Loginpage from "./Loginpage";
 import Sidedown from "./pages/Sidedown";

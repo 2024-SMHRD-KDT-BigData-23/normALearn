@@ -11,7 +11,7 @@ import Loginpage from './Loginpage';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
-  <React.StrictMode>
+  
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Loginpage />} />
@@ -19,5 +19,5 @@ root.render(
         <Route path="/App/*" element={<App />} /> {/* /App 하위 경로 처리 */}
       </Routes>
     </BrowserRouter>
-  </React.StrictMode>
+  
 );

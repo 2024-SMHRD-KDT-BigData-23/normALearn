@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './Input2.css';
+import './Bookmark.css';
 import '../fonts.css';
 import InputModal from './InputModal';
-import '../App.css'; // app.css를 불러옵니다.
+import '../App.css';
 
 const SvgButton = ({ rank, isFavorite, onClick, outputIdx }) => {
     const [color, setColor] = useState(isFavorite ? '#f7e600' : '#f7e600');
@@ -41,7 +41,7 @@ const SvgButton = ({ rank, isFavorite, onClick, outputIdx }) => {
     );
 };
 
-// 즐겨찾기 항목을 관리하고 표시하는 Bookmark 컴포넌트입니다.
+
 const Bookmark = ({ moll }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [showModal, setShowModal] = useState(false);
@@ -49,8 +49,6 @@ const Bookmark = ({ moll }) => {
     const [isFetching, setIsFetching] = useState(false);
     const [localMoll, setLocalMoll] = useState([]);
     const [renderTrigger, setRenderTrigger] = useState(0);
-
-    // 새로 추가된 수정 모달 상태
     const [showEditModal, setShowEditModal] = useState(false);
     const [editData, setEditData] = useState({});
 
@@ -141,23 +139,16 @@ const Bookmark = ({ moll }) => {
             console.warn('outputIdx 값이 정의되어 있지 않습니다. 데이터 전송을 건너뜁니다.');
         }
     };
-
-    // 수정 버튼 클릭 시 수정 모달을 표시합니다.
+   
     const handleEditClick = (item) => {
         setEditData(item);
         setShowEditModal(true);
     };
 
-    // 수정 모달을 닫고 데이터를 전송합니다.
     const handleEditModalClose = async () => {
-        // 변경된 데이터를 반영하여 localMoll 상태를 업데이트합니다.
         setLocalMoll(prev => prev.map(item => (item.outputIdx === editData.outputIdx ? editData : item)));
-        editData.work = 'updateProductName';
-        // 전송할 데이터는 수정된 데이터입니다.
+        editData.work = 'updateProductName';      
         const postData = { ...editData };
-
-        // 전송할 데이터 콘솔에 출력
-        console.log('전송할 데이터:', postData);
 
         try {
             const response = await fetch('http://localhost:8080/NomAlearn/sendListOutput', {

@@ -65,7 +65,6 @@ const BarChart = ({ data }) => {
           }
         }
 
-        console.log('바차트 데이터 누적:', newData);
         return newData;
       });
     }

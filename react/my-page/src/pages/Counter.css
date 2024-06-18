@@ -10,15 +10,15 @@ body {
 .counter-wrap {
     position: absolute;
     margin-top: 80px;
-    width: calc(100% - 300px); /* Adjust width to account for margin-left */
+    width: calc(100% - 300px);
 }
 
 .counter-area {
     width: 80%;
-    margin: 0 auto; /* Center the element horizontally */
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Center content vertically */
+    justify-content: center;
 }
 
 .counter-area h1 {
@@ -42,20 +42,20 @@ body {
 }
 
 .form-control {
-    width: 100%; /* Ensure input fields take up the full width */
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    width: 100%; 
+    box-sizing: border-box; 
 }
 
 .option-select {
     display: flex;
-    align-items: center; /* Center items vertically */
-    gap: 10px; /* Space between select and button */
+    align-items: center; 
+    gap: 10px; 
     margin-bottom: 10px;
 }
 
 .option-select button {
-    margin-left: 10px; /* Space between the select and button */
-    width: auto; /* Let button take its natural width */
+    margin-left: 10px; 
+    width: auto; 
 }
 
 .option-text {
@@ -134,8 +134,8 @@ tbody, td, tfoot, th, thead, tr {
     color: #fff;
     width: 160px; /* Increase width to accommodate longer text */
     white-space: nowrap; /* Prevent text from breaking into multiple lines */
-    overflow: hidden; /* Hide overflow text */
-    text-overflow: ellipsis; /* Display ellipsis for overflow text */
+    overflow: hidden; 
+    text-overflow: ellipsis; 
 }
 
 
@@ -143,7 +143,7 @@ tbody, td, tfoot, th, thead, tr {
 
 .table-value {
     font-size: 16px;
-    text-align: center; /* Center the text horizontally */
+    text-align: center; 
     font-weight: 600;
     margin: 2px 0px;
     padding: 2px 16px;
@@ -168,8 +168,7 @@ tbody, td, tfoot, th, thead, tr {
     text-align: center;
     margin: 0 auto;
 
-    /* 필요시 우선순위 높이기 */
-    /* color: green !important; */
+   
 }
 
 
@@ -183,8 +182,8 @@ tbody, td, tfoot, th, thead, tr {
 
 .table-btn-container {
     display: flex;
-    justify-content: center; /* Center the button horizontally */
-    margin-top: 20px; /* Space above the button */
+    justify-content: center; 
+    margin-top: 20px; 
 }
 
 
@@ -193,13 +192,13 @@ tbody, td, tfoot, th, thead, tr {
     width: 100px;
     display: flex;
     align-items: center;
-    justify-content: center; /* Center the button horizontally */
-    margin-top: 20px; /* Space above the button */
+    justify-content: center; 
+    margin-top: 20px; 
 }
 
 .table-btn-container .btn-primary {
-    width: 100px !important; /* Set the button width to 100px */
-    align-self: center; /* Center the button vertically within its container */
+    width: 100px !important; 
+    align-self: center; 
 }
 
 
