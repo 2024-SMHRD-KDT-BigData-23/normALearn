@@ -134,7 +134,7 @@ const Bookmark = ({ moll }) => {
             const updatedData = { outputIdx: outputIdxValue, work: 'ChangeMypage' };
             postData('http://localhost:8080/NomAlearn/sendListResult', updatedData).then(() => {
                 setLocalMoll(prev => prev.filter(item => item.outputIdx !== outputIdxValue));
-                fetchMollData(); // Fetch updated list after removing bookmark
+                fetchMollData(); 
             });
         } else {
             console.warn('outputIdx 값이 정의되어 있지 않습니다. 데이터 전송을 건너뜁니다.');
@@ -173,52 +173,53 @@ const Bookmark = ({ moll }) => {
     return (
         <div className="bookmark-wrap">
             <div className="bookmark-area">
-                <table className="bookmark-group">
-                    <thead>
-                        <tr className="spaced-title">
-                            <th className="rank-column">즐겨찾기</th>
-                            <th>인장강도</th>
-                            <th>항복강도</th>
-                            <th>경도</th>
-                            <th>연신율</th>
-                            <th>제품이름</th>
-                            <th>상세보기</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {currentItems.map((item, index) => (
-                            <tr key={item.outputIdx || index}>
-                                <td>
-                                    <SvgButton
-                                        rank={item.rank}
-                                        isFavorite={item.myPage === 'Y'}
-                                        onClick={handleBookmarkClick}
-                                        outputIdx={item.outputIdx}
-                                    />
-                                </td>
-                                <td>{item.tensileStrengthResult}</td>
-                                <td>{item.yieldStrengthResult}</td>
-                                <td>{item.hardnessResult}</td>
-                                <td>{item.elongationResult}</td>
-                                <td>
-                                    <div className="flex-container">
-                                        <div className='pro-name'>
-                                            {item.productName}
-                                        </div>
-                                        <button className="btn btn-secondary ml-2" onClick={() => handleEditClick(item)}>
-                                            수정
-                                        </button>
-                                    </div>
-                                </td>
-                                <td>
-                                    <button className="btn btn-primary" onClick={() => handleDetailClick(item)}>
-                                        상세보기
-                                    </button>
-                                </td>
+                <h1>북마크</h1>
+                    <table className="bookmark-group">
+                        <thead>
+                            <tr className="spaced-title">
+                                <th className="rank-column">즐겨찾기</th>
+                                <th>인장강도</th>
+                                <th>항복강도</th>
+                                <th>경도</th>
+                                <th>연신율</th>
+                                <th>제품이름</th>
+                                <th>상세보기</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {currentItems.map((item, index) => (
+                                <tr key={item.outputIdx || index}>
+                                    <td>
+                                        <SvgButton
+                                            rank={item.rank}
+                                            isFavorite={item.myPage === 'Y'}
+                                            onClick={handleBookmarkClick}
+                                            outputIdx={item.outputIdx}
+                                        />
+                                    </td>
+                                    <td>{item.tensileStrengthResult}</td>
+                                    <td>{item.yieldStrengthResult}</td>
+                                    <td>{item.hardnessResult}</td>
+                                    <td>{item.elongationResult}</td>
+                                    <td>
+                                        <div className="flex-container">
+                                            <div className='pro-name'>
+                                                {item.productName}
+                                            </div>
+                                            <button className="btn btn-secondary ml-2" onClick={() => handleEditClick(item)}>
+                                                수정
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <button className="btn btn-primary" onClick={() => handleDetailClick(item)}>
+                                            상세보기
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 {localMoll.length === 0 && (
                     <div className="empty-message">즐겨찾기 항목이 없습니다.</div>
                 )}

@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import './fonts.css';
 import Search from "./pages/Search";
-import Input2 from "./pages/Bookmark";
+import Bookmark from "./pages/Bookmark";
 import Counter from "./pages/Counter";
 import Loginpage from "./Loginpage";
 import Sidedown from "./pages/Sidedown";
@@ -77,7 +77,7 @@ function App() {
     }, [fetchData]);
 
     useEffect(() => {
-        if (location.pathname === '/App/input2' || location.pathname === '/App/counter') {
+        if (location.pathname === '/App/Bookmark' || location.pathname === '/App/counter') {
             fetchData();
         }
     }, [location.pathname, fetchData]);
@@ -111,7 +111,7 @@ function App() {
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to="/App/input2">
+                                    <Link to="/App/Bookmark">
                                         <i className="fa fa-bookmark"></i>
                                         <span className="nav-text">북마크 페이지</span>
                                     </Link>
@@ -148,7 +148,7 @@ function App() {
                                     />
                                 } 
                             />
-                            <Route path="/input2" element={<Input2 moll={moll} />} />
+                            <Route path="/Bookmark" element={<Bookmark moll={moll} />} />
                             <Route path="/counter" element={<Counter moll={moll} />} />
                         </Routes>
                         
