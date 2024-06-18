@@ -78,7 +78,8 @@ const Modelling = ({ moll }) => {
   ];
 
   const handleModeling = async () => {
-    console.log('전송할 데이터:', JSON.stringify(stateValues, null, 2));
+    console.log('재학습 데이터:', JSON.stringify(stateValues, null, 2));
+    
 
     try {
       await fetch('http://127.0.0.1:5002/upflask', {
@@ -88,9 +89,9 @@ const Modelling = ({ moll }) => {
         },
         body: JSON.stringify(stateValues),
       });
-
+      alert('학습 데이터 업로드 완료.')
     } catch (error) {
-      console.error('Error fetching modeling results:', error);
+      console.error('학습 데이터 전송 오류 : ', error);
     }
   };
 
