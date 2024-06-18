@@ -8,7 +8,6 @@ const Table = ({ setSelectedItem, start }) => {
     
     useEffect(() => {
         setList(start); 
-        console.log('search 전달한 start:', start);    
         setTimeout(() => {           
             const detailButton = document.querySelector('.btn.btn-primary');            
             if (detailButton) {
@@ -17,7 +16,6 @@ const Table = ({ setSelectedItem, start }) => {
         }, 100);
     }, [start]);
 
-    // 상세보기 버튼 클릭 핸들러
     const handleViewDetails = (item) => {
         setSelectedItem(item); 
     };
@@ -47,7 +45,7 @@ const Table = ({ setSelectedItem, start }) => {
                                 <td>
                                     <button
                                         className="btn btn-primary"
-                                        onClick={() => handleViewDetails(item)} // 클릭 핸들러 추가
+                                        onClick={() => handleViewDetails(item)}
                                     >
                                         상세보기
                                     </button>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useCookies } from 'react-cookie';
-import { RotatingSquare } from 'react-loader-spinner'; // 로딩 아이콘 추가
-import './searchsub.css'; // 스타일 파일 추가
+import { RotatingSquare } from 'react-loader-spinner'; 
+import './searchsub.css';
 
 const SearchSub = ({ onResults, setStart, setInfoData }) => {
   const [cookies] = useCookies(['userId']);
@@ -21,7 +21,6 @@ const SearchSub = ({ onResults, setStart, setInfoData }) => {
       elongation,
       userId
     };
-    console.log('전송할 데이터:', JSON.stringify(searchData, null, 2));
     try {
       await fetch('http://127.0.0.1:5001/predict', {
         method: 'POST',
@@ -40,7 +39,7 @@ const SearchSub = ({ onResults, setStart, setInfoData }) => {
       });
 
       const results = await response.json();
-      console.log('서버 응답:', JSON.stringify(results, null, 2));
+      console.log('검색 결과 :', JSON.stringify(results, null, 2));
 
       if (results) {
         results[0] = { ...results[0], new: 'kw' };
@@ -66,9 +65,8 @@ const SearchSub = ({ onResults, setStart, setInfoData }) => {
         handleSearch();
       }
     };
-
     document.addEventListener('keydown', handleKeyPress);
-
+    
     return () => {
       document.removeEventListener('keydown', handleKeyPress);
     };

@@ -5,7 +5,7 @@ import './Sidedown.css';
 const ListItem = ({ item, handleCheckboxChange, handleClick }) => (
     <ul className="darkerli" data-nickname={item.nickname}>
         <li className="search-change">
-            <a href="#" className="list-item" onClick={() => handleClick(item)}>
+            <button className="list-item" onClick={() => handleClick(item)}>
                 <i className="fa fa-circle-o"></i>
                 <span className="nav-text">
                     {
@@ -22,7 +22,7 @@ const ListItem = ({ item, handleCheckboxChange, handleClick }) => (
                     onChange={() => handleCheckboxChange(item)}
                     className="checkbox"
                 />
-            </a>
+            </button>
         </li>
     </ul>
 );
@@ -46,7 +46,7 @@ const Sidedown = ({ setSelectedItem, setStart, onResults }) => {
     const [cookies] = useCookies(['userId']);
     const userId = cookies.userId;
 
-    const fetchData = async () => {
+    const fetchData = useCallback(async () => {
         try {
             const response = await fetch('http://localhost:8080/NomAlearn/getListResult', {
                 method: 'POST',
@@ -63,11 +63,11 @@ const Sidedown = ({ setSelectedItem, setStart, onResults }) => {
         } catch (error) {
             console.error('Error fetching data:', error);
         }
-    };
+    }, [userId]);
 
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [fetchData]);
 
     const postData = async (url, data) => {
         try {

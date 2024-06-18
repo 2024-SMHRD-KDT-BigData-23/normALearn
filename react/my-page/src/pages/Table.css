@@ -1,35 +1,34 @@
-/* Table.css */
 .table-wrap {
-    width: 100%; /* Ensure the table container takes up full width */
-    margin-top: 530px; /* Adjust the top margin if needed */
+    width: 100%; 
+    margin-top: 530px; 
 
-    display: flex; /* Enable flexbox layout */
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
 }
 
 .table-area {
-    max-height: 180px; /* Set the max height to control the scrollable area */
-    overflow-y: auto; /* Enable vertical scrolling */
-    border: 1px solid #ddd; /* Optional: Add a border for better visibility */
-    width: 79%; /* Set width as needed */
+    max-height: 180px; 
+    overflow-y: auto; 
+    border: 1px solid #ddd; 
+    width: 79%; 
 }
 
 .table-group {
-    width: 100%; /* Ensure the table takes up full width of the container */
-    border-collapse: collapse; /* Collapse borders for better appearance */
+    width: 100%; 
+    border-collapse: collapse; 
 }
 
 .table-group th, .table-group td {
-    padding: 6px !important; /* Add padding for cells */
-    text-align: center; /* Align text to the left */
-    border-bottom: 1px solid #ddd; /* Add a bottom border for rows */
+    padding: 6px !important; 
+    text-align: center; 
+    border-bottom: 1px solid #ddd; 
 }
 
 .table-group th {
-    background-color: #f2f2f2; /* Add a background color to the header */
-    position: sticky; /* Make the header sticky */
-    top: 0; /* Position it at the top */
+    background-color: #f2f2f2; 
+    position: sticky; 
+    top: 0; 
 }
 
 .rank-column {

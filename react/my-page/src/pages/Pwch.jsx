@@ -4,11 +4,11 @@ import { useCookies } from 'react-cookie';
 
 Modal.setAppElement('#root');
 
-function Pwch({ isOpen, onRequestClose }) { 
-    const [userPw, setUserPw] = useState(''); 
-    const [newPw, setNewPw] = useState(''); 
-    const [conPw, setConPw] = useState('');  
-    const [cookie] = useCookies(['userId']);
+function Pwch({ isOpen, onRequestClose }) { // 함수 이름 수정
+    const [userPw, setUserPw] = useState(''); // 기존 비번
+    const [newPw, setNewPw] = useState(''); // 바꿀 비번
+    const [conPw, setConPw] = useState(''); // 재확인 비번 
+    const [cookie] = useCookies(['userId']); // 쿠키속 유저이름
 
     const handleSubmit = () => {
         const userId = cookie.userId;

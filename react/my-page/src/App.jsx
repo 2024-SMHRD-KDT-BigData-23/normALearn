@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { Routes, Route, Link, useNavigate, useLocation } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -18,9 +18,9 @@ function App() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [cookies, removeCookie] = useCookies(['userId']);
     const [userId, setUserId] = useState(null);
-    const [selectedItem, setSelectedItem] = useState(null); // 선택된 항목을 저장하는 상태
-    const [start, setStart] = useState([]); // 테이블의 데이터를 저장하는 상태
-    const [results, setResults] = useState([]); // 검색 결과를 저장하는 상태
+    const [selectedItem, setSelectedItem] = useState(null);
+    const [start, setStart] = useState([]);
+    const [results, setResults] = useState([]);
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -50,7 +50,7 @@ function App() {
         } else {
             setUserId(cookieId);
         }
-    }, [cookies, navigate]);
+    }, [cookieId, navigate]);
 
     useEffect(() => {
         const savedUserInfo = JSON.parse(localStorage.getItem('userInfo'));
@@ -62,7 +62,7 @@ function App() {
         }
     }, [navigate]);
 
-    const fetchData = () => {
+    const fetchData = useCallback(() => {
         const url = `http://localhost:8080/NomAlearn/getListOutput?userId=${cookieId}`;
         fetch(url)
             .then(response => response.json())
@@ -70,17 +70,17 @@ function App() {
                 setMoll(moll);
             })
             .catch(error => console.error('ERROR:', error));
-    };
+    }, [cookieId]);
 
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [fetchData]);
 
     useEffect(() => {
-        if (location.pathname === '/App/input2','./APP/counter') {
+        if (location.pathname === '/App/input2' || location.pathname === '/App/counter') {
             fetchData();
         }
-    }, [location.pathname]);
+    }, [location.pathname, fetchData]);
 
     const handleResults = (results) => {
         setResults(results);

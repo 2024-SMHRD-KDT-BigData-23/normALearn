@@ -16,31 +16,29 @@ body {
 
 .search-row {
     width: 80%;
-    margin: 0 auto; /* Center the element horizontally */
+    margin: 0 auto; 
     display: flex;
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Align items to the start of the container */
-    justify-content: center; /* Center content vertically */
-    border-top: 1px solid #e2e5e9;
-
-    
+    align-items: flex-start; 
+    justify-content: center; 
+    border-top: 1px solid #e2e5e9;   
 }
 
 .search-area {
     margin-top: 10px;
     display: flex;
-    flex-direction: row; /* Arrange children in a row */
-    flex-wrap: wrap; /* Allow children to wrap to the next line if needed */
+    flex-direction: row; 
+    flex-wrap: wrap; 
     width: 80%;
-    justify-content: space-around; /* Distribute space around items */
-    align-items: center; /* Center items vertically */
+    justify-content: space-around; 
+    align-items: center; 
     margin-left: 0;
     padding-left: 0;
 }
 
 :root {
-    --input-color: #6b7684; /* font color */
+    --input-color: #6b7684;
     --input-border: #f2f4f6;
     --input-background: #f2f4f6;
     --input-placeholder: #6b7684;
@@ -55,20 +53,20 @@ body {
     padding: 10px;
     margin: 5px;
     border: 1px solid var(--input-border);
-    flex: 1 1 20%; /* Flex-grow, flex-shrink, and flex-basis to control item size */
+    flex: 1 1 20%; 
     text-align: center;
     border-radius: 10px;
     font-size: 14px;
     display: flex;
     align-items: flex-end;
-    flex-direction: row; /* Ensure children are arranged in a row */
-    justify-content: space-between; /* Distribute space between items */
-    align-items: center; /* Center items vertically */
+    flex-direction: row; 
+    justify-content: space-between; 
+    align-items: center; 
 }
 
 .serch-result span:nth-child(1) {
     justify-content: flex-start;
-    align-self: flex-start; /* Align the first span to the top */
+    align-self: flex-start; 
     margin-top: 0;
     color: #6b7684;
 }
@@ -83,7 +81,7 @@ body {
 .search-figure span:nth-child(2) {
     font-size: 14px;
     color: #6b7684 !important;
-    margin-top: 30px; /* 필요에 따라 값을 조정하여 아래로 내립니다 */
+    margin-top: 30px; 
     text-align: start;
     margin-left: 10px;
 
