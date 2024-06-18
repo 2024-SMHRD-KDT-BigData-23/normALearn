@@ -81,16 +81,13 @@ const Modelling = ({ moll }) => {
     console.log('전송할 데이터:', JSON.stringify(stateValues, null, 2));
 
     try {
-      const response = await fetch('http://127.0.0.1:5002/upflask', {
+      await fetch('http://127.0.0.1:5002/upflask', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(stateValues),
       });
-
-      const results = await response.json();
-      console.log('spring에서 보낸:ModelingResult데이터', results);
 
     } catch (error) {
       console.error('Error fetching modeling results:', error);
@@ -167,7 +164,7 @@ const Modelling = ({ moll }) => {
             </tbody>
           </table>
           <div className="table-btn-container">
-            <button type="submit" className="btn btn-primary">확인</button>
+            <button type="submit" className="btn btn-primary" onClick={handleModeling}>확인</button>
           </div>
         </div>
       </div>
@@ -201,8 +198,8 @@ const Modelling = ({ moll }) => {
       case 'modelBackup':
         return (
           <>
-            <FormPropsTextFields onDataSubmitted={handleDataSubmitted} /> {/* 데이터 전송 후 알림 */}
-            <FixedBottomNavigation refreshList={refreshList} /> {/* 리스트 업데이트를 위한 상태 전달 */}
+            <FormPropsTextFields onDataSubmitted={handleDataSubmitted} /> {}
+            <FixedBottomNavigation refreshList={refreshList} /> {}
           </>
         );
       default:
@@ -213,10 +210,10 @@ const Modelling = ({ moll }) => {
   return (
     <div className="counter-wrap">
       <div className="counter-area">
-        <h1>모델 설정 페이지</h1>
+        <h1>ML 페이지</h1>
         <div className="counter-group">
           <button onClick={() => setView('techInput')} className="btn btn-primary">공법 입력</button>
-          <button onClick={() => setView('modelBackup')} className="btn btn-primary">게시판</button>
+          <button onClick={() => setView('modelBackup')} className="btn btn-primary">유지/보수</button>
         </div>
         {renderContent()}
       </div>

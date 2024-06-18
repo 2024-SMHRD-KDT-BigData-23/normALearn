@@ -51,12 +51,9 @@ const InputModal = ({ show, onClose, data }) => {
   });
 
   useEffect(() => {
-    console.log('InputModal로 전달된 데이터:', data);
-
     if (data) {
       const keys = ['si', 'cu', 'sc', 'fe', 'mn', 'mg', 'zr', 'sm', 'zn', 'ti', 'sr', 'ni', 'ce'];
       const alValue = data['al'];
-
       const labels = [];
       const datasetData = [];
 

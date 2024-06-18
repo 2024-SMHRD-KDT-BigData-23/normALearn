@@ -60,49 +60,49 @@ body {
 
 .option-text {
     display: flex;
-    justify-content: space-between; /* Space the tables out evenly */
-    gap: 20px; /* Add some space between the tables */
-    flex-wrap: wrap; /* Allow tables to wrap to the next line if needed */
+    justify-content: space-between; 
+    gap: 20px; 
+    flex-wrap: wrap; 
 }
 
 .table-wrapper {
-    flex: 1 1 45%; /* Allow each table to take up to 45% of the row */
-    min-width: 300px; /* Ensure tables do not get too small */
-    margin-bottom: 20px; /* Space below each table */
+    flex: 1 1 45%; 
+    min-width: 300px; 
+    margin-bottom: 20px; 
 }
 
 .table-index {
     width: 100%;
-    border: none; /* Remove all borders */
-    table-layout: fixed; /* Fix table layout */
+    border: none; 
+    table-layout: fixed; 
 }
 
 .table-index th, .table-index td {
-    padding: 8px; /* Add padding */
-    text-align: left; /* Align text to the left */
-    vertical-align: middle; /* Vertically center text */
+    padding: 8px; 
+    text-align: left; 
+    vertical-align: middle; 
 }
 
 .table-index thead th {
-    background-color: #f8f9fa; /* Light background for table header */
-    font-weight: bold; /* Make the header text bold */
+    background-color: #f8f9fa; 
+    font-weight: bold; 
 }
 
 .table-index tbody td {
-    background-color: #ffffff; /* White background for table body */
+    background-color: #ffffff; 
 }
 
 .table-index label {
-    display: flex; /* Use flexbox for vertical alignment */
-    align-items: center; /* Center align items vertically */
-    width: 100%; /* Set a fixed width for labels */
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
-    justify-content: center; /* Center content horizontally */
+    display: flex; 
+    align-items: center; 
+    width: 100%; 
+    box-sizing: border-box; 
+    justify-content: center; 
 }
 
 .table-index input {
-    width: 100%; /* Take full width available */
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    width: 100%; 
+    box-sizing: border-box; 
 }
 
 .table-responsive {
@@ -124,16 +124,16 @@ tbody, td, tfoot, th, thead, tr {
 
 
 .align-middle label {
-    display: inline-block; /* 레이블을 인라인 블록으로 설정 */
+    display: inline-block; 
     font-size: 18px;
-    justify-content: center; /* 레이블 텍스트를 가로로 중앙 정렬 */
-    text-align: center; /* 레이블 내부 텍스트를 중앙 정렬 */
+    justify-content: center; 
+    text-align: center; 
     background-color: #8b95a1;
     border-radius: 20px;
     padding: 0px 10px;
     color: #fff;
-    width: 160px; /* Increase width to accommodate longer text */
-    white-space: nowrap; /* Prevent text from breaking into multiple lines */
+    width: 160px; 
+    white-space: nowrap; 
     overflow: hidden; 
     text-overflow: ellipsis; 
 }

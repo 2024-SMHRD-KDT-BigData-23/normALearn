@@ -20,8 +20,7 @@ const centerTextPlugin = {
   id: 'centerTextPlugin',
   beforeDraw: function (chart) {
     const ctx = chart.ctx;
-    const width = chart.width;
-    const height = chart.height;
+
     const centerX = chart.chartArea.left + (chart.chartArea.right - chart.chartArea.left) / 2;
     const centerY = chart.chartArea.top + (chart.chartArea.bottom - chart.chartArea.top) / 2;
 
@@ -53,8 +52,7 @@ const DoughnutChart = ({ data }) => {
 
   const [isChecked, setIsChecked] = useState(false);
 
-  const postData = async (url, data) => {
-    console.log('전송할 데이터:', data);
+  const postData = async (url, data) => {   
     try {
       const response = await fetch(url, {
         method: 'POST',
@@ -66,7 +64,6 @@ const DoughnutChart = ({ data }) => {
       if (!response.ok) {
         throw new Error(`Failed to submit data to ${url}`);
       }
-      console.log(`Data submitted successfully to ${url}`);
     } catch (error) {
       console.error(`Error submitting data to ${url}:`, error);
     }
@@ -82,18 +79,14 @@ const DoughnutChart = ({ data }) => {
     const myPageValue = data?.myPage;
 
     if (outputIdxValue !== undefined) {
-      const updatedData = { outputIdx: outputIdxValue, work: 'ChangeMypage', myPage : myPageValue };
-      console.log('북마크된 데이터:', updatedData);
-
+      const updatedData = { outputIdx: outputIdxValue, work: 'ChangeMypage', myPage : myPageValue };     
       postData('http://localhost:8080/NomAlearn/sendListResult', updatedData);
     } else {
-      console.warn('outputIdx 값이 정의되어 있지 않습니다. 데이터 전송을 건너뜁니다.');
+      console.warn('Key 값이 정의되어 있지 않습니다. 데이터 전송을 건너뜁니다.');
     }
   };
 
   useEffect(() => {
-    console.log('DoughnutChart.jsx에서 받은 data:', data);
-
     if (data?.mypage && Object.values(data.mypage).some(value => value === 'Y')) {
       setIsChecked(true);
     } else {
@@ -101,9 +94,7 @@ const DoughnutChart = ({ data }) => {
     }
 
     const keys = ['si', 'cu', 'sc', 'fe', 'mn', 'mg', 'zr', 'sm', 'zn', 'ti', 'sr', 'ni', 'ce'];
-    const alValue = data?.['al'] ?? '-'; // 'al' 값을 사용하거나 기본 값 'Default'를 사용
-    console.log('alValue:', alValue);
-
+    const alValue = data?.['al'] ?? '-'; 
     const labels = [];
     const datasetData = [];
 
@@ -113,9 +104,8 @@ const DoughnutChart = ({ data }) => {
         labels.push(key);
         datasetData.push(data[key]);
       } else {
-        // 데이터가 없을 경우 기본 값 사용
         labels.push(key);
-        datasetData.push(Math.floor(Math.random() * 100) + 1); // 임의의 기본 값 사용
+        datasetData.push(Math.floor(Math.random() * 100) + 1); 
       }
     }
 
@@ -207,9 +197,9 @@ const DoughnutChart = ({ data }) => {
         {renderObjectInfo()}
       </div>
       <div className="checkbox-container" onClick={chartbookmark} style={{ cursor: 'pointer' }}>
-        {/* 별모양 아이콘으로 교체한 부분 */}
+        {}
         <StarIcon
-          checked={isChecked} // isChecked 상태를 props로 전달
+          checked={isChecked} 
         />
         북마크
       </div>
