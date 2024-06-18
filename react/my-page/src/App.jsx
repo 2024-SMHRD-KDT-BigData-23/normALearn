@@ -148,7 +148,7 @@ function App() {
                                     />
                                 } 
                             />
-                            <Route path="/Bookmark" element={<Bookmark moll={moll} />} />
+                            <Route path="/Bookmark" element={<Bookmark moll={moll} fetchData={fetchData} />} />
                             <Route path="/counter" element={<Counter moll={moll} />} />
                         </Routes>
                         

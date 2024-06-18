@@ -39,7 +39,7 @@ const SearchSub = ({ onResults, setStart, setInfoData }) => {
       });
 
       const results = await response.json();
-      console.log('검색 결과 :', JSON.stringify(results, null, 2));
+      console.log('검색 결과 :', results);
 
       if (results) {
         results[0] = { ...results[0], new: 'kw' };
