@@ -15,7 +15,7 @@ public class Al_resultVO {
     private char favorite;
     private char myPage;  
     private int number;
-    // 아래부터 DB에 없는 값
+    // DB에 없는 자료
     private int oldNumber;
     private int newNumber;
     private int tensileStrengthResult;

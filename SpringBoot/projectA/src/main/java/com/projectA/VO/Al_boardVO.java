@@ -17,7 +17,7 @@ public class Al_boardVO {
 	private String content;
 	private String progress;
 	private LocalDateTime writeDate;
-	// DB없는자료
+	// 작업식별자
 	private String work;
 
 }

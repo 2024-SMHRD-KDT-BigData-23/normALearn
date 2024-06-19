@@ -24,8 +24,6 @@ public class Al_outputVO {
     private BigDecimal ni;
     private BigDecimal sr;
     private BigDecimal ce;
-  
-    // 여기까지
     private int firstTemperature;
     private BigDecimal firstTime;
     private int secondTemperature;
@@ -42,7 +40,8 @@ public class Al_outputVO {
     private LocalDateTime searchDate;
     private Long inputIdx;
     private String userId;
-    // 추가 된것
-    private String work;
     private String productName;
+    // 작업식별자
+    private String work;
+    
 }
